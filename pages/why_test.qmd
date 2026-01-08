@@ -1,0 +1,67 @@
+---
+title: "When and why to run tests?"
+---
+
+Testing is not unique to software development. It is an essential part of research. Most researchers already test their work informally: they interrogate raw data for issues, scan tables, inspect plots, and check that values fall within plausible ranges.
+
+**Formal testing simply records those expectations in code** so they can be run consistently over time, catching issues as they arise rather than months later. Tests ask questions like:
+
+* Are any values impossible or out of range? (Is a proportion between 0 and 1? Are dates in the expected window? Are indicators within tolerance?)
+
+* Does the code still run after I change something? Can the analysis run end to end without error?
+
+This is the same logic you apply when checking results manually, just **automated so you can repeat it systematically**.
+
+<br>
+
+## Why tests matter in research projects
+
+Writing tests pays off because research code and data evolve. When you change your code, introduce new features, or update your data, you risk breaking things that used to work. **Tests catch these problems early**.
+
+They help you verify that:
+
+* Your logic and processes are working as you believe they are.
+
+* Recent changes don't break existing code.
+
+* Updated datasets are still valid and free from unexpected anomalies.
+
+* Your results remain consistent and reproducible.
+
+Over time, when multiple people work on a project, or when you revisit analyses months later, tests become invaluable. They ensure that re-running your work produces the same results as it did previously, and that anyone depending on your outputs can trust them.
+
+Ultimately, tests are not about best practice. They are about **verifying your analysis**, so you can trust that your results mean what you think they mean.
+
+<br>
+
+## When to write tests
+
+You don't need a finished analysis to start testing. Even a single function or data processing step is worth testing. As you build your analysis, follow a simple pattern:
+
+1. Write a piece of code (a function, data processing step, calculation).
+
+2. Inspect the output to check it looks right.
+
+3. **Turn that check into a test** so you can run it automatically.
+
+4. **If you spot a bug, write a test that catches it**.
+
+5. Fix the bug, knowing your test will catch it if it happens again.
+
+This way, testing becomes part of your natural workflow rather than a separate task.
+
+Avoiding leaving all testing until the end of your analysis. Problems discovered late are much harder to fix, and you may not fully understand their impact on your results. **Testing as you go makes the process feel natural and keeps issues manageable**.
+
+::: {.callout-note title="Test-driven development"}
+
+Some software engineers write tests before code - this is called "test-driven development". This can feel less relevant in exploratory academic research, but if it suits your workflow, it is worth trying.
+
+:::
+
+<br>
+
+## When to run tests
+
+Run tests regularly **after any code or data changes**, as catching errors earlier makes them easier to fix.
+
+This practice of re-running tests is called **regression testing**, and it ensures recent changes haven't introduced errors.

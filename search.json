@@ -1,0 +1,70 @@
+[
+  {
+    "objectID": "pages/why_test.html",
+    "href": "pages/why_test.html",
+    "title": "When and why to run tests?",
+    "section": "",
+    "text": "Testing is not unique to software development. It is an essential part of research. Most researchers already test their work informally: they interrogate raw data for issues, scan tables, inspect plots, and check that values fall within plausible ranges.\nFormal testing simply records those expectations in code so they can be run consistently over time, catching issues as they arise rather than months later. Tests ask questions like:\nThis is the same logic you apply when checking results manually, just automated so you can repeat it systematically.",
+    "crumbs": [
+      "When and why to run tests?"
+    ]
+  },
+  {
+    "objectID": "pages/why_test.html#why-tests-matter-in-research-projects",
+    "href": "pages/why_test.html#why-tests-matter-in-research-projects",
+    "title": "When and why to run tests?",
+    "section": "Why tests matter in research projects",
+    "text": "Why tests matter in research projects\nWriting tests pays off because research code and data evolve. When you change your code, introduce new features, or update your data, you risk breaking things that used to work. Tests catch these problems early.\nThey help you verify that:\n\nYour logic and processes are working as you believe they are.\nRecent changes don’t break existing code.\nUpdated datasets are still valid and free from unexpected anomalies.\nYour results remain consistent and reproducible.\n\nOver time, when multiple people work on a project, or when you revisit analyses months later, tests become invaluable. They ensure that re-running your work produces the same results as it did previously, and that anyone depending on your outputs can trust them.\nUltimately, tests are not about best practice. They are about verifying your analysis, so you can trust that your results mean what you think they mean.",
+    "crumbs": [
+      "When and why to run tests?"
+    ]
+  },
+  {
+    "objectID": "pages/why_test.html#when-to-write-tests",
+    "href": "pages/why_test.html#when-to-write-tests",
+    "title": "When and why to run tests?",
+    "section": "When to write tests",
+    "text": "When to write tests\nYou don’t need a finished analysis to start testing. Even a single function or data processing step is worth testing. As you build your analysis, follow a simple pattern:\n\nWrite a piece of code (a function, data processing step, calculation).\nInspect the output to check it looks right.\nTurn that check into a test so you can run it automatically.\nIf you spot a bug, write a test that catches it.\nFix the bug, knowing your test will catch it if it happens again.\n\nThis way, testing becomes part of your natural workflow rather than a separate task.\nAvoiding leaving all testing until the end of your analysis. Problems discovered late are much harder to fix, and you may not fully understand their impact on your results. Testing as you go makes the process feel natural and keeps issues manageable.\n\n\n\n\n\n\nNoteTest-driven development\n\n\n\nSome software engineers write tests before code - this is called “test-driven development”. This can feel less relevant in exploratory academic research, but if it suits your workflow, it is worth trying.",
+    "crumbs": [
+      "When and why to run tests?"
+    ]
+  },
+  {
+    "objectID": "pages/why_test.html#when-to-run-tests",
+    "href": "pages/why_test.html#when-to-run-tests",
+    "title": "When and why to run tests?",
+    "section": "When to run tests",
+    "text": "When to run tests\nRun tests regularly after any code or data changes, as catching errors earlier makes them easier to fix.\nThis practice of re-running tests is called regression testing, and it ensures recent changes haven’t introduced errors.",
+    "crumbs": [
+      "When and why to run tests?"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Testing Course Materials",
+    "section": "",
+    "text": "Testing is an essential part of reproducible and reliable research. This practical course explains how to write and run tests, covering key ideas such as unit and integration testing, test coverage, and automated testing with GitHub Actions. Using hands-on examples in Python and R, you’ll learn how to build tests and include them in your research workflow."
+  },
+  {
+    "objectID": "index.html#about-this-course",
+    "href": "index.html#about-this-course",
+    "title": "Testing Course Materials",
+    "section": "",
+    "text": "Testing is an essential part of reproducible and reliable research. This practical course explains how to write and run tests, covering key ideas such as unit and integration testing, test coverage, and automated testing with GitHub Actions. Using hands-on examples in Python and R, you’ll learn how to build tests and include them in your research workflow."
+  },
+  {
+    "objectID": "index.html#instructors",
+    "href": "index.html#instructors",
+    "title": "Testing Course Materials",
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\n\n\n\n\n\n\nAmy Heather\nPostdoctoral Research Associate at the University of Exeter\n  ORCID    GitHub    LinkedIn \n\n\n\n\n\n\n\n\n\n\nTom Monks\nAssociate Professor of Health Data Science at the University of Exeter\n  ORCID    GitHub    LinkedIn"
+  },
+  {
+    "objectID": "index.html#funding",
+    "href": "index.html#funding",
+    "title": "Testing Course Materials",
+    "section": "Funding",
+    "text": "Funding\nThis course was developed as part of the STARS project. STARS is supported by the Medical Research Council [grant number MR/Z503915/1]."
+  }
+]

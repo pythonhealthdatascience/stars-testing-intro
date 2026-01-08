@@ -1,0 +1,40 @@
+/* Make the logo image bigger */
+.navbar-logo {
+  max-height: 50px;
+  padding-right: 10px;
+}
+
+/* Add grey line along base of navbar */
+.navbar {
+  border-bottom: 2px solid #cccccc;
+}
+
+/* LinkedIn/GitHub/ORCID buttons */
+.message-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 130px;
+  margin-top: 10px;
+  padding: 10px 35px;
+  color: rgba(252, 252, 249, 1);
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  background: #29235c;
+  border: 1px solid transparent;
+  transition: 0.2s ease;
+  text-decoration: none;
+}
+.message-button:hover {
+  background: #7498c0;
+  border: 1px solid rgba(0, 0, 0, 1);
+  color: rgba(0, 0, 0, 1);
+}
+
+/* Pale grey box for text */
+.box-grey {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1em 1em 0.2em 1em;
+}

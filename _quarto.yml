@@ -7,12 +7,30 @@ website:
   navbar:
     logo: images/hdruk_futures.png
     logo-alt: HDR UK Futures
+  announcement:
+    dismissable: false
+    icon: info-circle
+    content: "This site contains materials for the 'Testing' module on HDR UK's RSE001 **Research Software Engineering** training course. <a href='https://hdruklearn.org/courses/course-v1:HDRUK+RSE001+2024' target ='_blank'>Click here to view the course</a>."
+    position: below-navbar
   sidebar:
     contents:
-      - pages/introduction.qmd
+      - pages/why_test.qmd
+      - section: Introduction to writing and running tests
+        contents:
+          - pages/write_basic_test.qmd
+          - pages/run_tests.qmd
+          - pages/parametrising_tests.qmd
+      - section: Types of test
+        contents:
+          - pages/functional_tests.qmd
+          - pages/unit_tests.qmd
+          - pages/back_tests.qmd
+      - pages/test_coverage.qmd
+      - pages/github_actions.qmd
+      - pages/example_repositories.qmd
 
 format:
   html:
     page-layout: full
-    theme: cosmo
+    theme: [cosmo, styles.scss]
     css: styles.css

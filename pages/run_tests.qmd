@@ -1,0 +1,5 @@
+---
+title: "How to run tests"
+---
+
+<!-- How to run tests. When your work is in package structure. When your work is in a notebook. Etc -->

@@ -1,0 +1,5 @@
+---
+title: "How to write a basic test"
+---
+
+<!-- How to write a basic test (showing a simple code example on screen, in Python pytest and R testthat - with all continuing examples shown in both languages too). -->

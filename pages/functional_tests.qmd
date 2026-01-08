@@ -1,0 +1,5 @@
+---
+title: "Functional tests"
+---
+
+<!-- creating a small case study, and examples of different tests -->

@@ -1,0 +1,9 @@
+---
+title: "Case study"
+---
+
+<!--will introduce types of testing
+
+to do so, will be testing a case study
+
+this case study is just a simple descriptive analysis-->

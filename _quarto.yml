@@ -23,6 +23,7 @@ website:
           - pages/parametrising_tests.qmd
       - section: Types of test
         contents:
+          - pages/case_study.qmd
           - pages/functional_tests.qmd
           - pages/unit_tests.qmd
           - pages/back_tests.qmd

@@ -1,0 +1,6 @@
+Title: hdruk_tests
+Imports:
+    knitr
+    reticulate
+    rmarkdown
+    testthat

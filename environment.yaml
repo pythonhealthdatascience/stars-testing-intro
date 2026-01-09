@@ -1,0 +1,6 @@
+name: hdruk_tests
+channels:
+  - conda-forge
+dependencies:
+  - pytest=9.0.2
+  - python=3.14

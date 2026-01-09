@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Testing Course Materials"
+  title: "Testing in Research Workflows"
   favicon: images/futures.png
   page-navigation: true
   navbar:
@@ -11,7 +11,7 @@ website:
   announcement:
     dismissable: false
     icon: info-circle
-    content: "This site contains materials for the 'Testing' module on HDR UK's RSE001 <a href='https://hdruklearn.org/courses/course-v1:HDRUK+RSE001+2024' target ='_blank'>Research Software Engineering training course</a>. It was developed as part of the <a href='https://pythonhealthdatascience.github.io/stars/' target='_blank'>STARS project</a>."
+    content: "This site contains materials for the testing module on HDR UK's RSE001 <a href='https://hdruklearn.org/courses/course-v1:HDRUK+RSE001+2024' target ='_blank'>Research Software Engineering training course</a>. It was developed as part of the <a href='https://pythonhealthdatascience.github.io/stars/' target='_blank'>STARS project</a>."
     position: below-navbar
   sidebar:
     contents:

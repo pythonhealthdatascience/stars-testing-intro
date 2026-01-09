@@ -2,4 +2,56 @@
 title: "How to write a basic test"
 ---
 
-<!-- How to write a basic test (showing a simple code example on screen, in Python pytest and R testthat - with all continuing examples shown in both languages too). -->
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+<br>
+
+Automated tests check that code behaves as expected by running small, focused checks called tests. Each test sets up some values, runs code, and then uses an assertion or expectation to confirm the result.
+
+## Python
+
+A popular framework for testing in python is **pytest**.
+
+In pytest, each test is a function containing an `assert` statement to check a condition. If an assertion fails, pytest will return an error message explaining what went wrong.
+
+Test are typically stored in a `tests/` folder in files whose names start with `test_`. These are automatically discovered and run by pytest.
+
+Here's an example of a simple test:
+
+```{python}
+import pytest
+
+
+def test_positive():
+    """
+    Confirm that the number is positive.
+    """
+    number = 5
+    assert number > 0, "The number should be positive"
+```
+
+## R
+
+A popular framework for testing in R is **testthat**.
+
+Tests are created with `test_that()` and built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more).
+
+Tests are stored in `tests/testthat/` in files starting with `test_`. These are automatically discovered and run by testthat.
+
+Here's an example of a simple test:
+
+```{r}
+#| output: false
+library(testthat)
+```
+
+```{r}
+test_that("Confirm that the number is positive", {
+  number <- 5L
+  expect_gt(number, 0L)
+})
+```

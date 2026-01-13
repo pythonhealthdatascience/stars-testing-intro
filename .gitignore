@@ -7,5 +7,4 @@ __pycache__/
 .pytest_cache/
 .Rhistory
 site_libs/
-*.html
 **_files/

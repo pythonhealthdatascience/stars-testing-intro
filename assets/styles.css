@@ -38,3 +38,8 @@
   border-radius: 8px;
   padding: 1em 1em 0.2em 1em;
 }
+
+/* Add space before H2 */
+section.level2 {
+  padding-top: 1em;
+}

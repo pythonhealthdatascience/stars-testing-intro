@@ -1,3 +1,13 @@
 ---
 title: "Running tests via GitHub actions"
 ---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>

@@ -3,3 +3,8 @@
 _site/
 .Rproj.user
 .Renviron
+__pycache__/
+.pytest_cache/
+.Rhistory
+site_libs/
+**_files/

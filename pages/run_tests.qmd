@@ -2,4 +2,192 @@
 title: "How to run tests"
 ---
 
-<!-- How to run tests. When your work is in package structure. When your work is in a notebook. Etc -->
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>
+
+The approach to running tests depends on your project structure and workflow. This guide covers the main scenarios you'll encounter.
+
+## Running tests when code is structured as a package
+
+You can structure your research code as a package. We recommend this approach as...
+
+When the code you are testing is in a package, easy... follow a standardised structure... detected by test tools....
+
+### Python
+
+Tests are stored in a `tests/` folder in files whose names start with `test_`. These are automatically discovered and run by pytest. For example:
+
+```
+research_project/
+├── pyproject.toml
+├── README.md
+├── src/
+│   └── my_package/
+│       ├── __init__.py
+│       ├── analysis.py
+│       └── utils.py
+└── tests/
+    ├── __init__.py
+    ├── test_analysis.py
+    └── test_utils.py
+```
+
+Tests are typically run from the terminal / powershell / command prompt (depends on OS) using the following commands...
+
+```{.bash}
+# Run all tests in the current directory and subdirectories
+pytest
+
+# Run all tests in the tests/ directory
+pytest tests/
+
+# Run tests from a specific file
+pytest tests/test_filename.py
+
+# Run a specific test function
+pytest tests/test_filename.py::test_function_name
+```
+
+When you run a test, you'll see an output like this in the terminal:
+
+::: {.callout-note icon=false title="Test output:"}
+
+```{python}
+#| echo: false
+import pytest
+
+pytest.main(["TODO.py"])
+```
+
+:::
+
+### R
+
+Tests are stored in `tests/testthat/` in files starting with `test_`. These are automatically discovered and run by testthat. For example:
+
+```
+research_project/
+├── DESCRIPTION
+├── NAMESPACE
+├── README.md
+├── R/
+│   ├── analysis.R
+│   └── utils.R
+└── tests/
+    └── testthat/
+        ├── test-analysis.R
+        └── test-utils.R
+```
+
+Tests are typically run from the R console using the following commands...
+
+```{.r}
+# Run all tests in a package
+devtools::test()
+
+# Run all tests in the current directory and subdirectories
+testthat::test_dir()
+
+# Run tests from a specific file
+testthat:test_file("tests/testthat/test-filename.R")
+```
+
+When tests run, you'll see console output indicating the number of tests passed, failed, or skipped, with details about any failures.
+
+## Running tests when code is in separate files but not a package
+
+When the code you want to test exists in `.py` or `.R` files but isn't structured as a package, you can still run tests from the terminal or console, just with some adjustments.
+
+### Python
+
+You should still store your tests in a `tests/` directory in filenames starting with `test_`. For example:
+
+```
+project/
+├── my_code.py
+└── tests/
+    └── test_my_code.py
+```
+
+to run test... 
+
+```{python}
+# TODO
+```
+
+if code is in jupyter notebook, you can use `testbook`.
+
+```{.python}
+# Install: pip install testbook
+from testbook import testbook
+
+@testbook('my_notebook.ipynb', execute=True)
+def test_notebook_function(tb):
+    func = tb.ref("add")
+    assert func(2, 3) == 5
+```
+
+### R
+
+```
+project/
+├── my_code.R
+└── tests/
+    └── testthat/
+        ├── test_my_code.R
+```
+
+## Tests in the same file as code
+
+For quick scripts or exploratory work, where you haven't organised code into separate files / modules etc., you may wish to include tests directly in your code file.
+
+There are a few options on how you can do this
+
+### Python
+
+define tests in script and ...
+
+```{python}
+```
+
+in a jupyter notebook use ipytest
+
+```{.python}
+# Install: pip install ipytest
+import ipytest
+ipytest.autoconfig()
+
+# In another cell
+def add(a, b):
+    return a + b
+
+# In a test cell
+%%ipytest
+def test_add():
+    assert add(2, 3) == 5
+```
+
+### R
+
+just write and run them direct in script.
+
+```{.r}
+# Function
+add <- function(a, b) {
+  a + b
+}
+
+# Inline test
+library(testthat)
+test_that("add works correctly", {
+  expect_equal(add(2, 3), 5)
+  expect_equal(add(-1, 1), 0)
+})
+```

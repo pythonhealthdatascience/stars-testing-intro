@@ -1,3 +1,13 @@
 ---
 title: "Parameterising tests"
 ---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>

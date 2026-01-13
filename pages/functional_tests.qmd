@@ -2,4 +2,14 @@
 title: "Functional tests"
 ---
 
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>
+
 <!-- creating a small case study, and examples of different tests -->

@@ -2,6 +2,8 @@
 title: "When and why to run tests?"
 ---
 
+<br>
+
 Testing is not unique to software development. It is an essential part of research. Most researchers already test their work informally: they interrogate raw data for issues, scan tables, inspect plots, and check that values fall within plausible ranges.
 
 **Formal testing simply records those expectations in code** so they can be run consistently over time, catching issues as they arise rather than months later. Tests ask questions like:

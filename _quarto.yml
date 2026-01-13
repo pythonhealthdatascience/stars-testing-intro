@@ -8,6 +8,9 @@ website:
   navbar:
     logo: images/hdruk_futures.png
     logo-alt: HDR UK Futures
+    right:
+      - icon: github
+        href: https://github.com/pythonhealthdatascience/hdruk_tests/
   announcement:
     dismissable: false
     icon: info-circle
@@ -16,6 +19,7 @@ website:
   sidebar:
     contents:
       - pages/why_test.qmd
+      - pages/case_study.qmd
       - section: Introduction to writing and running tests
         contents:
           - pages/write_basic_test.qmd
@@ -29,9 +33,17 @@ website:
       - pages/test_coverage.qmd
       - pages/github_actions.qmd
       - pages/example_repositories.qmd
+  page-footer:
+    center:
+      - text: |
+          Code licence: <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>.  
+          Text licence: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA 4.0</a>.
 
 format:
   html:
     page-layout: full
-    theme: [cosmo, styles.scss]
-    css: styles.css
+    theme: [cosmo, assets/styles.scss]
+    css:
+      - assets/styles.css
+      - assets/language-selector.css
+    include-after-body: assets/language-selector.js

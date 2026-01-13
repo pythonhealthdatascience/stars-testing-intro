@@ -1,0 +1,168 @@
+---
+title: "Case study"
+---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>
+
+Our tutorial uses a simple example of importing a small patient dataset and carrying out basic descriptive analysis.
+
+In the example we will:
+
+1. **Import patient-level data** from a CSV file and check that it has the expected columns.
+2. **Derive waiting times** from arrival and departure datetimes.
+3. **Compute simple summary statistics** (mean, standard deviation, and
+   95% confidence interval) for waiting time.
+
+## Packages
+
+::: {.python-content}
+
+```{python}
+from IPython.display import display, HTML
+from itables import to_html_datatable
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import scipy.stats as st
+
+pd.set_option("display.max_columns", 8)
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+## Import patient data
+
+Our dataset is a small synthetic set of patient-level event times that could come from a healthcare setting (e.g., emergency department, outpatient clinic, doctor's appointments). Each row records when a patient arrived and when service began.
+
+::: {.python-content}
+
+Our function `import_patient_data()` reads the data from a CSV file and checks it contains the expected columns, returning a pandas DataFrame.
+
+```{python}
+#| file: code/import_patient_data.py
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+We can run this function on our example dataset `patient_data.csv`.
+
+You can download a copy of this data here:
+
+{{< downloadthis data/patient_data.csv dname="patient_data.csv" label="Download the example patient-level data" type="primary" >}}
+
+::: {.python-content}
+
+```{python}
+raw_data = import_patient_data("data/patient_data.csv")
+raw_data
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+## Calculate waiting times
+
+::: {.python-content}
+
+Next, we convert the date and time fields into datetime columns and calculate each patient's waiting time in minutes.
+
+```{python}
+#| file: code/calculate_wait_times.py
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+We then apply this function to the raw data.
+
+::: {.python-content}
+
+```{python}
+processed_data = calculate_wait_times(raw_data)
+processed_data
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+## Calculate summary statistics
+
+Finally, we define a small utility function that calculates the mean, standard deviation, and a 95% confidence interval for a numeric series. The function handles small‑sample edge cases explicitly and uses the t‑distribution, which is appropriate when the sample size is modest.
+
+::: {.python-content}
+
+```{python}
+#| file: code/summary_stats.py
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+We apply `summary_stats()` to the waiting times.
+
+::: {.python-content}
+
+```{python}
+results = summary_stats(processed_data["wait_minutes"])
+
+# Format dictionary for display
+formatted_results = json.dumps(results, indent=4)
+print(formatted_results)
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::

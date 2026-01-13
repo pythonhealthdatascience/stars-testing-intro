@@ -8,6 +8,9 @@ website:
   navbar:
     logo: images/hdruk_futures.png
     logo-alt: HDR UK Futures
+    right:
+      - icon: github
+        href: https://github.com/pythonhealthdatascience/hdruk_tests/
   announcement:
     dismissable: false
     icon: info-circle

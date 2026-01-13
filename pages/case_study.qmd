@@ -26,7 +26,6 @@ In the example we will:
 ::: {.python-content}
 
 ```{python}
-from itables import to_html_datatable
 import json
 from pathlib import Path
 

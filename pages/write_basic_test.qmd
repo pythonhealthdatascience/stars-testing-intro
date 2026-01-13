@@ -8,43 +8,105 @@ library(reticulate)
 use_condaenv("hdruk_tests", required = TRUE)
 ```
 
+{{< include /assets/language-selector.html >}}
+
 <br>
 
-Automated tests check that code behaves as expected by running small, focused checks called tests. Each test sets up some values, runs code, and then uses an assertion or expectation to confirm the result.
+::: {.python-content}
 
-## Python
+On this page, we explain how to write a basic automated test in Python using **pytest**.
 
-A popular framework for testing in python is **pytest**.
+## What is pytest?
 
-In pytest, each test is a function containing an `assert` statement to check a condition. If an assertion fails, pytest will return an error message explaining what went wrong.
+Pytest is a popular framework for testing in Python, widely used in software development and data science.
 
-Here's an example of a simple test:
+You should install the `pytest` package into your environment from either conda or PyPI:
+
+```{.bash}
+conda install pytest
+# or
+pip install pytest
+```
+
+## What a pytest test looks like
+
+In pytest, any function whose name starts with `test_` is treated as a test. Inside the function you write one or more `assert` statements. If an assertion fails, pytest will return an error message explaining what went wrong.
 
 ```{python}
 import pytest
 
 
-def test_positive():
-    """Confirm that the number is positive."""
-    number = 5
-    assert number > 0, "The number should be positive"
+def test_example():
+    result = 2 + 2
+    assert result == 4
 ```
 
-## R
+:::
 
-A popular framework for testing in R is **testthat**.
+::: {.r-content}
 
-Tests are created with `test_that()` and built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more).
+On this page, we explain how to write a basic automated test in R using **testthat**.
 
-Here's an example of a simple test:
+## testthat
+
+testthat is a popular framework for testing in R, widely used in software development and data science.
+
+You should install the `testthat` package into your environment from CRAN.
+
+```{.r}
+install.packages("testthat")
+```
+
+## What a testthat test looks like
+
+Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more).
+
+## Simple test example
 
 ```{r}
-#| output: false
 library(testthat)
 
 
-test_that("Confirm that the number is positive", {
-  number <- 5L
-  expect_gt(number, 0L)
+test_that("2 add 2 equals 4", {
+  result <- 2L + 2L
+  expect_equal(result, 4L)
 })
 ```
+
+:::
+
+## A simple test for `summary_stats`
+
+Here is a minimal example using the `summary_stats` function from the case study. For a single value, the function should return that value as the mean and `NaN` for the other statistics, because there is not enough data to define a standard deviation or confidence interval.
+
+::: {.python-content}
+
+```{python}
+#| file: code/summary_stats.py
+#| echo: false
+```
+
+```{python}
+import pandas as pd
+import pytest
+
+
+def test_summary_stats_single_value():
+    """Running summary_stats on a single value should only return mean."""
+    data = pd.Series([10])
+    mean, std, ci_lower, ci_upper = summary_stats(data)
+    assert mean == 10
+    assert pd.isna(std)
+    assert pd.isna(ci_lower)
+    assert pd.isna(ci_upper)
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#
+```
+
+:::

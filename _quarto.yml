@@ -30,6 +30,11 @@ website:
       - pages/test_coverage.qmd
       - pages/github_actions.qmd
       - pages/example_repositories.qmd
+  page-footer:
+    center:
+      - text: |
+          Code licence: <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>.  
+          Text licence: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC-BY-SA 4.0</a>.
 
 format:
   html:

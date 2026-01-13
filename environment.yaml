@@ -2,5 +2,11 @@ name: hdruk_tests
 channels:
   - conda-forge
 dependencies:
+  - numpy=2.4.1
+  - pandas=2.3.3
+  - pip
   - pytest=9.0.2
   - python=3.14
+  - scipy=1.17.0
+  - pip:
+     - -e examples/python/.

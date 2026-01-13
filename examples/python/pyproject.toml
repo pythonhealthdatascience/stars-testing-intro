@@ -1,0 +1,12 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "waitingtimes"
+description = "Writing tests for a simple waiting times analysis."
+authors = [
+  {name = "Amy Heather", email = "a.heather2@exeter.ac.uk"},
+  {name = "Tom Monks", email = "t.m.w.monks@exeter.ac.uk"}
+]
+dynamic = ["version"]

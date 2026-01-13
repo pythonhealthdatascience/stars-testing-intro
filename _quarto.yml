@@ -16,6 +16,7 @@ website:
   sidebar:
     contents:
       - pages/why_test.qmd
+      - pages/case_study.qmd
       - section: Introduction to writing and running tests
         contents:
           - pages/write_basic_test.qmd
@@ -23,7 +24,6 @@ website:
           - pages/parametrising_tests.qmd
       - section: Types of test
         contents:
-          - pages/case_study.qmd
           - pages/functional_tests.qmd
           - pages/unit_tests.qmd
           - pages/back_tests.qmd

@@ -2,8 +2,217 @@
 title: "Case study"
 ---
 
-<!--will introduce types of testing
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
 
-to do so, will be testing a case study
+Our tutorial uses a simple example of importing a small patient dataset and carrying out basic descriptive analysis.
 
-this case study is just a simple descriptive analysis-->
+In the example we will:
+
+1. **Import patient-level data** from a CSV file and check that it has the expected columns.
+2. **Derive waiting times** from arrival and departure datetimes.
+3. **Compute simple summary statistics** (mean, standard deviation, and
+   95% confidence interval) for waiting time.
+
+::: {.panel-tabset}
+
+## Python
+
+### Packages
+
+```{python}
+from IPython.display import display, HTML
+from itables import to_html_datatable
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import scipy.stats as st
+
+pd.set_option("display.max_columns", 8)
+```
+
+### Import patient data
+
+Our dataset is a small synthetic set of patient-level event times that could come from a healthcare setting (e.g., emergency department, outpatient clinic, doctor's appointments). Each row records when a patient arrived and when service began.
+
+Our function `import_patient_data()` reads the data from a CSV file and checks it contains the expected columns, returning a pandas DataFrame.
+
+```{python}
+def import_patient_data(path):
+    """
+    Import raw patient data and check that required columns are present.
+
+    Parameters
+    ----------
+    path : str or pathlib.Path
+        Path to the CSV file containing the patient data.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Dataframe containing the raw patient-level data.
+
+    Raises
+    ------
+    ValueError
+        If the CSV file does not contain exactly the expected columns
+        in the expected order.
+    """
+    df = pd.read_csv(Path(path))
+
+    # Expected columns in the raw data (names and order must match)
+    expected = [
+        "PATIENT_ID",
+        "ARRIVAL_DATE", "ARRIVAL_TIME",
+        "SERVICE_DATE", "SERVICE_TIME"
+    ]
+    if list(df.columns) != expected:
+        raise ValueError(
+            f"Unexpected columns: {list(df.columns)} (expected {expected})"
+        )
+
+    return df
+```
+
+We can run this function on our example dataset `patient_data.csv`.
+
+You can download a copy of this data here:
+
+{{< downloadthis data/patient_data.csv dname="patient_data.csv" label="Download the example patient-level data" type="primary" >}}
+
+```{python}
+raw_data = import_patient_data("data/patient_data.csv")
+raw_data
+```
+
+### Calculate waiting times
+
+Next, we convert the date and time fields into datetime columns and calculate each patient's waiting time in minutes.
+
+```{python}
+def calculate_wait_times(df):
+    """
+    Add arrival/service datetimes and waiting time in minutes.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Patient-level data containing `ARRIVAL_DATE`, `ARRIVAL_TIME`,
+        `SERVICE_DATE`, and `SERVICE_TIME` columns.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Copy of the input DataFrame with additional columns:
+        `arrival_datetime`, `service_datetime`, and `wait_minutes`.
+    """
+    df = df.copy()
+
+    # Combine date and time columns into datetime columns
+    for prefix in ("ARRIVAL", "SERVICE"):
+        df[f"{prefix.lower()}_datetime"] = pd.to_datetime(
+            df[f"{prefix}_DATE"].astype(str) +
+            " " +
+            df[f"{prefix}_TIME"].astype(str).str.zfill(4),
+            format="%Y-%m-%d %H%M",
+        )
+
+    # Waiting time in minutes
+    df["wait_minutes"] = (
+        df["service_datetime"] - df["arrival_datetime"]
+    ) / pd.Timedelta(minutes=1)
+
+    return df
+```
+
+We then apply this function to the raw data.
+
+```{python}
+processed_data = calculate_wait_times(raw_data)
+processed_data
+```
+
+### Calculate summary statistics
+
+Finally, we define a small utility function that calculates the mean, standard deviation, and a 95% confidence interval for a numeric series. The function handles small‑sample edge cases explicitly and uses the t‑distribution, which is appropriate when the sample size is modest.
+
+```{python}
+def summary_stats(data):
+    """
+    Calculate mean, standard deviation and 95% confidence interval (CI).
+
+    CI is calculated using the t-distribution, which is appropriate for
+    small samples and converges to the normal distribution as the sample
+    size increases.
+
+    Parameters
+    ----------
+    data : pandas.Series
+        Data to use in the calculation.
+
+    Returns
+    -------
+    dict[str, float]
+        A dictionary with keys `mean`, `std_dev`, `ci_lower` and `ci_upper`.
+        Each value is a float, or `numpy.nan` if it can't be computed.
+    """
+    # Drop missing values
+    data = data.dropna()
+
+    # Find number of observations
+    count = len(data)
+
+    # If there are no observations, then set all to NaN
+    if count == 0:
+        mean, std_dev, ci_lower, ci_upper = np.nan, np.nan, np.nan, np.nan
+
+    # If there are 1 or 2 observations, can do mean but not other statistics
+    elif count < 3:
+        mean = data.mean()
+        std_dev, ci_lower, ci_upper = np.nan, np.nan, np.nan
+
+    # With more than two observations, can calculate all...
+    else:
+        mean = data.mean()
+        std_dev = data.std()
+
+        # If there is no variation, then CI is equal to the mean
+        if np.var(data) == 0:
+            ci_lower, ci_upper = mean, mean
+        else:
+            # 95% CI based on the t-distribution
+            ci_lower, ci_upper = st.t.interval(
+                confidence=0.95,
+                df=count-1,
+                loc=mean,
+                scale=st.sem(data)
+            )
+
+    return {
+        "mean": mean,
+        "std_dev": std_dev,
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper
+    }
+```
+
+We apply `summary_stats()` to the waiting times.
+
+```{python}
+results = summary_stats(processed_data["wait_minutes"])
+
+# Format dictionary for display
+formatted_results = json.dumps(results, indent=4)
+print(formatted_results)
+```
+
+## R
+
+A
+
+:::

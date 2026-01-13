@@ -35,8 +35,7 @@ def import_patient_data(path):
     expected = [
         "PATIENT_ID",
         "ARRIVAL_DATE", "ARRIVAL_TIME",
-        "SERVICE_DATE", "SERVICE_TIME",
-        "DEPARTURE_DATE", "DEPARTURE_TIME"
+        "SERVICE_DATE", "SERVICE_TIME"
     ]
     if list(df.columns) != expected:
         raise ValueError(
@@ -69,8 +68,8 @@ def calculate_wait_times(df):
         df[f"{prefix.lower()}_datetime"] = pd.to_datetime(
             df[f"{prefix}_DATE"].astype(str) +
             " " +
-            df[f"{prefix}_TIME"].astype(str),
-            dayfirst=True,
+            df[f"{prefix}_TIME"].astype(str).str.zfill(4),
+            format="%Y-%m-%d %H%M",
         )
 
     # Waiting time in minutes
@@ -96,9 +95,9 @@ def summary_stats(data):
 
     Returns
     -------
-    tuple of float
-        A tuple `(mean, std_dev, ci_lower, ci_upper)`, where each
-        element is a float or `numpy.nan` when not defined.
+    dict[str, float]
+        A dictionary with keys `mean`, `std_dev`, `ci_lower` and `ci_upper`.
+        Each value is a float, or `numpy.nan` if it can't be computed.
     """
     # Drop missing values
     data = data.dropna()
@@ -132,4 +131,9 @@ def summary_stats(data):
                 scale=st.sem(data)
             )
 
-    return mean, std_dev, ci_lower, ci_upper
+    return {
+        "mean": mean,
+        "std_dev": std_dev,
+        "ci_lower": ci_lower,
+        "ci_upper": ci_upper
+    }

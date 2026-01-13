@@ -4,9 +4,9 @@ channels:
 dependencies:
   - numpy=2.4.1
   - pandas=2.3.3
-  - pip
+  - pip=25.3
   - pytest=9.0.2
-  - python=3.14
+  - python=3.12.12
   - scipy=1.17.0
   - pip:
      - -e examples/python/.

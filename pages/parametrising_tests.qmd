@@ -11,3 +11,74 @@ use_condaenv("hdruk_tests", required = TRUE)
 {{< include /assets/language-selector.html >}}
 
 <br>
+
+There are many tools you can make use of when testing - one example is **parametrising** tests.
+
+When you need to test the same logic with different inputs and expected outputs, you can parameterise your tests instead of writing repetitive test functions. This minimises code duplication and makes it easy to add new test cases.
+
+## Example: Testing `summary_stats()`
+
+::: {.python-content}
+
+Let's say we want to verify that our `summary_stats()` function works correctly for different datasets. Instead of writing separate test functions for each case, we can use pytest's `@pytest.mark.parametrize` decorator:
+
+```{python}
+#| file: code/summary_stats.py
+#| echo: false
+```
+
+```{python}
+import pandas as pd
+import pytest
+
+
+@pytest.mark.parametrize(
+    "data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper",
+    [
+        # Five value sample with known summary statistics
+        ([1.0, 2.0, 3.0, 4.0, 5.0], 3.0, 1.58, 1.04, 4.96),
+        # No variation: CI collapse to mean
+        ([5, 5, 5], 5, 0, 5, 5),
+    ],
+)
+def test_summary_stats(
+    data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper
+):
+    """Running summary_stats returns expected values."""
+    mean, std, ci_lower, ci_upper = summary_stats(pd.Series(data))
+    assert mean == pytest.approx(expected_mean, rel=5e-3)
+    assert std == pytest.approx(expected_std, rel=5e-3)
+    assert ci_lower == pytest.approx(expected_ci_lower, rel=5e-3)
+    assert ci_upper == pytest.approx(expected_ci_upper, rel=5e-3)
+```
+
+## How it works
+
+The `@pytest.mark.parametrize` decorator takes two arguments:
+
+1. **Parameter names** (as a string). These variable names will be passed to your test function. For example:
+
+```
+"data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper"
+```
+
+2. **Test cases** (as a list of tuples). Each tuple contains values for one test case. For example:
+
+```
+[
+    # Five value sample with known summary statistics
+    ([1.0, 2.0, 3.0, 4.0, 5.0], 3.0, 1.58, 1.04, 4.96),
+    # No variation: CI collapse to mean
+    ([5, 5, 5], 5, 0, 5, 5),
+]
+```
+
+If any test case fails, pytest will clearly indicate which parameters were used, making debugging straightforward.
+
+:::
+
+::: {.r-content}
+
+TODO.
+
+:::

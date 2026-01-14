@@ -12,34 +12,49 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 <br>
 
-The approach to running tests depends on your project structure and workflow. This guide covers the main scenarios you'll encounter.
+The approach to running tests depends on your project structure and workflow. This includes:
+
+* Running tests when code is structured as a package.
+* Running tests when code is in separate files but not a package.
+* Running tests in the same file as code.
 
 ## Running tests when code is structured as a package
 
-You can structure your research code as a package. We recommend this approach as...
+### Structuring research as a package
 
-When the code you are testing is in a package, easy... follow a standardised structure... detected by test tools....
+We recommend organising your research code as a package because it makes your project easier to manage, test and reuse. Benefits include:
 
-### Python
+* Your code can be installed and used anywhere in your directory (or other directories) without needing to manually set system paths.
+* It encourages a clean, well-organised repository that follows standard, established conventions.
+* It separates your core analysis code from inputs and outputs and experimental stuff, improving maintainability, reusability, and reducing the risk of unintended interactions.
+* It integrates smoothly with automated testing frameworks - the focus of this tutorial!
 
-Tests are stored in a `tests/` folder in files whose names start with `test_`. These are automatically discovered and run by pytest. For example:
+If you're unfamiliar with how to set up a package, check out [our tutorial on packaging your research project](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/package.html).
+
+::: {.python-content}
+
+When your code is part of a package, you can follow a standardised structure that pytest will automatically recognised. Tests are stored in a `tests/` folder in files whose names start with `test_`. These are automatically discovered and run by pytest.
+
+In our example, we put together package, looks like:
 
 ```
 research_project/
+├── data/
+│   └── patient_data.csv
 ├── pyproject.toml
 ├── README.md
 ├── src/
-│   └── my_package/
+│   └── waitingtimes/
 │       ├── __init__.py
-│       ├── analysis.py
-│       └── utils.py
+│       └── patient_analysis.py
 └── tests/
-    ├── __init__.py
-    ├── test_analysis.py
-    └── test_utils.py
+    ├── test_intro_simple.py
+    └── ...
 ```
 
-Tests are typically run from the terminal / powershell / command prompt (depends on OS) using the following commands...
+### Running tests from the command line
+
+You can run your tests from a terminal, PowerShell, or command prompt (depending on your OS). Common commands include:
 
 ```{.bash}
 # Run all tests in the current directory and subdirectories
@@ -55,20 +70,24 @@ pytest tests/test_filename.py
 pytest tests/test_filename.py::test_function_name
 ```
 
-When you run a test, you'll see an output like this in the terminal:
+### Example demonstration
 
-::: {.callout-note icon=false title="Test output:"}
+The video below demonstrates this process on a Linux system, but the same principles apply on other platforms.
 
-```{python}
-#| echo: false
-import pytest
+In the video, we:
 
-pytest.main(["TODO.py"])
-```
+* Use `tree` to display the file structure (matches that shown above).
+* Activate our environment: `conda activate hdruk_tests` (which includes pytest).
+* Install our local package (if not already installed): `pip install -e .`.
+* Verify the installation with `conda list`, confirming our `waitingtimes` package appears.
+* Show you the test file (`nano tests/test_intro_simple.py`) (matches the one from the previous page on writing basic tests).
+* Run the test with `pytest tests/test_intro_simple.py` - and it passes! 🎉
+
+{{< video /videos/run_tests_python_package.webm >}}
 
 :::
 
-### R
+::: {.r-content}
 
 Tests are stored in `tests/testthat/` in files starting with `test_`. These are automatically discovered and run by testthat. For example:
 
@@ -101,26 +120,33 @@ testthat:test_file("tests/testthat/test-filename.R")
 
 When tests run, you'll see console output indicating the number of tests passed, failed, or skipped, with details about any failures.
 
+:::
+
 ## Running tests when code is in separate files but not a package
 
-When the code you want to test exists in `.py` or `.R` files but isn't structured as a package, you can still run tests from the terminal or console, just with some adjustments.
+::: {.python-content}
 
-### Python
+### Running tests from command line
 
-You should still store your tests in a `tests/` directory in filenames starting with `test_`. For example:
+<!-- When creating the video, I first removed waitingtimes from the conda environment by running pip uninstall waitingtimes -->
+
+When the code you want to test exists in `.py` files but isn't structured as a package, you can still run tests from the terminal or console. You should still have filenames starting with `test_`. in our example video below we have
 
 ```
 project/
-├── my_code.py
-└── tests/
-    └── test_my_code.py
+├── patient_analysis.py
+└── test_intro_simple.py
 ```
 
-to run test... 
+to run test, same commands as above
 
-```{python}
-# TODO
-```
+In the video, we:
+
+* Use `tree` to display the file structure - there is just a `.py` file with the `summary_stats()` function, and `test_intro_simple.py` file alongside it.
+* Viewing the test file with `nano test_intro_simple.py`, we can see it just locally imports as they are in same folder.
+* As it follows the pattern starting `test_`, we can just run with `pytest`.
+
+### Running tests from jupyter notebook
 
 if code is in jupyter notebook, you can use `testbook`.
 
@@ -134,7 +160,9 @@ def test_notebook_function(tb):
     assert func(2, 3) == 5
 ```
 
-### R
+:::
+
+::: {.r-content}
 
 ```
 project/
@@ -144,13 +172,17 @@ project/
         ├── test_my_code.R
 ```
 
-## Tests in the same file as code
+:::
+
+## Running tests in the same file as code
 
 For quick scripts or exploratory work, where you haven't organised code into separate files / modules etc., you may wish to include tests directly in your code file.
 
+dont super recommend...
+
 There are a few options on how you can do this
 
-### Python
+::: {.python-content}
 
 define tests in script and ...
 
@@ -174,7 +206,9 @@ def test_add():
     assert add(2, 3) == 5
 ```
 
-### R
+:::
+
+::: {.r-content}
 
 just write and run them direct in script.
 
@@ -191,3 +225,5 @@ test_that("add works correctly", {
   expect_equal(add(-1, 1), 0)
 })
 ```
+
+:::

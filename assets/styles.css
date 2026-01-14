@@ -39,7 +39,10 @@
   padding: 1em 1em 0.2em 1em;
 }
 
-/* Add space before H2 */
-section.level2 {
+/* Add space before H2 + H3 */
+h2 {
   padding-top: 1em;
+}
+h3 {
+  margin-top: 2em;
 }

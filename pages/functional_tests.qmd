@@ -12,4 +12,137 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 <br>
 
-<!-- creating a small case study, and examples of different tests -->
+## What is a functional test?
+
+**Functional** tests are broader than unit tests. They focus on a whole feature or workflow, often involving several functions or classes working together. They check whether this end-to-end behaviour gives the correct outputs for given inputs, matching our requirements or expected results.
+
+## Example: waiting times case study
+
+We will return to our [waiting times case study](case_study.qmd) which involved three functions:
+
+* `import_patient_data()` - imports raw patient data and checks that the required columns are present.
+* `calculate_wait_times` - adds arrival and service datetimes, and waiting time in minutes.
+* `summary_stats` - calculates mean, standard deviation and 95% confidence interval.
+
+Unlike unit tests, which check each function in isolation, functional tests run all three steps together and verify the end-to-end workflow produces correct results.
+
+## How to write functional tests
+
+### 1. Identify the feature or workflow to test
+
+Start by choosing the complete feature or workflow you want to validate.
+
+In our case study, we only have a simple three-step pipeline - but more complex projects may have multiple intersecting workflows you want to focus on.
+
+### 2. Define inputs and expected outputs
+
+Think about realistic scenarios that cover:
+
+* **Success cases:** standard inputs where everything should work correctly.
+* **Variations:** realistic variations in the inputs (e.g., different sample sizes, different distributions in the data input).
+* **Edge cases:** unusual but plausible inputs (e.g., unusual sample sizes, boundary values).
+* **Error cases:** invalid inputs that should trigger errors.
+
+### 3. Write tests for these scenarios
+
+#### Success case: typical data
+
+This test confirms the workflow succeeds with standard inputs and produces correct summary statistics.
+
+```{python}
+def test_workflow_success(tmp_path):
+    """Complete workflow should calculate correct wait statistics."""
+
+    # Create test data with known values
+    test_data = pd.DataFrame({
+        "PATIENT_ID": ["p1", "p2", "p3"],
+        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-02"],
+        "ARRIVAL_TIME": ["0800", "0930", "1015"],
+        "SERVICE_DATE": ["2024-01-01", "2024-01-01", "2024-01-02"],
+        "SERVICE_TIME": ["0830", "1000", "1045"],
+    })
+
+    # Write test CSV
+    csv_path = tmp_path / "patients.csv"
+    test_data.to_csv(csv_path, index=False)
+
+    # Run complete workflow
+    df = import_patient_data(csv_path)
+    df = calculate_wait_times(df)
+    stats = summary_stats(df["wait_minutes"])
+
+    # Verify the workflow produces correct results
+    # Expected wait times: 30, 30, 30 minutes
+    assert stats["mean"] == 30.0
+    assert stats["std_dev"] == 0.0
+    assert stats["ci_lower"] == 30.0
+    assert stats["ci_upper"] == 30.0
+```
+
+#### Variation: data with different distributions
+
+This test confirms the workflow handles realistic variation in wait times.
+
+```{python}
+def test_workflow_with_variation(tmp_path):
+    """Workflow should correctly compute statistics for variable wait times."""
+
+    # Create test data with known wait times: 15, 30, 45 minutes
+    test_data = pd.DataFrame({
+        "PATIENT_ID": ["p1", "p2", "p3"],
+        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
+        "ARRIVAL_TIME": ["0800", "0900", "1000"],
+        "SERVICE_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
+        "SERVICE_TIME": ["0815", "0930", "1045"],
+    })
+
+    csv_path = tmp_path / "patients.csv"
+    test_data.to_csv(csv_path, index=False)
+
+    # Run complete workflow
+    df = import_patient_data(csv_path)
+    df = calculate_wait_times(df)
+    stats = summary_stats(df["wait_minutes"])
+
+    # Verify mean and standard deviation
+    assert stats["mean"] == 30
+    assert np.isclose(stats["std_dev"], 15)
+
+    # CI should be symmetric around mean for this small sample
+    assert stats["ci_lower"] < stats["mean"] < stats["ci_upper"]
+```
+
+#### Error case: invalid input data
+
+This test confirms the workflow fails appropriately when given invalid data.
+
+```{python}
+def test_missing_date_error(tmp_path):
+    """Workflow should raise error when dates are missing."""
+
+    test_data = pd.DataFrame({
+        "PATIENT_ID": ["p1", "p2", "p3"],
+        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
+        "ARRIVAL_TIME": ["0800", "0900", "1000"],
+        "SERVICE_DATE": ["2024-01-01", pd.NaT, "2024-01-01"],
+        "SERVICE_TIME": ["0830", "1000", "1045"],
+    })
+
+    csv_path = tmp_path / "patients.csv"
+    test_data.to_csv(csv_path, index=False)
+
+    # Workflow should fail when calculating wait times with missing dates
+    df = import_patient_data(csv_path)
+    with pytest.raises(ValueError, match="time data"):
+        df = calculate_wait_times(df)
+```
+
+## When to stop writing tests
+
+You cannot test everything. You've written enough tests when:
+
+* Critical workflows are covered with at least one success case.
+* Import variations and edge cases are tested.
+* Key error conditions are verified.
+
+Focus your testing effort on workflows that matter to your research and scenarios you're likely to encounter in practice. You're building confidence in your code, not trying to test every theoretical possibility.

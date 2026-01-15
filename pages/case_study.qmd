@@ -78,7 +78,7 @@ You can download a copy of this data here:
 
 ```{python}
 raw_data = import_patient_data(
-   "../examples/python_package/data/patient_data.csv
+   "../examples/python_package/data/patient_data.csv"
 )
 raw_data
 ```

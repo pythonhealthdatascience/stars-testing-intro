@@ -19,7 +19,7 @@ def test_reproduction():
     # Run functions
     df = import_patient_data(csv_path)
     df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
+    stats = summary_stats(df["waittime"])
 
     # Verify the workflow produces consistent results
     assert np.isclose(stats["mean"], 4.1666, rtol=0.0001)

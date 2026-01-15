@@ -151,7 +151,7 @@ We apply `summary_stats()` to the waiting times.
 ::: {.python-content}
 
 ```{python}
-results = summary_stats(processed_data["wait_minutes"])
+results = summary_stats(processed_data["waittime"])
 
 # Format dictionary for display
 formatted_results = json.dumps(results, indent=4)

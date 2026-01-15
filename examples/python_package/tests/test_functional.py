@@ -30,7 +30,7 @@ def test_workflow_success(tmp_path):
     # Run complete workflow
     df = import_patient_data(csv_path)
     df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
+    stats = summary_stats(df["waittime"])
 
     # Verify the workflow produces correct results
     # Expected wait times: 30, 30, 30 minutes
@@ -58,7 +58,7 @@ def test_workflow_with_variation(tmp_path):
     # Run complete workflow
     df = import_patient_data(csv_path)
     df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
+    stats = summary_stats(df["waittime"])
 
     # Verify mean and standard deviation
     assert stats["mean"] == 30

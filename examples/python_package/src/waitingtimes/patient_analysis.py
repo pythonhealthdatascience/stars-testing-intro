@@ -59,7 +59,7 @@ def calculate_wait_times(df):
     -------
     pandas.DataFrame
         Copy of the input DataFrame with additional columns:
-        `arrival_datetime`, `service_datetime`, and `wait_minutes`.
+        `arrival_datetime`, `service_datetime`, and `waittime`.
     """
     df = df.copy()
 
@@ -73,7 +73,7 @@ def calculate_wait_times(df):
         )
 
     # Waiting time in minutes
-    df["wait_minutes"] = (
+    df["waittime"] = (
         df["service_datetime"] - df["arrival_datetime"]
     ) / pd.Timedelta(minutes=1)
 

@@ -20,11 +20,7 @@ Let's use the `import_patient_data()` function from our case study. We will impo
 
 ```{python}
 #| execute: false
-import pandas as pd
-from pathlib import Path
-import pytest
-
-from waitingtimes.patient_analysis import import_patient_data
+#| file: code/test_unit__imports.py
 ```
 
 Its main behaviours are that it:

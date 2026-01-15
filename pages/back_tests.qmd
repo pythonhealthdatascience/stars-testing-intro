@@ -12,4 +12,40 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 <br>
 
-<!-- creating a small case study, and examples of different tests -->
+## What is a back test?
+
+A **back** test involves running your workflow on historical data and confirming that results are consistent over time.
+
+It's not focused on whether results are theoretically correct. It's about **consistency and reproducibility** - confirming that code changes, environment updates, or data pipeline tweaks have not silently changed results.
+
+This overlaps with functional testing, but is distinct, because functional tests ask "is this output *correct*" whereas back tests ask "is this output *the same as before*?".
+
+## Example: waiting times case study
+
+We will run back tests using the [dataset we introduced for our waiting times case study](case_study.qmd).
+
+## Back test
+
+```{python}
+def test_reproduction():
+    """Re-running on historical data should produce consistent results."""
+    # Specify path to historical data
+    csv_path = Path(__file__).parent.joinpath("data/patient_data.csv")
+
+    # Run functions
+    df = import_patient_data(csv_path)
+    df = calculate_wait_times(df)
+    stats = summary_stats(df["wait_minutes"])
+
+    # Verify the workflow produces consistent results
+    assert np.isclose(stats["mean"], 4.1666, rtol=0.0001)
+    assert np.isclose(stats["std_dev"], 2.7869, rtol=0.0001)
+    assert np.isclose(stats["ci_lower"], 1.2420, rtol=0.0001)
+    assert np.isclose(stats["ci_upper"], 7.0913, rtol=0.0001)
+```
+
+## When should you update your back tests?
+
+**Errors:** If you identify an error in your pipeline, you first fix the code and then deliberately update the back test in isolation, so you know the only change in behaviour is the error fix and not something unintended elsewhere.
+
+**Changes over time:** As your research evolves, you may update the workflow (e.g., improve the wait time calculation method) or use more recent datasets. You can keep the old back test running alongside new ones - this verifies that changes to the workflow don't accidentally alter results on historical data, while new back tests validate that updated methods work correctly on current data.

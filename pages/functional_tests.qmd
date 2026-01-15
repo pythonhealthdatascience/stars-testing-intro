@@ -26,6 +26,13 @@ We will return to our [waiting times case study](case_study.qmd) which involved 
 
 Unlike unit tests, which check each function in isolation, functional tests run all three steps together and verify the end-to-end workflow produces correct results.
 
+We will need the follow imports in our test script:
+
+```{python}
+#| execute: false
+#| file: code/test_functional__imports.py
+```
+
 ## How to write functional tests
 
 ### 1. Identify the feature or workflow to test
@@ -50,33 +57,7 @@ Think about realistic scenarios that cover:
 This test confirms the workflow succeeds with standard inputs and produces correct summary statistics.
 
 ```{python}
-def test_workflow_success(tmp_path):
-    """Complete workflow should calculate correct wait statistics."""
-
-    # Create test data with known values
-    test_data = pd.DataFrame({
-        "PATIENT_ID": ["p1", "p2", "p3"],
-        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-02"],
-        "ARRIVAL_TIME": ["0800", "0930", "1015"],
-        "SERVICE_DATE": ["2024-01-01", "2024-01-01", "2024-01-02"],
-        "SERVICE_TIME": ["0830", "1000", "1045"],
-    })
-
-    # Write test CSV
-    csv_path = tmp_path / "patients.csv"
-    test_data.to_csv(csv_path, index=False)
-
-    # Run complete workflow
-    df = import_patient_data(csv_path)
-    df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
-
-    # Verify the workflow produces correct results
-    # Expected wait times: 30, 30, 30 minutes
-    assert stats["mean"] == 30.0
-    assert stats["std_dev"] == 0.0
-    assert stats["ci_lower"] == 30.0
-    assert stats["ci_upper"] == 30.0
+#| file: code/test_functional__test_workflow_success.py
 ```
 
 #### Variation: data with different distributions
@@ -84,32 +65,7 @@ def test_workflow_success(tmp_path):
 This test confirms the workflow handles realistic variation in wait times.
 
 ```{python}
-def test_workflow_with_variation(tmp_path):
-    """Workflow should correctly compute statistics for variable wait times."""
-
-    # Create test data with known wait times: 15, 30, 45 minutes
-    test_data = pd.DataFrame({
-        "PATIENT_ID": ["p1", "p2", "p3"],
-        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
-        "ARRIVAL_TIME": ["0800", "0900", "1000"],
-        "SERVICE_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
-        "SERVICE_TIME": ["0815", "0930", "1045"],
-    })
-
-    csv_path = tmp_path / "patients.csv"
-    test_data.to_csv(csv_path, index=False)
-
-    # Run complete workflow
-    df = import_patient_data(csv_path)
-    df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
-
-    # Verify mean and standard deviation
-    assert stats["mean"] == 30
-    assert np.isclose(stats["std_dev"], 15)
-
-    # CI should be symmetric around mean for this small sample
-    assert stats["ci_lower"] < stats["mean"] < stats["ci_upper"]
+#| file: code/test_functional__test_workflow_with_variation.py
 ```
 
 #### Error case: invalid input data
@@ -117,25 +73,20 @@ def test_workflow_with_variation(tmp_path):
 This test confirms the workflow fails appropriately when given invalid data.
 
 ```{python}
-def test_missing_date_error(tmp_path):
-    """Workflow should raise error when dates are missing."""
-
-    test_data = pd.DataFrame({
-        "PATIENT_ID": ["p1", "p2", "p3"],
-        "ARRIVAL_DATE": ["2024-01-01", "2024-01-01", "2024-01-01"],
-        "ARRIVAL_TIME": ["0800", "0900", "1000"],
-        "SERVICE_DATE": ["2024-01-01", pd.NaT, "2024-01-01"],
-        "SERVICE_TIME": ["0830", "1000", "1045"],
-    })
-
-    csv_path = tmp_path / "patients.csv"
-    test_data.to_csv(csv_path, index=False)
-
-    # Workflow should fail when calculating wait times with missing dates
-    df = import_patient_data(csv_path)
-    with pytest.raises(ValueError, match="time data"):
-        df = calculate_wait_times(df)
+#| file: code/test_functional__test_missing_date_error.py
 ```
+
+## Running our example tests
+
+::: {.callout-note title="Test output"}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_functional.py"])
+```
+
+:::
 
 ## When to stop writing tests
 

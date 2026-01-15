@@ -32,6 +32,8 @@ pip install pytest
 
 In pytest, any function whose name starts with `test_` is treated as a test. Inside the function you write one or more `assert` statements. If an assertion fails, pytest will return an error message explaining what went wrong.
 
+For example:
+
 ```{python}
 import pytest
 
@@ -80,34 +82,41 @@ test_that("2 add 2 equals 4", {
 
 ## A simple test for `summary_stats`
 
-Here is a minimal example using the `summary_stats` function from the case study. For a single value, the function should return that value as the mean and `NaN` for the other statistics, because there is not enough data to define a standard deviation or confidence interval.
+Here is a minimal example using the `summary_stats` function from the case study.
 
-::: {.python-content}
+:::: {.python-content}
 
-```{python}
-#| file: code/summary_stats.py
-#| echo: false
-```
+::: {.callout-note title="View `summary_stats()`" collapse="true"}
 
 ```{python}
-import pandas as pd
-import pytest
-
-
-def test_summary_stats_single_value():
-    """Running summary_stats on a single value should only return mean."""
-    data = pd.Series([10])
-    res = summary_stats(data)
-    assert res["mean"] == 10
-    assert pd.isna(res["std_dev"])
-    assert pd.isna(res["ci_lower"])
-    assert pd.isna(res["ci_upper"])
+#| file: code/patient_analysis__summary_stats.py
+#| execute: false
 ```
 
 :::
+
+::::
+
+For a single value, the function should return that value as the mean and `NaN` for the other statistics, because there is not enough data to define a standard deviation or confidence interval.
+
+:::: {.python-content}
+
+```{python}
+#| file: code/test_intro_simple__imports.py
+#| execute: false
+```
+
+```{python}
+#| file: code/test_intro_simple__test_summary_stats_single_value.py
+#| execute: false
+```
+
+::::
 
 ::: {.r-content}
 
 TODO.
 
 :::
+
+<br>

@@ -2,12 +2,6 @@
 title: "How to run tests"
 ---
 
-```{r}
-#| include: false
-library(reticulate)
-use_condaenv("hdruk_tests", required = TRUE)
-```
-
 {{< include /assets/language-selector.html >}}
 
 <br>
@@ -35,7 +29,7 @@ from patient_analysis import summary_stats
 from src.analysis import summary_stats
 ```
 
-### 2. Test files that following the `test_` naming convention
+### 2. Test files following the `test_` naming convention
 
 Pytest automatically discovers and runs tests when your test files start with `test_`. It is also typical (but not mandatory) to store test files in a folder called `tests/`. For example:
 

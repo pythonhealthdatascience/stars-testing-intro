@@ -25,6 +25,8 @@ In the example we will:
 
 ::: {.python-content}
 
+<!-- We don't use code/patient_analysis__imports.py as we have some additional imports used for displaying things nicely -->
+
 ```{python}
 import json
 from pathlib import Path
@@ -54,7 +56,7 @@ Our dataset is a small synthetic set of patient-level event times that could com
 Our function `import_patient_data()` reads the data from a CSV file and checks it contains the expected columns, returning a pandas DataFrame.
 
 ```{python}
-#| file: code/import_patient_data.py
+#| file: code/patient_analysis__import_patient_data.py
 ```
 
 :::
@@ -95,7 +97,7 @@ raw_data
 Next, we convert the date and time fields into datetime columns and calculate each patient's waiting time in minutes.
 
 ```{python}
-#| file: code/calculate_wait_times.py
+#| file: code/patient_analysis__calculate_wait_times.py
 ```
 
 :::
@@ -132,7 +134,7 @@ Finally, we define a small utility function that calculates the mean, standard d
 ::: {.python-content}
 
 ```{python}
-#| file: code/summary_stats.py
+#| file: code/patient_analysis__summary_stats.py
 ```
 
 :::

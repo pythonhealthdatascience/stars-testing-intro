@@ -24,25 +24,31 @@ This overlaps with functional testing, but is distinct, because functional tests
 
 We will run back tests using the [dataset we introduced for our waiting times case study](case_study.qmd).
 
+On the test page, we need to import:
+
+```{python}
+#| execute: false
+#| file: code/test_back__imports.py
+```
+
 ## Back test
 
 ```{python}
-def test_reproduction():
-    """Re-running on historical data should produce consistent results."""
-    # Specify path to historical data
-    csv_path = Path(__file__).parent.joinpath("data/patient_data.csv")
-
-    # Run functions
-    df = import_patient_data(csv_path)
-    df = calculate_wait_times(df)
-    stats = summary_stats(df["wait_minutes"])
-
-    # Verify the workflow produces consistent results
-    assert np.isclose(stats["mean"], 4.1666, rtol=0.0001)
-    assert np.isclose(stats["std_dev"], 2.7869, rtol=0.0001)
-    assert np.isclose(stats["ci_lower"], 1.2420, rtol=0.0001)
-    assert np.isclose(stats["ci_upper"], 7.0913, rtol=0.0001)
+#| execute: false
+#| file: code/test_back__test_reproduction.py
 ```
+
+## Running our example test
+
+::: {.callout-note title="Test output"}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_back.py"])
+```
+
+:::
 
 ## When should you update your back tests?
 

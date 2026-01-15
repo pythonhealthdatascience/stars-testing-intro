@@ -18,38 +18,31 @@ When you need to test the same logic with different inputs and expected outputs,
 
 ## Example: Testing `summary_stats()`
 
-::: {.python-content}
+:::: {.python-content}
 
-Let's say we want to verify that our `summary_stats()` function works correctly for different datasets. Instead of writing separate test functions for each case, we can use pytest's `@pytest.mark.parametrize` decorator:
+Let's say we want to verify that our `summary_stats()` function works correctly for different datasets. 
+
+::: {.callout-note title="View `summary_stats()`" collapse="true"}
 
 ```{python}
-#| file: code/summary_stats.py
-#| echo: false
+#| file: code/patient_analysis__summary_stats.py
+#| execute: false
 ```
 
+:::
+
+We will need the following imports in our test script:
+
 ```{python}
-import pandas as pd
-import pytest
+#| file: code/test_intro_parametrised__imports.py
+#| execute: false
+```
 
+Instead of writing separate test functions for each case, we can use pytest's `@pytest.mark.parametrize` decorator:
 
-@pytest.mark.parametrize(
-    "data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper",
-    [
-        # Five value sample with known summary statistics
-        ([1.0, 2.0, 3.0, 4.0, 5.0], 3.0, 1.58, 1.04, 4.96),
-        # No variation: CI collapse to mean
-        ([5, 5, 5], 5, 0, 5, 5),
-    ],
-)
-def test_summary_stats(
-    data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper
-):
-    """Running summary_stats returns expected values."""
-    res = summary_stats(pd.Series(data))
-    assert res["mean"] == pytest.approx(expected_mean, rel=5e-3)
-    assert res["std_dev"] == pytest.approx(expected_std, rel=5e-3)
-    assert res["ci_lower"] == pytest.approx(expected_ci_lower, rel=5e-3)
-    assert res["ci_upper"] == pytest.approx(expected_ci_upper, rel=5e-3)
+```{python}
+#| file: code/test_intro_parametrised__test_summary_stats.py
+#| execute: false
 ```
 
 ## How it works
@@ -75,7 +68,19 @@ The `@pytest.mark.parametrize` decorator takes two arguments:
 
 If any test case fails, pytest will clearly indicate which parameters were used, making debugging straightforward.
 
+## Running our test
+
+::: {.callout-note title="Test output"}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_intro_parametrised.py"])
+```
+
 :::
+
+::::
 
 ::: {.r-content}
 

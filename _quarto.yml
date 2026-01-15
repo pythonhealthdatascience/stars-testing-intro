@@ -1,5 +1,7 @@
 project:
   type: website
+  pre-render:
+    - python tools/extract_snippets.py
 
 website:
   title: "Testing in Research Workflows"

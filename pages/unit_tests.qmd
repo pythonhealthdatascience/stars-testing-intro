@@ -16,24 +16,36 @@ A **unit** test checks one small, isolated unit of code - usually a single funct
 
 ## Example: `import_patient_data()`
 
-Let's use the `import_patient_data()` function from our case study. Its main behaviours are that it:
+Let's use the `import_patient_data()` function from our case study. We will import it to our test script, alongside other required packages.
+
+```{python}
+#| execute: false
+import pandas as pd
+from pathlib import Path
+import pytest
+
+from waitingtimes.patient_analysis import import_patient_data
+```
+
+Its main behaviours are that it:
 
 1. Reads a CSV into a pandas DataFrame.
 2. Requires the columns to match a specific list exactly (names and order).
 3. Raises a `ValueError` if columns are incorrect.
 4. Returns a DataFrame with raw patient-level data.
 
-```{python}
-import pandas as pd
-from pathlib import Path
-import pytest
-```
+::: {.callout-note title="View `import_patient_data()`" collapse="true"}
 
 ```{python}
-#| file: code/import_patient_data.py
+#| execute: false
+#| file: code/patient_analysis__import_patient_data.py
 ```
+
+:::
 
 ## How to write unit tests
+
+<div class="h3-tight"></div>
 
 ### 1. Start from the docstring
 
@@ -65,27 +77,8 @@ If someone edits the code later and accidentally removes that validation, your t
 :::
 
 ```{python}
-def test_import_success(tmp_path):
-    """Small CSV with correct columns should work."""
-
-    expected_cols = [
-        "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
-        "SERVICE_DATE", "SERVICE_TIME",
-    ]
-
-    # Create temporary CSV file
-    df = pd.DataFrame(
-        [["p1", "2024-01-01", "08:00", "2024-01-01", "09:00"]],
-        columns=expected_cols,
-    )
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
-
-    # Run function and check it looks correct
-    result = import_patient_data(csv_path)
-    assert isinstance(result, pd.DataFrame)
-    assert list(result.columns) == expected_cols
-    pd.testing.assert_frame_equal(result, df_in)
+#| execute: false
+#| file: code/test_unit__test_import_success.py
 ```
 
 ### 3. List ways things can go wrong
@@ -101,36 +94,8 @@ For `import_patient_data()`, a `ValueError` should be raised when we have:
 For each case, we can create a small DataFrame which triggers the problem and assert that a `ValueError` is raised.
 
 ```{python}
-@pytest.mark.parametrize(
-    "columns",
-    [
-        # Example 1: Missing columns
-        [
-            "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE"
-        ],
-        # Example 2: Extra columns
-        [
-            "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
-            "SERVICE_DATE", "SERVICE_TIME", "EXTRA",
-        ],
-        # Example 3: Right columns, wrong order
-        [
-            "ARRIVAL_DATE", "PATIENT_ID", "ARRIVAL_TIME",
-            "SERVICE_DATE", "SERVICE_TIME",
-        ],
-    ],
-)
-def test_import_errors(tmp_path, columns):
-    """Incorrect columns should trigger ValueError."""
-
-    # Create temporary CSV file
-    df_in = pd.DataFrame([range(len(columns))], columns=columns)
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
-
-    # Check it raises ValueError
-    with pytest.raises(ValueError):
-        import_patient_data(csv_path)
+#| execute: false
+#| file: code/test_unit__test_import_errors.py
 ```
 
 ### 4. Consider edge cases
@@ -142,23 +107,8 @@ For example, what if the CSV has the correct headers but no data? Should that su
 In this case, you might decide that an empty CSV with correct headers is fine and does not raise an error. You may still choose to write a test though, as that makes this decision explicit so other coders know what "correct" means at the edges.
 
 ```{python}
-def test_import_empty_csv(tmp_path):
-    """Empty CSV with correct columns should succeed."""
-    
-    expected_cols = [
-        "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
-        "SERVICE_DATE", "SERVICE_TIME",
-    ]
-    
-    # Create empty CSV with correct header
-    df_in = pd.DataFrame(columns=expected_cols)
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
-    
-    # Should succeed and return empty DataFrame
-    result = import_patient_data(csv_path)
-    assert len(result) == 0
-    assert list(result.columns) == expected_cols
+#| execute: false
+#| file: code/test_unit__test_import_empty_csv.py
 ```
 
 ### 5. Test all equivalent input forms
@@ -168,28 +118,21 @@ If the function promises to accept multiple equivalent input types, verify they 
 With `import_patient_data()`, we expect a `str` or `Path` object to both succeed and return the same DataFrame.
 
 ```{python}
-def test_import_path_types(tmp_path):
-    """str and Path inputs should behave identically."""
-    # Create temporary CSV file
-    expected_cols = [
-        "PATIENT_ID",
-        "ARRIVAL_DATE", "ARRIVAL_TIME",
-        "SERVICE_DATE", "SERVICE_TIME",
-    ]
-    df_in = pd.DataFrame(
-        [["p1", "2024-01-01", "08:00", "2024-01-01", "09:00"]],
-        columns=expected_cols,
-    )
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
-
-    # Run function with str or Path inputs
-    df_str = import_patient_data(str(csv_path))
-    df_path = import_patient_data(csv_path)
-
-    # Check that results are the same
-    pd.testing.assert_frame_equal(df_str, df_path)
+#| execute: false
+#| file: code/test_unit__test_import_path_types.py
 ```
+
+## Running our example tests
+
+::: {.callout-note title="Test output"}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_unit.py"])
+```
+
+:::
 
 ## When to stop writing tests
 

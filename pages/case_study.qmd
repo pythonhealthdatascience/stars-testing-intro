@@ -72,12 +72,12 @@ We can run this function on our example dataset `patient_data.csv`.
 
 You can download a copy of this data here:
 
-{{< downloadthis data/patient_data.csv dname="patient_data.csv" label="Download the example patient-level data" type="primary" >}}
+{{< downloadthis ../examples/python_package/data/patient_data.csv dname="patient_data.csv" label="Download the example patient-level data" type="primary" >}}
 
 ::: {.python-content}
 
 ```{python}
-raw_data = import_patient_data("data/patient_data.csv")
+raw_data = import_patient_data("../examples/python_package/data/patient_data.csv")
 raw_data
 ```
 

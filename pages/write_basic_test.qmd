@@ -62,9 +62,9 @@ install.packages("testthat")
 
 ## What a testthat test looks like
 
-Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more).
+Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more). If an expectation fails, testthat will return an error message explaining what went wrong.
 
-## Simple test example
+For example:
 
 ```{r}
 library(testthat)
@@ -97,9 +97,22 @@ Here is a minimal example using the `summary_stats` function from the case study
 
 ::::
 
+:::: {.r-content}
+
+::: {.callout-note title="View `summary_stats()`" collapse="true"}
+
+```{r}
+#| file: code/patient_analysis__summary_stats.R
+#| eval: false
+```
+
+:::
+
+::::
+
 For a single value, the function should return that value as the mean and `NaN` for the other statistics, because there is not enough data to define a standard deviation or confidence interval.
 
-:::: {.python-content}
+::: {.python-content}
 
 ```{python}
 #| file: code/test_intro_simple__imports.py
@@ -111,12 +124,13 @@ For a single value, the function should return that value as the mean and `NaN` 
 #| eval: false
 ```
 
-::::
+:::
 
 ::: {.r-content}
 
-TODO.
+```{python}
+#| file: code/test_intro_simple__running_summary_stats_on.R
+#| eval: false
+```
 
 :::
-
-<br>

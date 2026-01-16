@@ -16,7 +16,6 @@ library(lubridate)
 #' @return A data frame containing the raw patient-level data.
 #'
 #' @export
-
 import_patient_data <- function(path) {
   df <- readr::read_csv(path, show_col_types = FALSE)
   
@@ -49,10 +48,9 @@ import_patient_data <- function(path) {
 #'   `arrival_datetime`, `service_datetime`, and `waittime`.
 #'
 #' @export
-
 calculate_wait_times <- function(df) {
   df <- df |>
-    dplur::mutate(
+    dplyr::mutate(
       # Combine date and time columns into datetime columns
       arrival_datetime = lubridate::ymd_hm(
         paste(
@@ -88,7 +86,6 @@ calculate_wait_times <- function(df) {
 #'   `ci_upper`. Each value is a numeric, or `NA` if it can't be computed.
 #'
 #' @export
-
 summary_stats <- function(data) {
   tibble::tibble(value = data) |>
     dplyr::reframe(

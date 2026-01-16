@@ -8,8 +8,6 @@ on:
 
 jobs:
   tests:
-    permissions:
-      contents: write
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

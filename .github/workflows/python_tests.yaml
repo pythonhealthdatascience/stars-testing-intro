@@ -1,5 +1,5 @@
-name: tests
-run-name: Run tests
+name: python_tests
+run-name: Run python tests
 
 on:
   push:

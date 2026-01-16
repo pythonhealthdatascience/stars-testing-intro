@@ -11,3 +11,132 @@ use_condaenv("hdruk_tests", required = TRUE)
 {{< include /assets/language-selector.html >}}
 
 <br>
+
+As mentioned on the page [When and why to run tests?](why_test.qmd), you should run tests regularly **after any code or data changes**, as catching errors earlier makes them easier to fix. This practice of re-running tests is called **regression testing**, and it ensures recent changes haven't introduced errors.
+
+GitHub Actions can be a great tool to support this.
+
+## GitHub Actions
+
+GitHub is widely used for hosting research code and managing version control. We have a [tutorial on setting up a repository](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/version.html) if you are new to GitHUb.
+
+**GitHub Actions** is a built-in automation system that runs workflows directly in your repository. You can access it from the **Actions** tab on your GitHub repository page:
+
+![](/images/github_actions.png)
+
+Workflows are defined using YAML files stored in `.github/workflows/` in your repository. Each workflow can be triggered by one or more events, with common triggers including:
+
+* `push`: run tests on every push to a branch.
+* `push: branches: ["main"]`: run tests on every push to the `main` branch.
+* `pull_request`: run tests when a pull request is opened or updated.
+* `workflow_dispatch`: allows manual runs from the "Actions" tab.
+
+## Workflow to run tests
+
+This workflow will run the tests from our case study via GitHub actions. We explain it step-by-step below.
+
+```{bash}
+#| eval: false
+#| file: ../.github/workflows/python_tests.yaml
+```
+
+### Explaining the workflow
+
+```
+name: python_tests
+run-name: Run python tests
+```
+
+The beginning of the YAML sets the workflow's name and how it appears in the Actions tab.
+
+* `name` is the internal name of the workflow file.
+* `run-name` is what is displayed when a run appears in the Actions history.
+
+```
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+```
+
+Next, we define when the workflow is triggered. Here we have chosen:
+
+* `push`: automatically run on pushes to the `main` branch.
+* `workflow_dispatch`: allows you to trigger the workflow manually from the GitHub actions interface (*note: it only becomes available after first having been pushed to main*).
+
+```
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python-version: '3.11'
+          - os: ubuntu-latest
+            python-version: '3.12'
+          - os: windows-latest
+            python-version: '3.12'
+          - os: macos-latest
+            python-version: '3.12'
+```
+
+Now we start to define the job that runs our tests. We are using matrix testing as this allows us to check our code across multiple operating systems and Python versions. In this case the tests will run on:
+
+* Python 3.11 (Linux)
+* Python 3.12 (Linux, Windows, macOS)
+
+This is good as it allows you to spot any bugs/run issues related to specific operating systems or python versions. They will run in parallel, ensuring a single efficient workflow.
+
+```
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+```
+
+Now we start defining the steps executed within our test job. The first step is typically to check out your repository, so the workflow can access your code.
+
+```
+      - name: Install python and dependencies
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+```
+
+Next we install the version of Python specified in the matrix and enable pip caching to speed up future runs.
+
+```
+      - name: Install requirements (Windows)
+        if: runner.os == 'Windows'
+        run: python -m pip install -r requirements-test.txt
+      
+      - name: Install requirements (Unix)
+        if: runner.os != 'Windows'
+        run: pip install -r requirements-test.txt
+```
+
+Depending on the operating system, the command syntax for installing dependencies differs slightly. We use `requirements-test.txt` instead of `environment.yaml` as we want to use different Python versions. To reduce runtime, our requirements file only contains packages needed for running tests (e.g., excludes our linting packages).
+
+::: {.callout-note title="See `requirements-test.txt`" collapse="true"}
+
+```{bash}
+#| eval: false
+#| file: ../requirements-test.txt
+```
+
+:::
+
+```
+      - name: Run tests
+        run: pytest examples/python_package
+```
+
+Finally, we run the tests! We call `pytest` on our case study (`examples/python_package/`). If all tests pass, you'll see green ticks for each environment - confirming that your code works consistently across Python versions and operating systems.
+
+### See GitHub actions, in action!
+
+The video below demonstrates this workflow running in GitHub Actions. For the demo, the workflow is triggered manually using `workflow_dispatch`, but it would also run automatically whenever you push changes to `main`.
+
+TODO.

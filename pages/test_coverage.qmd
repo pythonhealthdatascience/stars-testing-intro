@@ -12,4 +12,64 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 <br>
 
-<!-- Test coverage - what it means, how to generate, use, etc. -->
+**Coverage** refers to the percentage of your code that is executed when you run your tests. It can help you spot parts of your code that are not included in any tests.
+
+## `pytest-cov`
+
+The [pytest-cov](https://github.com/pytest-dev/pytest-cov) package can be used to run coverage calculations easily alongside `pytest`. You can install it from PyPI or conda:
+
+```{.bash}
+pip install pytest-cov
+```
+
+```{.bash}
+conda install pytest-cov
+```
+
+To calculate coverage, you can then simply run tests with the `--cov` flag:
+
+```{.bash}
+pytest --cov
+```
+
+## Running `pytest --cov` on our example
+
+::: {.callout-note title="Test output"}
+
+```{python}
+#| echo: false
+import pytest
+
+pytest.main([
+    "../examples/python_package/",
+    "--cov=waitingtimes"
+])
+```
+
+:::
+
+The coverage results are under the banner:
+
+```
+================================ tests coverage ================================
+```
+
+You can see we get nearly 100% coverage. But what does this actually mean?
+
+## Interpreting coverage
+
+Coverage is telling you whether code was **executed** during testing - but not necessarily whether it has been tested well. A function could run as part of another test without its results or behaviour being properly checked by assertions.
+
+::: {.box-grey}
+
+**Coverage tells you what code ran, not whether it worked correctly**.
+
+:::
+
+It's mostly useful for finding code that **isn't covered by tests at all**. Having parts of your code with no/low coverage means:
+
+* They're not imported or run by any tests.
+* They're only used in rare branches or failure conditions.
+* They were added recently but have not yet been incorporated into tests.
+
+Rather than try to achieve 100% coverage, you should aim to meaningfully test all your code: every important path, decision and behaviour should be tested at least once.

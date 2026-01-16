@@ -8,3 +8,4 @@ __pycache__/
 .Rhistory
 site_libs/
 **_files/
+.coverage

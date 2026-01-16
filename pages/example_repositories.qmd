@@ -2,4 +2,105 @@
 title: "Example repositories"
 ---
 
-<!-- Examples of good repositories with testing examples from different disciplines (to help with that barrier of "but what would I even test in my context?") - potentially more like a "further information" section of stuff to check out rather than going into detail. -->
+```{=html}
+<!-- Linking FontAwesome for fa-github and fa-orcid icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+```
+
+This page signposts a handful of healthcare projects that include automated tests across different focuses, data types, and analysis techniques.
+
+They are provided to give you inspiration and ideas for what you might want to test in your research projects.
+
+## Python examples
+
+::: {.box-grey}
+
+<a href="https://github.com/pythonhealthdatascience/pydesrap_mms" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> pydesrap_mms
+</a>
+<a href="https://github.com/pythonhealthdatascience/pydesrap_stroke" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> pydesrap_stroke
+</a>
+
+**Analysis:** SimPy discrete-event simulation models (nurse visit simulation and stroke capacity planning).
+
+**Tests:** `pytest`
+
+**Authors:** Amy Heather and Tom Monks
+
+:::
+
+::: {.box-grey}
+
+<a href="https://github.com/The-Strategy-Unit/nhp_model" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> nhp_model
+</a>
+
+**Analysis:** Demand model for the New Hospital Programme (NHP).
+
+**Tests:** `pytest`
+
+**Authors:** The Strategy Unit
+
+:::
+
+## R examples
+
+::: {.box-grey}
+
+<a href="https://github.com/pythonhealthdatascience/rdesrap_mms" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> rdesrap_mms
+</a>
+<a href="https://github.com/pythonhealthdatascience/rdesrap_stroke" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> rdesrap_stroke
+</a>
+
+**Analysis:** Simmer discrete-event simulation models (nurse visit simulation and stroke capacity planning).
+
+**Tests:** `testthat`
+
+**Authors:** Amy Heather and Tom Monks
+
+:::
+
+::: {.box-grey}
+
+<a href="https://github.com/The-Strategy-Unit/experiencesdashboard" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> experiencesdashboard
+</a>
+
+**Analysis:** Shiny dashboard visualising and analysing patient experience data from the NHS England Friends and Family Test.
+
+**Tests:** `testthat`
+
+**Authors:** The Strategy Unit
+
+:::
+
+::: {.box-grey}
+
+<a href="https://github.com/nhs-r-community/NHSRwaitinglist" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> NHSRwaitinglist
+</a>
+
+**Analysis:** Implements the waiting list management approach described in [Fong et al](https://www.medrxiv.org/content/10.1101/2022.08.23.22279117v1.full-text).
+
+**Tests:** `testthat`
+
+**Authors:** Methodology presented by Neil Walton, and package contributed to by members of the NHS-R Community.
+
+:::
+
+::: {.box-grey}
+
+<a href="https://github.com/bennettoxford/opencodecounts" class="message-button" target="_blank">
+    <i class="fa-brands fa-github"></i> opencodecounts
+</a>
+
+**Analysis:** Yearly summaries of clinical code usage in England.
+
+**Tests:** `testthat`
+
+**Authors:** Arina Anna Tamborska, Rose Higgins, Yamina Boukari, Viveck Kingsley, Lola Ojedele, Kunle Oreagba, Jon Massey, Andrea Schaffer, Amelia Green, William Hulme, Brian MacKenna, Helen J Curtis, Louis Fisher, Milan Wiedemann.
+
+:::

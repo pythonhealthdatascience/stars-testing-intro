@@ -3,3 +3,5 @@ flake8 . --exclude pages/code
 
 lintquarto -l pylint -p .
 lintquarto -l flake8 -p .
+
+lintr .

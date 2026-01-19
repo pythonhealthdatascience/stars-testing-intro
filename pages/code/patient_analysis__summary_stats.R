@@ -16,12 +16,24 @@ summary_stats <- function(data) {
       n_complete = sum(!is.na(value)),
       mean = mean(value, na.rm = TRUE),
       std_dev = stats::sd(value, na.rm = TRUE),
-      ci_lower = (
-        if (n_complete >= 2L) stats::t.test(value)$conf.int[1L] else NA_real_
-      ),
-      ci_upper = (
-        if (n_complete >= 2L) stats::t.test(value)$conf.int[2L] else NA_real_
-      )
+      ci_lower   = {
+        if (n_complete < 2L) {
+          NA_real_
+        } else if (std_dev == 0 || is.na(std_dev)) {
+          mean       # CI collapses to mean when no variation
+        } else {
+          stats::t.test(value)$conf.int[1L]
+        }
+      },
+      ci_upper   = {
+        if (n_complete < 2L) {
+          NA_real_
+        } else if (std_dev == 0 || is.na(std_dev)) {
+          mean       # CI collapses to mean when no variation
+        } else {
+          stats::t.test(value)$conf.int[2L]
+        }
+      }
     ) |>
     dplyr::select(-n_complete) |>
     as.list()

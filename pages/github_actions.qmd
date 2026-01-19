@@ -35,6 +35,8 @@ Workflows are defined using YAML files stored in `.github/workflows/` in your re
 
 This workflow will run the tests from our case study via GitHub actions. We explain it step-by-step below.
 
+:::: {.python-content}
+
 ```{bash}
 #| eval: false
 #| file: ../.github/workflows/python_tests.yaml
@@ -135,9 +137,113 @@ Depending on the operating system, the command syntax for installing dependencie
 
 Finally, we run the tests! We call `pytest` on our case study (`examples/python_package/`). If all tests pass, you'll see green ticks for each environment - confirming that your code works consistently across Python versions and operating systems.
 
-### See GitHub actions, in action!
+::::
+
+:::: {.r-content}
+
+There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an renv, and so on.
+
+If your work is structured as a package, you can call:
+
+```{.r}
+usethis::use_github_action()
+```
+
+It will prompt you to choose which action you would like:
+
+```
+> usethis::use_github_action()
+Which action do you want to add? (0 to exit)
+(See <https://github.com/r-lib/actions/tree/v2/examples> for other options) 
+
+1: check-standard: Run `R CMD check` on Linux, macOS, and Windows
+2: test-coverage: Compute test coverage and report to https://about.codecov.io
+
+Selection: 
+```
+
+However, for this tutorial, we will show an example where dependencies are restored from an renv and the tests are run via `devtools::test()`, running on ubuntu and specific version of R.
+
+However, you can do multiple operating systems! (Just see Python tutorial for how!)
+
+```{bash}
+#| eval: false
+#| file: ../.github/workflows/r_tests.yaml
+```
+
+### Explaining the workflow
+
+```
+name: r_tests
+run-name: Run R tests
+```
+
+The beginning of the YAML sets the workflow's name and how it appears in the Actions tab.
+
+* `name` is the internal name of the workflow file.
+* `run-name` is what is displayed when a run appears in the Actions history.
+
+```
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+```
+
+Next, we define when the workflow is triggered. Here we have chosen:
+
+* `push`: automatically run on pushes to the `main` branch.
+* `workflow_dispatch`: allows you to trigger the workflow manually from the GitHub actions interface (*note: it only becomes available after first having been pushed to main*).
+
+```
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    env:
+      RENV_CONFIG_PAK_ENABLED: true
+```
+
+Now we define the `tests` job. We specify an operating system (`ubuntu-latest`) and set `RENV_CONFIG_PAK_ENABLED` to true as it allows renv to use pak for faster, more reliable dependency installation where possible.
+
+```
+    steps:
+      - uses: actions/checkout@v4
+```
+
+The first step checks out the repository so the workflow has access to the code.
+
+```
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+          r-version: 4.4.1
+
+      - name: Restore renv from root
+        run: |
+          Rscript -e 'renv::restore(project = ".")'
+```
+
+This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific renv then restored - but you could also run on latest versions.
+
+```
+      - name: Run testthat tests
+        run: |
+          Rscript -e 'renv::activate()'
+          Rscript -e 'devtools::load_all("examples/r_package")'
+          Rscript -e 'testthat::test_dir("examples/r_package/tests/testthat")'
+```
+
+Finally, the R tests are run. In this example, the research is structured as a package and in a subdirectory `examples/r_package`, so we load that with `devtools` before running the tests.
+
+:::
+
+## See GitHub actions, in action!
 
 The video below demonstrates this workflow running in GitHub Actions. For the demo, the workflow is triggered manually using `workflow_dispatch`, but it would also run automatically whenever you push changes to `main`. In the video you'll see we:
+
+::: {.python-content}
 
 * Open the [GitHub repository](https://github.com/pythonhealthdatascience/hdruk_tests).
 * Go to the [Actions](https://github.com/pythonhealthdatascience/hdruk_tests/actions) tab.
@@ -151,3 +257,11 @@ The video below demonstrates this workflow running in GitHub Actions. For the de
 The tests all pass in the end-
 
 ![](/images/run_tests_python_githubactions.png)
+
+:::
+
+::: {.r-content}
+
+TODO
+
+:::

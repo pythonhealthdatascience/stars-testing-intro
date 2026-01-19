@@ -3,6 +3,7 @@ run-name: Run R tests
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -27,4 +28,6 @@ jobs:
 
       - name: Run testthat tests
         run: |
-          Rscript -e 'renv::activate(); devtools::load_all("examples/r_package"); testthat::test_dir("examples/r_package/tests/testthat")'
+          Rscript -e 'renv::activate()'
+          Rscript -e 'devtools::load_all("examples/r_package")'
+          Rscript -e 'testthat::test_dir("examples/r_package/tests/testthat")'

@@ -21,10 +21,12 @@ use_condaenv("hdruk_tests", required = TRUE)
 We will return to our [waiting times case study](case_study.qmd) which involved three functions:
 
 * `import_patient_data()` - imports raw patient data and checks that the required columns are present.
-* `calculate_wait_times` - adds arrival and service datetimes, and waiting time in minutes.
-* `summary_stats` - calculates mean, standard deviation and 95% confidence interval.
+* `calculate_wait_times()` - adds arrival and service datetimes, and waiting time in minutes.
+* `summary_stats()` - calculates mean, standard deviation and 95% confidence interval.
 
 Unlike unit tests, which check each function in isolation, functional tests run all three steps together and verify the end-to-end workflow produces correct results.
+
+::: {.python-content}
 
 We will need the follow imports in our test script:
 
@@ -33,7 +35,11 @@ We will need the follow imports in our test script:
 #| file: code/test_functional__imports.py
 ```
 
+:::
+
 ## How to write functional tests
+
+<div class="h3-tight"></div>
 
 ### 1. Identify the feature or workflow to test
 
@@ -56,29 +62,73 @@ Think about realistic scenarios that cover:
 
 This test confirms the workflow succeeds with standard inputs and produces correct summary statistics.
 
+::: {.python-content}
+
 ```{python}
 #| file: code/test_functional__test_workflow_success.py
+#| eval: false
 ```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| file: code/test_functional__complete_workflow_should.R
+#| eval: false
+```
+
+:::
 
 #### Variation: data with different distributions
 
 This test confirms the workflow handles realistic variation in wait times.
 
+::: {.python-content}
+
 ```{python}
 #| file: code/test_functional__test_workflow_with_variation.py
+#| eval: false
 ```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| file: code/test_functional__workflow_should_correctly.R
+#| eval: false
+```
+
+:::
 
 #### Error case: invalid input data
 
 This test confirms the workflow fails appropriately when given invalid data.
 
+::: {.python-content}
+
 ```{python}
 #| file: code/test_functional__test_missing_date_error.py
+#| eval: false
 ```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| file: code/test_functional__workflow_should_raise.R
+#| eval: false
+```
+
+:::
 
 ## Running our example tests
 
-::: {.callout-note title="Test output"}
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
 
 ```{python}
 #| echo: false
@@ -87,6 +137,25 @@ pytest.main(["../examples/python_package/tests/test_functional.py"])
 ```
 
 :::
+
+::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_functional.R"
+)
+```
+
+:::
+
+::::
 
 ## When to stop writing tests
 

@@ -1,6 +1,9 @@
 Title: hdruk_tests
 Imports:
+    covr
+    devtools
     knitr
+    patrick
     reticulate
     rmarkdown
     testthat

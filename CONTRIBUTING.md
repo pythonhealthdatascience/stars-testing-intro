@@ -4,11 +4,21 @@ This file is for contributors. It describes how the `hdruk_tests` site is set-up
 
 ## Example code
 
-The example code is contained in `examples/python_package/`.
+The example code is contained in `examples`.
 
-We want to be able to show individual functions without imports in the quarto website, so we have a script `tools/extract_snippets.py` which extracts each function without imports into individual `.py` files within `pages/code/`.
+We want to be able to show individual functions without imports in the quarto website, so we have a script `tools/extract_snippets.py` which extracts each function without imports into individual `.py` files within `pages/code/`. This is run each time the site is built via Quarto's `pre-render` hook.
 
-This is run each time the site is built via Quarto's `pre-render` hook.
+Example commands for the python package:
+
+* `pip install -e examples/python_package`
+* `pytest examples/python_package`
+
+Example commands for the R package (having first opened R console by running `R` - escaped with `quit()`):
+
+* `devtools::document("examples/r_package")`
+* `devtools::check("examples/r_package")`
+* `withr::with_dir("examples/r_package", {usethis::use_mit_license()})`
+* ` devtools::test("examples/r_package")`
 
 ## Rendering the quarto site
 

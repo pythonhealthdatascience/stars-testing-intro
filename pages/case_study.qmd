@@ -43,6 +43,8 @@ pd.set_option("display.max_columns", 8)
 ::: {.r-content}
 
 ```{r}
+#| file: code/patient_analysis__imports.R
+#| output: false
 ```
 
 :::
@@ -64,6 +66,7 @@ Our function `import_patient_data()` reads the data from a CSV file and checks i
 ::: {.r-content}
 
 ```{r}
+#| file: code/patient_analysis__import_patient_data.R
 ```
 
 :::
@@ -88,6 +91,10 @@ raw_data
 ::: {.r-content}
 
 ```{r}
+raw_data <- import_patient_data(
+  file.path("..", "examples", "r_package", "inst", "extdata", "patient_data.csv")
+)
+raw_data
 ```
 
 :::
@@ -107,6 +114,7 @@ Next, we convert the date and time fields into datetime columns and calculate ea
 ::: {.r-content}
 
 ```{r}
+#| file: code/patient_analysis__calculate_wait_times.R
 ```
 
 :::
@@ -125,6 +133,8 @@ processed_data
 ::: {.r-content}
 
 ```{r}
+processed_data <- calculate_wait_times(raw_data)
+processed_data
 ```
 
 :::
@@ -144,6 +154,7 @@ Finally, we define a small utility function that calculates the mean, standard d
 ::: {.r-content}
 
 ```{r}
+#| file: code/patient_analysis__summary_stats.R
 ```
 
 :::
@@ -165,6 +176,8 @@ print(formatted_results)
 ::: {.r-content}
 
 ```{r}
+results <- summary_stats(processed_data[["waittime"]])
+results
 ```
 
 :::

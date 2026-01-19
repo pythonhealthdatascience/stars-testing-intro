@@ -18,11 +18,11 @@ When you need to test the same logic with different inputs and expected outputs,
 
 ## Example: Testing `summary_stats()`
 
-:::: {.python-content}
-
 Let's say we want to verify that our `summary_stats()` function works correctly for different datasets. 
 
-::: {.callout-note title="View `summary_stats()`" collapse="true"}
+:::: {.callout-note title="View `summary_stats()`" collapse="true"}
+
+::: {.python-content}
 
 ```{python}
 #| file: code/patient_analysis__summary_stats.py
@@ -30,6 +30,19 @@ Let's say we want to verify that our `summary_stats()` function works correctly 
 ```
 
 :::
+
+::: {.r-content}
+
+```{r}
+#| file: code/patient_analysis__summary_stats.R
+#| eval: false
+```
+
+:::
+
+::::
+
+::: {.python-content}
 
 We will need the following imports in our test script:
 
@@ -68,9 +81,49 @@ The `@pytest.mark.parametrize` decorator takes two arguments:
 
 If any test case fails, pytest will clearly indicate which parameters were used, making debugging straightforward.
 
+:::
+
+::: {.r-content}
+
+<br>
+
+Instead of `test_that()`, we will use the function `with_parameters_test_that()` from Google's `patrick` package. This lets us write our test code once, then provide a list of input/output combinations (the "cases") that are run through the same test code.
+
+The general pattern is:
+
+```{.r}
+patrick::with_parameters_test_that(
+  "Description of test",
+  {
+    # Test code using the parameters e.g., expect_...
+  },
+  patrick::cases(
+    list(input1 = 5L, input2 = 10L, output = 500L),
+    list(input1 = 6L, input2 = 11L, output = 600L)
+  )
+)
+```
+
+Each `list()` inside `cases()` defines one test case, with named elements matching the arguments used inside the code block.
+
+<br>
+
+For `summary_stats`, we can write our test as:
+
+```{r}
+#| file: code/test_intro_parametrised__summary_stats_returns_expected.R
+#| eval: false
+```
+
+When this test runs, `with_parameters_test_that()` executes the code block once for each case, substituting in the corresponding data and expected values.
+
+:::
+
 ## Running our test
 
-::: {.callout-note title="Test output"}
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
 
 ```{python}
 #| echo: false
@@ -80,10 +133,21 @@ pytest.main(["../examples/python_package/tests/test_intro_parametrised.py"])
 
 :::
 
-::::
-
 ::: {.r-content}
 
-TODO.
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_intro_parametrised.R"
+)
+```
 
 :::
+
+::::

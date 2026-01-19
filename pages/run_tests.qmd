@@ -8,7 +8,7 @@ title: "How to run tests"
 
 ::: {.python-content}
 
-The standard and recommended way to run tests in Python is from the terminal using pytest.
+The standard and recommended way to run tests in Python is from the **terminal** using pytest.
 
 ## Required structure for running tests from the command line
 
@@ -58,7 +58,17 @@ pytest tests/test_filename.py
 pytest tests/test_filename.py::test_function_name
 ```
 
+:::
+
+::: {.r-content}
+
+The standard and recommended way to run tests in R is from the **R console**, running them either via `devtools` or directly with `testthat`.
+
+:::
+
 ## Example: package structure
+
+::: {.python-content}
 
 When your code is structured as a package, your project might look like:
 
@@ -88,11 +98,68 @@ The video below demonstrates running tests on a package structured this way. In 
 
 {{< video /videos/run_tests_python_package.webm >}}
 
+:::
+
+::: {.r-content}
+
+In an R package, tests will be automatically discovered and run if they follow the conventions of being:
+
+1. Stored within `tests/testthat/`.
+2. In R files starting with `test_` or `test-`.
+
+For example, your project might look like:
+
+```
+project/
+├── inst/
+│   └── extdata/
+│       └── patient_data.csv
+├── man/
+│   └── ...
+├── R/
+│   └── patient_analysis.R
+├── tests/
+│   └── testthat/
+│       ├── test_intro_simple.R
+│       └── ...
+├── .Rbuildignore
+├── DESCRIPTION
+├── LICENSE
+├── LICENSE.md
+├── NAMESPACE
+└── README.md
+```
+
+You can either run the tests with `devtools` or `testthat` - common commands include:
+
+```{.r}
+# Run all tests in the package
+devtools::test()
+
+# Run all tests in the named file
+testthat::test_file("tests/testthat/test-patient_analysis.R")
+
+# Run all tests in that directory
+testthat::test_dir("tests/testthat")
+```
+
+In the video below, we have an example of a research project structured as an our R project.
+
+* We highlight that the renv is active (`Project '~/Documents/stars/hdruk_tests' loaded. [renv 1.1.5]`).
+* We show the test file we will be running (`test_intro_simple.R`).
+* We run `devtools::test()` and can see that all tests pass.
+
+{{< video /videos/run_tests_r_package.webm >}}
+
+:::
+
 If you're unfamiliar with how to set up a package, check out [our tutorial on packaging your research project](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/package.html).
 
 ## Example: Non-package structure
 
-You don't need a full package to use pytest. When you code exists in `.py` files but isn't packaged, you can still run tests from the terminal. Your project might, for example, look like:
+::: {.python-content}
+
+You don't need a full package to use pytest. When your code exists in `.py` files but isn't packaged, you can still run tests from the terminal. Your project might, for example, look like:
 
 ```
 project/
@@ -110,7 +177,34 @@ In the video below, we:
 
 {{< video /videos/run_tests_python_pyfiles.webm >}}
 
+:::
+
+::: {.r-content}
+
+You don't need a full package to use testthat. When your code exists in `.R` files but isn't packaged, you can still run tests from the R console. You project might, for example, look like:
+
+```
+project/
+├── patient_analysis.R
+└── test_intro_simple.R
+```
+
+As your test follows of the convention of starting `test_`, it can still be detected by `testthat` and run by `testthat:test_dir()` or `testthat::test_file()`.
+
+> Note: You cannot use `devtools::test()` with this approach.
+
+In the video below, we:
+
+* Open the `test_intro_simple.R` file, showing how it imports the local function.
+* Run `testthat::test_dir(".")`, which finds and runs our test.
+
+{{< video /videos/run_tests_r_rfiles.webm >}}
+
+:::
+
 ## Alternative options
+
+::: {.python-content}
 
 While running tests from the command line is the recommended approach, there are alternative tools for specific use cases.
 
@@ -147,80 +241,37 @@ def test_add():
     assert add(2, 3) == 5
 ```
 
-### Why command line testing is better
-
-Running tests from the terminal with code organised in `.py` files and a modular structure is the preferred approach because:
-
-* **Test code is separate from analysis code**, making both easier to understand and maintain.
-
-* Tests can be run **automatically in continuous integration (CI)** pipelines, before commits, or on schedule.
-
-* As your project grows, you can **easily add more** test files and organise them logically without cluttering notebooks or scripts.
-
-
 :::
 
 ::: {.r-content}
 
-TODO.
+While running tests from the R console is the recommended approach, it is also possible to put tests directly in the same `.R` file as your code and just run the script.
 
-<!-- ROUGH NOTES
+For example:
 
-Tests are stored in `tests/testthat/` in files starting with `test_`. These are automatically discovered and run by testthat. For example:
+```{r}
+# add.R
 
-```
-research_project/
-├── DESCRIPTION
-├── NAMESPACE
-├── README.md
-├── R/
-│   ├── analysis.R
-│   └── utils.R
-└── tests/
-    └── testthat/
-        ├── test-analysis.R
-        └── test-utils.R
-```
-
-Tests are typically run from the R console using the following commands...
-
-```{.r}
-# Run all tests in a package
-devtools::test()
-
-# Run all tests in the current directory and subdirectories
-testthat::test_dir()
-
-# Run tests from a specific file
-testthat:test_file("tests/testthat/test-filename.R")
-```
-
-When tests run, you'll see console output indicating the number of tests passed, failed, or skipped, with details about any failures.
-
-```
-project/
-├── my_code.R
-└── tests/
-    └── testthat/
-        ├── test_my_code.R
-```
-
-just write and run them direct in script.
-
-```{.r}
-# Function
 add <- function(a, b) {
   a + b
 }
 
-# Inline test
 library(testthat)
+
 test_that("add works correctly", {
   expect_equal(add(2, 3), 5)
   expect_equal(add(-1, 1), 0)
 })
 ```
 
--->
-
 :::
+
+### Why command line testing is better
+
+Running tests from the terminal with code organised into separate files  is the preferred approach because:
+
+* **Test code is separate from analysis code**, making both easier to understand and maintain.
+
+* Tests can be run **automatically in continuous integration (CI)** pipelines, before commits, or on schedule.
+
+* As your project grows, you can **easily add more** test files and organise them logically without cluttering notebooks or scripts.

@@ -1,0 +1,20 @@
+Package: waitingtimes
+Title: waitingtimes
+Version: 0.0.0.9000
+Authors@R: 
+    person("Amy", "Heather", , "a.heather2@exeter.ac.uk", role = c("aut", "cre"))
+Description: Writing tests for a simple waiting times analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    devtools,
+    dplyr,
+    lubridate,
+    readr,
+    roxygen2,
+    usethis
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

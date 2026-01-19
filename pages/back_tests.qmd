@@ -24,6 +24,8 @@ This overlaps with functional testing, but is distinct, because functional tests
 
 We will run back tests using the [dataset we introduced for our waiting times case study](case_study.qmd).
 
+::: {.python-content}
+
 On the test page, we need to import:
 
 ```{python}
@@ -31,16 +33,33 @@ On the test page, we need to import:
 #| file: code/test_back__imports.py
 ```
 
+:::
+
 ## Back test
+
+::: {.python-content}
 
 ```{python}
 #| eval: false
 #| file: code/test_back__test_reproduction.py
 ```
 
+:::
+
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/test_back__re_running_on_historical.R
+```
+
+:::
+
 ## Running our example test
 
-::: {.callout-note title="Test output"}
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
 
 ```{python}
 #| echo: false
@@ -49,6 +68,25 @@ pytest.main(["../examples/python_package/tests/test_back.py"])
 ```
 
 :::
+
+::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_back.R"
+)
+```
+
+:::
+
+::::
 
 ## When should you update your back tests?
 

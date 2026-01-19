@@ -14,6 +14,8 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 **Coverage** refers to the percentage of your code that is executed when you run your tests. It can help you spot parts of your code that are not included in any tests.
 
+:::: {.python-content}
+
 ## `pytest-cov`
 
 The [pytest-cov](https://github.com/pytest-dev/pytest-cov) package can be used to run coverage calculations easily alongside `pytest`. You can install it from PyPI or conda:
@@ -55,6 +57,42 @@ The coverage results are under the banner:
 ```
 
 You can see we get nearly 100% coverage. But what does this actually mean?
+
+::::
+
+::: {.r-content}
+
+## Tools for calculating test coverage in R
+
+If your research is structured as a package, then you can use `devtools` to calculate coverage:
+
+```{.r}
+devtools::test_coverage()
+```
+
+If not structured as a package, you can use [covr](https://github.com/r-lib/covr)'s `file_coverage()` function - for example:
+
+```{.r}
+covr::file_coverage(
+  source_files = c("patient_analysis.R"),
+  test_files = c("test_unit.R", "test_functional.R", "test_back.R")
+)
+```
+
+## Calculating coverage for our example
+
+```{r}
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+devtools::test_coverage("../examples/r_package")
+```
+
+You can see we get 100% coverage. But what does this actually mean?
+
+:::
 
 ## Interpreting coverage
 

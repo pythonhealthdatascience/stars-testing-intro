@@ -34,6 +34,7 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: examples/r_package
+          use-renv: false
           extra-packages: devtools
           cache-version: 1
 

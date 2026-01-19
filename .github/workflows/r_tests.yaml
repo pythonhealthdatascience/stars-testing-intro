@@ -35,6 +35,7 @@ jobs:
         with:
           working-directory: examples/r_package
           use-renv: false
+          use-pak: false
           extra-packages: devtools
           cache-version: 1
 

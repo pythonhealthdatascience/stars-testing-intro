@@ -16,6 +16,18 @@ RUN apt-get update && \
     locale-gen en_GB.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
 
+    # System libraries needed for ragg and other graphics packages
+RUN apt-get update && \
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    libwebpmux3 \
+    libwebp-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libtiff5-dev \
+    libfreetype6-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV LANG=en_GB.UTF-8
 ENV LC_ALL=en_GB.UTF-8
 

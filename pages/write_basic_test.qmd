@@ -60,6 +60,12 @@ You should install the `testthat` package into your environment from CRAN.
 install.packages("testthat")
 ```
 
+If you are structuring your research as a package, we suggest also installing `usethis` and running:
+
+```{.r}
+usethis::use_testthat()
+```
+
 ## What a testthat test looks like
 
 Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more). If an expectation fails, testthat will return an error message explaining what went wrong.

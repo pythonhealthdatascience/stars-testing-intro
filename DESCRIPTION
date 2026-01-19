@@ -1,5 +1,6 @@
 Title: hdruk_tests
 Imports:
+    devtools
     knitr
     patrick
     reticulate

@@ -16,7 +16,7 @@ FILES = [
     SRC_DIR / "R" / "patient_analysis.R",
     SRC_DIR / "tests" / "testthat" / "test_intro_simple.R",
     SRC_DIR / "tests" / "testthat" / "test_intro_parametrised.R",
-    # SRC_DIR / "tests" / "testthat" / "test_functional.R",
+    SRC_DIR / "tests" / "testthat" / "test_functional.R",
     SRC_DIR / "tests" / "testthat" / "test_unit.R",
     # SRC_DIR / "tests" / "testthat" / "test_back.R"
 ]

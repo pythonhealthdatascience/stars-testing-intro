@@ -51,7 +51,6 @@ import_patient_data <- function(path) {
 calculate_wait_times <- function(df) {
   df <- df |>
     dplyr::mutate(
-      # Combine date and time columns into datetime columns
       arrival_datetime = lubridate::ymd_hm(
         paste(
           as.character(ARRIVAL_DATE),
@@ -63,14 +62,24 @@ calculate_wait_times <- function(df) {
           as.character(SERVICE_DATE),
           sprintf("%04d", as.integer(SERVICE_TIME))
         )
-      ),
-      # Waiting time in minutes
+      )
+    )
+
+  if (any(is.na(df$arrival_datetime) | is.na(df$service_datetime))) {
+    stop(
+      "Failed to parse arrival or service datetimes; ",
+      "check for missing or invalid dates/times."
+    )
+  }
+
+  df <- df |>
+    dplyr::mutate(
       waittime = as.numeric(
         difftime(service_datetime, arrival_datetime, units = "mins")
       )
     )
-  
-  return(df)
+
+  df
 }
 
 

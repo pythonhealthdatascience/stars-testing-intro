@@ -18,6 +18,7 @@ Example commands for the R package (having first opened R console by running `R`
 * `devtools::document("examples/r_package")`
 * `devtools::check("examples/r_package")`
 * `withr::with_dir("examples/r_package", {usethis::use_mit_license()})`
+* ` devtools::test("examples/r_package")`
 
 ## Rendering the quarto site
 

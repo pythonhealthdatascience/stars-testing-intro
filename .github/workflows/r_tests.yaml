@@ -27,4 +27,4 @@ jobs:
       - name: Run testthat tests
         working-directory: examples/r_package
         run: |
-          Rscript -e 'devtools::load_all(); testthat::test_dir("tests/testthat")'
+          Rscript -e 'renv::activate(project = ".."); devtools::load_all(); testthat::test_dir("tests/testthat")'

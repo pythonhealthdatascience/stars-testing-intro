@@ -3,7 +3,7 @@
 #' Raises an error if the CSV file does not contain exactly the expected 
 #' columns in the expected order.
 #'
-#' @param path Character string or path to the CSV file containing the 
+#' @param path Character string giving path to the CSV file containing the 
 #'   patient data.
 #'
 #' @return A data frame containing the raw patient-level data.

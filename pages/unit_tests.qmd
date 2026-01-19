@@ -16,6 +16,8 @@ A **unit** test checks one small, isolated unit of code - usually a single funct
 
 ## Example: `import_patient_data()`
 
+::: {.python-content}
+
 Let's use the `import_patient_data()` function from our case study. We will import it to our test script, alongside other required packages.
 
 ```{python}
@@ -30,7 +32,24 @@ Its main behaviours are that it:
 3. Raises a `ValueError` if columns are incorrect.
 4. Returns a DataFrame with raw patient-level data.
 
-::: {.callout-note title="View `import_patient_data()`" collapse="true"}
+:::
+
+::: {.r-content}
+
+Let's use the `import_patient_data()` function from our case study.
+
+Its main behaviours are that it:
+
+1. Reads a CSV into a dataframe.
+2. Requires the columns to match a specific list exactly (names and order).
+3. Stops if columns are incorrect.
+4. Returns a dataframe with raw patient-level data.
+
+:::
+
+:::: {.callout-note title="View `import_patient_data()`" collapse="true"}
+
+::: {.python-content}
 
 ```{python}
 #| eval: false
@@ -39,19 +58,41 @@ Its main behaviours are that it:
 
 :::
 
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/patient_analysis__import_patient_data.R
+```
+
+:::
+
+::::
+
 ## How to write unit tests
 
 <div class="h3-tight"></div>
 
 ### 1. Start from the docstring
 
-Always write docstrings for your functions and classes (see [our docstring tutorial](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/style_docs/docstrings.html) if you need guidance).
+Always write docstrings for your code (see [our docstring tutorial](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/style_docs/docstrings.html) if you need guidance).
 
 Your docstring makes **promises** about how the function should behave. For `import_patient_data()`, the docstring promises it will:
 
-* Accept `str` or `Path` as the `path` parameter
-* Return a pandas DataFrame
-* Raise `ValueError` if columns are incorrect
+::: {.python-content}
+
+* Accept `str` or `Path` as the `path` parameter.
+* Return a pandas DataFrame.
+* Raise `ValueError` if columns are incorrect.
+
+:::
+
+::: {.r-content}
+
+* Return a dataframe.
+* Stop if columns are incorrect.
+
+:::
 
 Each of these becomes something you can check with a test.
 
@@ -61,8 +102,19 @@ Pick the simplest input that should work.
 
 In our case, we can create a small CSV with correct columns in the right order and one or two data rows. We can then write tests that confirm:
 
+::: {.python-content}
+
 * The result is a pandas DataFrame.
 * The columns match exactly: `list(df.columns) == expected_list`
+
+:::
+
+::: {.r-content}
+
+* The result is a dataframe.
+* The columns match exactly.
+
+:::
 
 ::: {.callout-note title="Why test columns if the function already checks them?"}
 
@@ -72,14 +124,29 @@ If someone edits the code later and accidentally removes that validation, your t
 
 :::
 
+::: {.python-content}
+
 ```{python}
 #| eval: false
 #| file: code/test_unit__test_import_success.py
 ```
 
+:::
+
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/test_unit__small_CSV_with.R
+```
+
+:::
+
 ### 3. List ways things can go wrong
 
 Now think: how can inputs break the promises?
+
+::: {.python-content}
 
 For `import_patient_data()`, a `ValueError` should be raised when we have:
 
@@ -87,12 +154,31 @@ For `import_patient_data()`, a `ValueError` should be raised when we have:
 * Extra columns
 * Correct columns but wrong order
 
-For each case, we can create a small DataFrame which triggers the problem and assert that a `ValueError` is raised.
+For each case, we can create a small DataFrame with the problem and assert that a `ValueError` is raised.
 
 ```{python}
 #| eval: false
 #| file: code/test_unit__test_import_errors.py
 ```
+
+:::
+
+::: {.r-content}
+
+For `import_patient_data()`, the function should stop with an error if we have:
+
+* Missing columns
+* Extra columns
+* Correct columns but wrong order
+
+For each case, we can create a small dataframe with the problem and check that the function fails.
+
+```{r}
+#| eval: false
+#| file: code/test_unit__incorrect_columns_cause.R
+```
+
+:::
 
 ### 4. Consider edge cases
 
@@ -102,14 +188,29 @@ For example, what if the CSV has the correct headers but no data? Should that su
 
 In this case, you might decide that an empty CSV with correct headers is fine and does not raise an error. You may still choose to write a test though, as that makes this decision explicit so other coders know what "correct" means at the edges.
 
+::: {.python-content}
+
 ```{python}
 #| eval: false
 #| file: code/test_unit__test_import_empty_csv.py
 ```
 
+:::
+
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/test_unit__empty_CSV_with.R
+```
+
+:::
+
 ### 5. Test all equivalent input forms
 
 If the function promises to accept multiple equivalent input types, verify they really are equivalent.
+
+::: {.python-content}
 
 With `import_patient_data()`, we expect a `str` or `Path` object to both succeed and return the same DataFrame.
 
@@ -118,9 +219,19 @@ With `import_patient_data()`, we expect a `str` or `Path` object to both succeed
 #| file: code/test_unit__test_import_path_types.py
 ```
 
+:::
+
+::: {.r-content}
+
+In this case, `import_patient_data()` just accepts a character string for `path`, so there is nothing to test.
+
+:::
+
 ## Running our example tests
 
-::: {.callout-note title="Test output"}
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
 
 ```{python}
 #| echo: false
@@ -129,6 +240,25 @@ pytest.main(["../examples/python_package/tests/test_unit.py"])
 ```
 
 :::
+
+::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_unit.R"
+)
+```
+
+:::
+
+::::
 
 ## When to stop writing tests
 

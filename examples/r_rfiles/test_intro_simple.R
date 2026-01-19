@@ -1,3 +1,6 @@
+source("patient_analysis.R")
+
+
 test_that("running summary_stats on a single value only returns the mean", {
   data <- c(10)
   res <- summary_stats(data)

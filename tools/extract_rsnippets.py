@@ -16,9 +16,9 @@ FILES = [
     SRC_DIR / "R" / "patient_analysis.R",
     SRC_DIR / "tests" / "testthat" / "test_intro_simple.R",
     SRC_DIR / "tests" / "testthat" / "test_intro_parametrised.R",
-    SRC_DIR / "tests" / "testthat" / "test_functional.R",
-    SRC_DIR / "tests" / "testthat" / "test_unit.R",
-    SRC_DIR / "tests" / "testthat" / "test_back.R"
+    # SRC_DIR / "tests" / "testthat" / "test_functional.R",
+    # SRC_DIR / "tests" / "testthat" / "test_unit.R",
+    # SRC_DIR / "tests" / "testthat" / "test_back.R"
 ]
 
 TEST_THAT_PATTERN = r'^\s*(test_that|(?:\w+::)?with_parameters_test_that)\s*\('
@@ -140,27 +140,27 @@ def extract_testthat_blocks(src_path):
     while i < len(lines):
         line = lines[i]
         if re.match(TEST_THAT_PATTERN, line):
-            # Try to capture the description inside test_that("...")
-            desc_match = re.search(r'test_that\s*\(\s*["\']([^"\']+)["\']', line)
-            if desc_match:
-                raw_name = desc_match.group(1)
-            else:
-                raw_name = f"test_{test_idx}"
-
+            # Description: first quoted string after the function name
+            desc_match = re.search(r'"([^"]+)"', "".join(lines[i: i + 3]))
+            raw_name = desc_match.group(1) if desc_match else f"test_{test_idx}"
             slug = slugify_desc(raw_name, max_words=3)
             test_idx += 1
 
-            # Find end of the block: track braces from first '{' onwards
-            brace_count = line.count("{") - line.count("}")
             start = i
+
+            # Track both parentheses and braces for the outer call
+            paren_count = line.count("(") - line.count(")")
+            brace_count = line.count("{") - line.count("}")
+
             i += 1
-            while i < len(lines) and brace_count > 0:
+            while i < len(lines) and (paren_count > 0 or brace_count > 0):
+                paren_count += lines[i].count("(") - lines[i].count(")")
                 brace_count += lines[i].count("{") - lines[i].count("}")
                 i += 1
 
-            end = i  # one past the last line of the block
+            end = i
             test_src = "".join(lines[start:end])
-            yield slug, test_src
+            yield slug, textwrap.dedent(test_src)
         else:
             i += 1
 

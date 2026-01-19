@@ -1,6 +1,7 @@
 Title: hdruk_tests
 Imports:
     knitr
+    patrick
     reticulate
     rmarkdown
     testthat

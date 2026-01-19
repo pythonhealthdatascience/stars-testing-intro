@@ -13,12 +13,6 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python-version: '3.11'
-          - os: ubuntu-latest
-            python-version: '3.12'
-          - os: windows-latest
-            python-version: '3.12'
-          - os: macos-latest
             python-version: '3.12'
 
     steps:
@@ -30,17 +24,13 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Set up R package dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           working-directory: examples/r_package
-          use-renv: false
-          use-pak: false
-          extra-packages: devtools
-          cache-version: 1
+          extra-packages: any::rcmdcheck
+          needs: check
 
-      - name: Run R tests for waitingtimes
-        working-directory: examples/r_package
-        run: |
-          devtools::test()
-        shell: Rscript {0}
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          working-directory: examples/r_package
+          build-dir: examples/r_package

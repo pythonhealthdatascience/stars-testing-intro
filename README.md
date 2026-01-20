@@ -7,3 +7,18 @@ You can view the website here: <https://pythonhealthdatascience.github.io/hdruk_
 [![](images/website_screenshot.png)](https://pythonhealthdatascience.github.io/hdruk_tests/)
 
 For an explanation of how this site is set up and quality-controlled, please see `CONTRIBUTING.md`.
+
+## Licence
+
+This work is shared:
+
+* Code licence - MIT
+* Text licence - CC-BY-SA 4.0
+
+## Citation
+
+To cite this work, see the `CITATION.cff` file in this repository or use the "Cite this repository" button on GitHub.
+
+## Funding
+
+This project is supported by the Medical Research Council [grant number MR/Z503915/1].

@@ -79,6 +79,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-f7dfdb420731e395c10495a99a41b141.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -311,6 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="workflow-to-run-tests" class="level2">
 <h2 class="anchored" data-anchor-id="workflow-to-run-tests">Workflow to run tests</h2>
 <p>This workflow will run the tests from our case study via GitHub actions. We explain it step-by-step below.</p>
+<div class="python-content">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">name:</span> python_tests</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">run-name:</span> Run python tests</span>
@@ -442,13 +445,123 @@ run-name: Run python tests</code></pre>
         run: pytest examples/python_package</code></pre>
 <p>Finally, we run the tests! We call <code>pytest</code> on our case study (<code>examples/python_package/</code>). If all tests pass, you’ll see green ticks for each environment - confirming that your code works consistently across Python versions and operating systems.</p>
 </section>
-<section id="see-github-actions-in-action" class="level3">
-<h3 class="anchored" data-anchor-id="see-github-actions-in-action">See GitHub actions, in action!</h3>
-<p>The video below demonstrates this workflow running in GitHub Actions. For the demo, the workflow is triggered manually using <code>workflow_dispatch</code>, but it would also run automatically whenever you push changes to <code>main</code>.</p>
-<p>TODO.</p>
+</div>
+<div class="r-content">
+<p>There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an renv, and so on.</p>
+<p>If your work is structured as a package, you can call:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_github_action</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>It will prompt you to choose which action you would like:</p>
+<pre><code>&gt; usethis::use_github_action()
+Which action do you want to add? (0 to exit)
+(See &lt;https://github.com/r-lib/actions/tree/v2/examples&gt; for other options) 
 
+1: check-standard: Run `R CMD check` on Linux, macOS, and Windows
+2: test-coverage: Compute test coverage and report to https://about.codecov.io
 
+Selection: </code></pre>
+<p>However, for this tutorial, we will show an example where dependencies are restored from an renv and the tests are run via <code>devtools::test()</code>, running on ubuntu and specific version of R.</p>
+<p>However, you can do multiple operating systems! (Just see Python tutorial for how!)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">name:</span> r_tests</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">run-name:</span> Run R tests</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">on:</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">push:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">branches:</span> <span class="pp">[</span><span class="ss">main</span><span class="pp">]</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">workflow_dispatch:</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">tests:</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">runs-on:</span> ubuntu-latest</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">env:</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="ex">RENV_CONFIG_PAK_ENABLED:</span> true</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">steps:</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> uses: actions/checkout@v4</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> name: Set up R</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="ex">uses:</span> r-lib/actions/setup-r@v2</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="ex">with:</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>          <span class="ex">use-public-rspm:</span> true</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>          <span class="ex">r-version:</span> 4.4.1</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> name: Restore renv from root</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        <span class="ex">run:</span> <span class="kw">|</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>          <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'renv::restore(project = ".")'</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> name: Run testthat tests</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        <span class="ex">run:</span> <span class="kw">|</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>          <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'renv::activate(); devtools::load_all("examples/r_package"); testthat::test_dir("examples/r_package/tests/testthat")'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="explaining-the-workflow-1" class="level3">
+<h3 class="anchored" data-anchor-id="explaining-the-workflow-1">Explaining the workflow</h3>
+<pre><code>name: r_tests
+run-name: Run R tests</code></pre>
+<p>The beginning of the YAML sets the workflow’s name and how it appears in the Actions tab.</p>
+<ul>
+<li><code>name</code> is the internal name of the workflow file.</li>
+<li><code>run-name</code> is what is displayed when a run appears in the Actions history.</li>
+</ul>
+<pre><code>on:
+  push:
+    branches: [main]
+  workflow_dispatch:</code></pre>
+<p>Next, we define when the workflow is triggered. Here we have chosen:</p>
+<ul>
+<li><code>push</code>: automatically run on pushes to the <code>main</code> branch.</li>
+<li><code>workflow_dispatch</code>: allows you to trigger the workflow manually from the GitHub actions interface (<em>note: it only becomes available after first having been pushed to main</em>).</li>
+</ul>
+<pre><code>jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    env:
+      RENV_CONFIG_PAK_ENABLED: true</code></pre>
+<p>Now we define the <code>tests</code> job. We specify an operating system (<code>ubuntu-latest</code>) and set <code>RENV_CONFIG_PAK_ENABLED</code> to true as it allows renv to use pak for faster, more reliable dependency installation where possible.</p>
+<pre><code>    steps:
+      - uses: actions/checkout@v4</code></pre>
+<p>The first step checks out the repository so the workflow has access to the code.</p>
+<pre><code>      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+          r-version: 4.4.1
+
+      - name: Restore renv from root
+        run: |
+          Rscript -e 'renv::restore(project = ".")'</code></pre>
+<p>This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific renv then restored - but you could also run on latest versions.</p>
+<pre><code>      - name: Run testthat tests
+        run: |
+          Rscript -e 'renv::activate()'
+          Rscript -e 'devtools::load_all("examples/r_package")'
+          Rscript -e 'testthat::test_dir("examples/r_package/tests/testthat")'</code></pre>
+<p>Finally, the R tests are run. In this example, the research is structured as a package and in a subdirectory <code>examples/r_package</code>, so we load that with <code>devtools</code> before running the tests.</p>
 </section>
+</div>
+</section>
+<section id="see-github-actions-in-action" class="level2">
+<h2 class="anchored" data-anchor-id="see-github-actions-in-action">See GitHub actions, in action!</h2>
+<p>The video below demonstrates this workflow running in GitHub Actions. For the demo, the workflow is triggered manually using <code>workflow_dispatch</code>, but it would also run automatically whenever you push changes to <code>main</code>. In the video you’ll see we:</p>
+<div class="python-content">
+<ul>
+<li>Open the <a href="https://github.com/pythonhealthdatascience/hdruk_tests">GitHub repository</a>.</li>
+<li>Go to the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions">Actions</a> tab.</li>
+<li>Click on the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/python_tests.yaml">python_tests</a> action.</li>
+<li>View the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/python_tests.yaml">workflow YAML</a>.</li>
+<li>Trigger the action via <code>workflow_dispatch</code>.</li>
+<li><a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21067946032">View the running test</a> - see they are installing the requirements, running tests, and pass.</li>
+</ul>
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_githubactions.webm"></video></div>
+<p>The tests all pass in the end-</p>
+<p><img src="../images/run_tests_python_githubactions.png" class="img-fluid"></p>
+</div>
+<div class="r-content">
+<p>TODO</p>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -913,6 +1026,7 @@ Text licence: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="
     </div>
   </div>
 </footer>
+<script>videojs(video_shortcode_videojs_video1);</script>
 
 
 

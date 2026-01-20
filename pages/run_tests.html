@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <br>
 <p><br></p>
 <div class="python-content">
-<p>The standard and recommended way to run tests in Python is from the terminal using pytest.</p>
+<p>The standard and recommended way to run tests in Python is from the <strong>terminal</strong> using pytest.</p>
 <section id="required-structure-for-running-tests-from-the-command-line" class="level2">
 <h2 class="anchored" data-anchor-id="required-structure-for-running-tests-from-the-command-line">Required structure for running tests from the command line</h2>
 <p>This approach works when you have:</p>
@@ -336,8 +336,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Run a specific test function</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span> tests/test_filename.py::test_function_name</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+</div>
+<div class="r-content">
+<p>The standard and recommended way to run tests in R is from the <strong>R console</strong>, running them either via <code>devtools</code> or directly with <code>testthat</code>.</p>
+</div>
 <section id="example-package-structure" class="level2">
 <h2 class="anchored" data-anchor-id="example-package-structure">Example: package structure</h2>
+<div class="python-content">
 <p>When your code is structured as a package, your project might look like:</p>
 <pre><code>project/
 ├── data/
@@ -361,11 +366,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Run the test with <code>pytest tests/test_intro_simple.py</code> - and it passes! 🎉</li>
 </ul>
 <div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_package.webm"></video></div>
+</div>
+<div class="r-content">
+<p>In an R package, tests will be automatically discovered and run if they follow the conventions of being:</p>
+<ol type="1">
+<li>Stored within <code>tests/testthat/</code>.</li>
+<li>In R files starting with <code>test_</code> or <code>test-</code>.</li>
+</ol>
+<p>For example, your project might look like:</p>
+<pre><code>project/
+├── inst/
+│   └── extdata/
+│       └── patient_data.csv
+├── man/
+│   └── ...
+├── R/
+│   └── patient_analysis.R
+├── tests/
+│   └── testthat/
+│       ├── test_intro_simple.R
+│       └── ...
+├── .Rbuildignore
+├── DESCRIPTION
+├── LICENSE
+├── LICENSE.md
+├── NAMESPACE
+└── README.md</code></pre>
+<p>You can either run the tests with <code>devtools</code> or <code>testthat</code> - common commands include:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run all tests in the package</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Run all tests in the named file</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>testthat<span class="sc">::</span><span class="fu">test_file</span>(<span class="st">"tests/testthat/test-patient_analysis.R"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run all tests in that directory</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>testthat<span class="sc">::</span><span class="fu">test_dir</span>(<span class="st">"tests/testthat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the video below, we have an example of a research project structured as an our R project.</p>
+<ul>
+<li>We highlight that the renv is active (<code>Project '~/Documents/stars/hdruk_tests' loaded. [renv 1.1.5]</code>).</li>
+<li>We show the test file we will be running (<code>test_intro_simple.R</code>).</li>
+<li>We run <code>devtools::test()</code> and can see that all tests pass.</li>
+</ul>
+<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_r_package.webm"></video></div>
+</div>
 <p>If you’re unfamiliar with how to set up a package, check out <a href="https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/package.html">our tutorial on packaging your research project</a>.</p>
 </section>
 <section id="example-non-package-structure" class="level2">
 <h2 class="anchored" data-anchor-id="example-non-package-structure">Example: Non-package structure</h2>
-<p>You don’t need a full package to use pytest. When you code exists in <code>.py</code> files but isn’t packaged, you can still run tests from the terminal. Your project might, for example, look like:</p>
+<div class="python-content">
+<p>You don’t need a full package to use pytest. When your code exists in <code>.py</code> files but isn’t packaged, you can still run tests from the terminal. Your project might, for example, look like:</p>
 <pre><code>project/
 ├── patient_analysis.py
 └── test_intro_simple.py</code></pre>
@@ -376,112 +425,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Run the test with <code>pytest</code>, since the file follows the <code>test_</code> naming pattern.</li>
 </ul>
 <!-- When creating the video, I first removed waitingtimes from the conda environment by running pip uninstall waitingtimes -->
-<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_pyfiles.webm"></video></div>
+<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_pyfiles.webm"></video></div>
+</div>
+<div class="r-content">
+<p>You don’t need a full package to use testthat. When your code exists in <code>.R</code> files but isn’t packaged, you can still run tests from the R console. You project might, for example, look like:</p>
+<pre><code>project/
+├── patient_analysis.R
+└── test_intro_simple.R</code></pre>
+<p>As your test follows of the convention of starting <code>test_</code>, it can still be detected by <code>testthat</code> and run by <code>testthat:test_dir()</code> or <code>testthat::test_file()</code>.</p>
+<blockquote class="blockquote">
+<p>Note: You cannot use <code>devtools::test()</code> with this approach.</p>
+</blockquote>
+<p>In the video below, we:</p>
+<ul>
+<li>Open the <code>test_intro_simple.R</code> file, showing how it imports the local function.</li>
+<li>Run <code>testthat::test_dir(".")</code>, which finds and runs our test.</li>
+</ul>
+<div class="quarto-video"><video id="video_shortcode_videojs_video4" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_r_rfiles.webm"></video></div>
+</div>
 </section>
 <section id="alternative-options" class="level2">
 <h2 class="anchored" data-anchor-id="alternative-options">Alternative options</h2>
+<div class="python-content">
 <p>While running tests from the command line is the recommended approach, there are alternative tools for specific use cases.</p>
 <section id="testbook" class="level3">
 <h3 class="anchored" data-anchor-id="testbook">testbook</h3>
 <p><a href="https://testbook.readthedocs.io/">testbook</a> allows you to test code within Jupyter notebooks:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install testbook</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> testbook <span class="im">import</span> testbook</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">@testbook</span>(<span class="st">'my_notebook.ipynb'</span>, execute<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_notebook_function(tb):</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    func <span class="op">=</span> tb.ref(<span class="st">"add"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> func(<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">==</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install testbook</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> testbook <span class="im">import</span> testbook</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">@testbook</span>(<span class="st">'my_notebook.ipynb'</span>, execute<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_notebook_function(tb):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    func <span class="op">=</span> tb.ref(<span class="st">"add"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> func(<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">==</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="ipytest" class="level3">
 <h3 class="anchored" data-anchor-id="ipytest">ipytest</h3>
 <p><a href="https://github.com/chmp/ipytest">ipytest</a> lets you run pytest directly inside Jupyter notebook cells:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install ipytest</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipytest</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ipytest.autoconfig()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># In another cell</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># In a test cell</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ipytest</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add():</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> add(<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">==</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install ipytest</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipytest</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ipytest.autoconfig()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># In another cell</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a, b):</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># In a test cell</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>ipytest</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_add():</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> add(<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">==</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+</div>
+<div class="r-content">
+<p>While running tests from the R console is the recommended approach, it is also possible to put tests directly in the same <code>.R</code> file as your code and just run the script.</p>
+<p>For example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add.R</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>add <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  a <span class="sc">+</span> b</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(testthat)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"add works correctly"</span>, {</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">5</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">add</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">0</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test passed with 2 successes 🎊.</code></pre>
+</div>
+</div>
+</div>
 <section id="why-command-line-testing-is-better" class="level3">
 <h3 class="anchored" data-anchor-id="why-command-line-testing-is-better">Why command line testing is better</h3>
-<p>Running tests from the terminal with code organised in <code>.py</code> files and a modular structure is the preferred approach because:</p>
+<p>Running tests from the terminal with code organised into separate files is the preferred approach because:</p>
 <ul>
 <li><p><strong>Test code is separate from analysis code</strong>, making both easier to understand and maintain.</p></li>
 <li><p>Tests can be run <strong>automatically in continuous integration (CI)</strong> pipelines, before commits, or on schedule.</p></li>
 <li><p>As your project grows, you can <strong>easily add more</strong> test files and organise them logically without cluttering notebooks or scripts.</p></li>
 </ul>
+
+
 </section>
 </section>
-</div>
-<div class="r-content">
-<p>TODO.</p>
-<!-- ROUGH NOTES
-
-Tests are stored in `tests/testthat/` in files starting with `test_`. These are automatically discovered and run by testthat. For example:
-
-```
-research_project/
-├── DESCRIPTION
-├── NAMESPACE
-├── README.md
-├── R/
-│   ├── analysis.R
-│   └── utils.R
-└── tests/
-    └── testthat/
-        ├── test-analysis.R
-        └── test-utils.R
-```
-
-Tests are typically run from the R console using the following commands...
-
-```{.r}
-# Run all tests in a package
-devtools::test()
-
-# Run all tests in the current directory and subdirectories
-testthat::test_dir()
-
-# Run tests from a specific file
-testthat:test_file("tests/testthat/test-filename.R")
-```
-
-When tests run, you'll see console output indicating the number of tests passed, failed, or skipped, with details about any failures.
-
-```
-project/
-├── my_code.R
-└── tests/
-    └── testthat/
-        ├── test_my_code.R
-```
-
-just write and run them direct in script.
-
-```{.r}
-# Function
-add <- function(a, b) {
-  a + b
-}
-
-# Inline test
-library(testthat)
-test_that("add works correctly", {
-  expect_equal(add(2, 3), 5)
-  expect_equal(add(-1, 1), 0)
-})
-```
-
--->
-</div>
-
-
 
 </main> <!-- /main -->
 <script>
@@ -947,6 +974,8 @@ Text licence: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="
 </footer>
 <script>videojs(video_shortcode_videojs_video1);</script>
 <script>videojs(video_shortcode_videojs_video2);</script>
+<script>videojs(video_shortcode_videojs_video3);</script>
+<script>videojs(video_shortcode_videojs_video4);</script>
 
 
 

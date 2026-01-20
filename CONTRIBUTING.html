@@ -238,9 +238,20 @@ ul.task-list li input[type="checkbox"] {
 <p>This file is for contributors. It describes how the <code>hdruk_tests</code> site is set-up and quality controlled.</p>
 <section id="example-code" class="level2">
 <h2 class="anchored" data-anchor-id="example-code">Example code</h2>
-<p>The example code is contained in <code>examples/python_package/</code>.</p>
-<p>We want to be able to show individual functions without imports in the quarto website, so we have a script <code>tools/extract_snippets.py</code> which extracts each function without imports into individual <code>.py</code> files within <code>pages/code/</code>.</p>
-<p>This is run each time the site is built via Quarto’s <code>pre-render</code> hook.</p>
+<p>The example code is contained in <code>examples</code>.</p>
+<p>We want to be able to show individual functions without imports in the quarto website, so we have a script <code>tools/extract_snippets.py</code> which extracts each function without imports into individual <code>.py</code> files within <code>pages/code/</code>. This is run each time the site is built via Quarto’s <code>pre-render</code> hook.</p>
+<p>Example commands for the python package:</p>
+<ul>
+<li><code>pip install -e examples/python_package</code></li>
+<li><code>pytest examples/python_package</code></li>
+</ul>
+<p>Example commands for the R package (having first opened R console by running <code>R</code> - escaped with <code>quit()</code>):</p>
+<ul>
+<li><code>devtools::document("examples/r_package")</code></li>
+<li><code>devtools::check("examples/r_package")</code></li>
+<li><code>withr::with_dir("examples/r_package", {usethis::use_mit_license()})</code></li>
+<li><code>devtools::test("examples/r_package")</code></li>
+</ul>
 </section>
 <section id="rendering-the-quarto-site" class="level2">
 <h2 class="anchored" data-anchor-id="rendering-the-quarto-site">Rendering the quarto site</h2>

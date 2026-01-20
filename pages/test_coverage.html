@@ -294,6 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <br>
 <p><br></p>
 <p><strong>Coverage</strong> refers to the percentage of your code that is executed when you run your tests. It can help you spot parts of your code that are not included in any tests.</p>
+<div class="python-content">
 <section id="pytest-cov" class="level2">
 <h2 class="anchored" data-anchor-id="pytest-cov"><code>pytest-cov</code></h2>
 <p>The <a href="https://github.com/pytest-dev/pytest-cov">pytest-cov</a> package can be used to run coverage calculations easily alongside <code>pytest</code>. You can install it from PyPI or conda:</p>
@@ -338,7 +339,7 @@ Name                                                                      Stmts 
 /workspace/examples/python_package/src/waitingtimes/patient_analysis.py      30      1    97%
 ---------------------------------------------------------------------------------------------
 TOTAL                                                                        31      1    97%
-============================== 13 passed in 1.67s ==============================
+============================== 13 passed in 1.91s ==============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -348,6 +349,32 @@ TOTAL                                                                        31 
 <pre><code>================================ tests coverage ================================</code></pre>
 <p>You can see we get nearly 100% coverage. But what does this actually mean?</p>
 </section>
+</div>
+<div class="r-content">
+<section id="tools-for-calculating-test-coverage-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="tools-for-calculating-test-coverage-in-r">Tools for calculating test coverage in R</h2>
+<p>If your research is structured as a package, then you can use <code>devtools</code> to calculate coverage:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test_coverage</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If not structured as a package, you can use <a href="https://github.com/r-lib/covr">covr</a>’s <code>file_coverage()</code> function - for example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>covr<span class="sc">::</span><span class="fu">file_coverage</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_files =</span> <span class="fu">c</span>(<span class="st">"patient_analysis.R"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_files =</span> <span class="fu">c</span>(<span class="st">"test_unit.R"</span>, <span class="st">"test_functional.R"</span>, <span class="st">"test_back.R"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="calculating-coverage-for-our-example" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-coverage-for-our-example">Calculating coverage for our example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">load_all</span>(<span class="st">"../examples/r_package"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test_coverage</span>(<span class="st">"../examples/r_package"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Computing test coverage for waitingtimes</code></pre>
+</div>
+</div>
+<p>You can see we get 100% coverage. But what does this actually mean?</p>
+</section>
+</div>
 <section id="interpreting-coverage" class="level2">
 <h2 class="anchored" data-anchor-id="interpreting-coverage">Interpreting coverage</h2>
 <p>Coverage is telling you whether code was <strong>executed</strong> during testing - but not necessarily whether it has been tested well. A function could run as part of another test without its results or behaviour being properly checked by assertions.</p>

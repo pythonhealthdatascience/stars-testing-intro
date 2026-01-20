@@ -2,6 +2,7 @@ Title: hdruk_tests
 Imports:
     covr
     devtools
+    DT
     knitr
     patrick
     reticulate

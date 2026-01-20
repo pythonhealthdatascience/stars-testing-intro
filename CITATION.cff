@@ -1,0 +1,32 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: 'HDR UK Futures RSE: Testing in Research Workflows'
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Amy
+    family-names: Heather
+    email: a.heather2@exeter.ac.uk
+    affiliation: University of Exeter
+    orcid: 'https://orcid.org/0000-0002-6596-3479'
+  - given-names: Tom
+    family-names: Monks
+    email: t.m.w.monks@exeter.ac.uk
+    affiliation: University of Exeter
+    orcid: 'https://orcid.org/0000-0003-2631-4481'
+repository-code: 'https://github.com/pythonhealthdatascience/hdruk_tests/'
+url: 'https://pythonhealthdatascience.github.io/hdruk_tests/'
+abstract: >-
+  Materials supporting our HDR UK Futures training videos on
+  testing.
+keywords:
+  - tests
+  - python
+  - r
+license: MIT
+version: 0.1.0
+date-released: '2026-01-20'

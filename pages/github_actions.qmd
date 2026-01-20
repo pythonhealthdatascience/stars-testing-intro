@@ -262,6 +262,17 @@ The tests all pass in the end-
 
 ::: {.r-content}
 
-TODO
+* Open the [GitHub repository](https://github.com/pythonhealthdatascience/hdruk_tests).
+* Go to the [Actions](https://github.com/pythonhealthdatascience/hdruk_tests/actions) tab.
+* Click on the [r_tests](https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/r_tests.yaml) action.
+* View the [workflow YAML](https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/r_tests.yaml).
+* Trigger the action via `workflow_dispatch`, running it from the `dev` branch.
+* [View the running test](https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21166564091) - see they are installing the packages, getting ready to run tests.
+
+{{< video /videos/run_tests_r_githubactions.webm >}}
+
+The tests all pass in the end-
+
+![](/images/run_tests_r_githubactions.png)
 
 :::

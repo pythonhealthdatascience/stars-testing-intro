@@ -22,9 +22,31 @@ By building in safeguards from the start, defensive programming significantly re
 
 Testing of code and defensive programming are complementary practices that work together to create robust software. While defensive programming builds safeguards directly into the code, the testing methods we have described verify that these safeguards work as intended. 
 
-> 
 
 ## Example: calculating waiting times
 
 We will return to our [waiting times case study](case_study.qmd) and in particular the `calculate_wait_times()` function.
+
+::: {.python-content}
+
+As a reminder this was our original code for the `calculate_wait_times()` function.
+
+```{python}
+#| eval: false
+#| file: code/patient_analysis__calculate_wait_times.py
+```
+
+:::
+
+## 1. Protect your code from invalid inputs 
+
+<div class="h3-tight"></div>
+
+Here are some minimal defensive changes we could make to `calculate_wait_times()` 
+
+* Verify that the `df` parameter passed to the function is of type dataframe. 
+* Verify that `df` has the expected columns within it.
+* Decide how to fail gracefully if either 1 or 2 do not hold.
+* If required, provide easy to understand error messages to help a user fix mistakes.
+
 

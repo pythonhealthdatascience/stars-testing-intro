@@ -1,4 +1,3 @@
-
 def calculate_wait_times(df):
     """
     Add arrival/service datetimes and waiting time in minutes.
@@ -14,6 +13,19 @@ def calculate_wait_times(df):
     pandas.DataFrame
         Copy of the input DataFrame with additional columns:
         `arrival_datetime`, `service_datetime`, and `waittime`.
+
+    Raises
+    ------
+    TypeError
+        If `df` is not a pandas DataFrame.
+    ValueError
+        If required columns (`ARRIVAL_DATE`, `ARRIVAL_TIME`, 
+        `SERVICE_DATE`, `SERVICE_TIME`) are missing from the DataFrame.
+    
+    Warns
+    -----
+    UserWarning
+        If the input DataFrame is empty.
     """
 
     # -- defensive programming additions -- 

@@ -48,14 +48,44 @@ import warnings
 
 <div class="h3-tight"></div>
 
-Here are some minimal defensive changes we could make to `calculate_wait_times()` 
+Here are some **minimal** defensive changes we could make to `calculate_wait_times()` 
 
 * Raise an exception if the `df` parameter passed to the function is not of type dataframe. 
 * Raise an exception if the `df` parameter does not have one or more of the expected columns within it.
-* If `df` does not contain any data (rows) warn the user and return an empty dataframe (return early). 
+* If `df` is the edge case that does not contain any data (rows) warn the user and return an empty dataframe insterad of attempting to perform a calculation (return early). 
 
 These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing futher. It is important to provide a clear error message to the user to help them fix the mistake.
 
 The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing, that would generate run time errors, take place.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
 
+::: {.python-content}
 
+Here is an implementation of those three points in Python
+
+The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. An `ValueError` is raised if the columns (values) of the dataframe are not as expected.
+
+We handle the edge case of an empty dataframe through the combination of an `if` statement, the python warnings package, and an early return.
+
+Two extra considerations to help the user (which again might be you in the future!):
+
+1. Update the docstring of your function to detail the exceptions that can be raised and why.
+2. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
+
+
+
+```{python}
+#| eval: false
+#| file: code/defensive_programming__calculate_wait_times_1.py
+```
+:::
+
+## 2.  Write tests to check that the defensive code works as expected. 
+
+Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here. That the code fails as we expect.
+
+Here are ome examples to test the defensive additions to `calculate_wait_times()`
+
+*  Test that passing a different data structure than a DataFrame raises the appropraite error and message.
+*  Test that passing a DataFrame missing one or more required columns raises the appropraite error and message.
+*  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
+*  If implemented, test that an empty DataFrame with valid column triggers a warning

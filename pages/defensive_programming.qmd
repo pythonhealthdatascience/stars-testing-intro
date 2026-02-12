@@ -32,21 +32,30 @@ We will return to our [waiting times case study](case_study.qmd) and in particul
 As a reminder this was our original code for the `calculate_wait_times()` function.
 
 ```{python}
+import pandas as pd
+import warnings
+```
+
+
+```{python}
 #| eval: false
 #| file: code/patient_analysis__calculate_wait_times.py
 ```
 
 :::
 
-## 1. Protect your code from invalid inputs 
+## 1. Protect your code from invalid and edge case inputs 
 
 <div class="h3-tight"></div>
 
 Here are some minimal defensive changes we could make to `calculate_wait_times()` 
 
-* Verify that the `df` parameter passed to the function is of type dataframe. 
-* Verify that `df` has the expected columns within it.
-* Decide how to fail gracefully if either 1 or 2 do not hold.
-* If required, provide easy to understand error messages to help a user fix mistakes.
+* Raise an exception if the `df` parameter passed to the function is not of type dataframe. 
+* Raise an exception if the `df` parameter does not have one or more of the expected columns within it.
+* If `df` does not contain any data (rows) warn the user and return an empty dataframe (return early). 
+
+These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing futher. It is important to provide a clear error message to the user to help them fix the mistake.
+
+The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing, that would generate run time errors, take place.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
 
 

@@ -52,11 +52,11 @@ Here are some **minimal** defensive changes we could make to `calculate_wait_tim
 
 * Raise an exception if the `df` parameter passed to the function is not of type dataframe. 
 * Raise an exception if the `df` parameter does not have one or more of the expected columns within it.
-* If `df` is the edge case that does not contain any data (rows) warn the user and return an empty dataframe insterad of attempting to perform a calculation (return early). 
+* If `df` is the edge case that does not contain any data (rows) warn the user and return an empty dataframe instead of attempting to perform a calculation (return early). 
 
 These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing futher. It is important to provide a clear error message to the user to help them fix the mistake.
 
-The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing, that would generate run time errors, take place.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
+The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. his is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
 
 ::: {.python-content}
 
@@ -83,9 +83,18 @@ Two extra considerations to help the user (which again might be you in the futur
 
 Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here. That the code fails as we expect.
 
-Here are ome examples to test the defensive additions to `calculate_wait_times()`
+Here are some examples to test the defensive additions to `calculate_wait_times()`
 
 *  Test that passing a different data structure than a DataFrame raises the appropraite error and message.
 *  Test that passing a DataFrame missing one or more required columns raises the appropraite error and message.
 *  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
 *  If implemented, test that an empty DataFrame with valid column triggers a warning
+
+
+## 3. What else could we do defensively?
+
+The example we provide here only scratches the surface of defensive programming.  We have introduced guardrails for our inputs, but the data within them could also be **garbage**. For example, the function expects date time data to be in a specific format.  Our `df` with a different format might fail in unexpected ways, potentially causing a runtime error, or even worse silently!  
+
+There is only so much time you have available to write defensive code, and deciding what to guard against is critical.  This is why testing your code is so important.  If, for example, you test your code and find it fails silently i.e. no error message, then you should strongly consider introducing a defensive programming routine to prevent that from happening in the future.
+
+> Remember: the goal is not to defensively program against every conceivable scenario, but to protect against the most likely errors and those with the most serious consequences for your research results.

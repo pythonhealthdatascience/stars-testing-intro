@@ -1,0 +1,197 @@
+---
+title: "Defensive Programming"
+---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("hdruk_tests", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>
+
+## What is defensive programming?
+
+**Defensive programming** is a proactive approach to software development that anticipates potential failures, invalid inputs, and unexpected conditions before they occur. Rather than assuming code will receive perfect inputs and execute under ideal conditions, it operates on the principle that "anything that can go wrong will go wrong." The goal is to write code that detects problems early, handles them gracefully, and prevents the user from making mistakes.
+
+This approach is particularly valuable in research code that may be reused by other researchers or even yourself in the future.  It aims to prevent another user (even yourself 5 years from now) from introducing a silent mistake into their analyses. These mistakes might be from implicit assumptions about data format, combinations of settings, invalid data ranges, or even the type of data structures used.
+
+By building in safeguards from the start, defensive programming significantly reduces bugs, improves reliability, and makes software behavior more predictable. If planned out carefully the practice will ultimately save debugging time and prevent costly failures and rework of analyses.
+
+**Testing of code and defensive programming are complementary practices** that work together to create robust software. While defensive programming builds safeguards directly into the code, the testing methods we have described verify that these safeguards work as intended. 
+
+
+## Example: calculating waiting times
+
+We will return to our [waiting times case study](case_study.qmd) and in particular the `calculate_wait_times()` function.
+
+::: {.python-content}
+
+As a reminder this was our original code for the `calculate_wait_times()` function.
+
+```{python}
+#| eval: false
+#| file: code/patient_analysis__calculate_wait_times.py
+```
+
+:::
+
+::: {.r-content}
+
+As a reminder this was our original code for the `calculate_wait_times()` function.
+
+```{r}
+#| eval: false
+#| file: code/patient_analysis__calculate_wait_times.R
+```
+:::
+
+
+## 1. Protect your code from invalid and edge case inputs 
+
+Here are some **minimal** defensive changes we could make to `calculate_wait_times()` 
+
+i. Raise an **exception** if the `df` parameter passed to the function is **not of type dataframe**. 
+ii. Raise an **exception** if the `df` parameter **does not have one or more of the expected columns** within it.
+iii. If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early). 
+
+These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing further. It is important to provide a clear error message to the user to help them fix the mistake.
+
+The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fulfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
+
+::: {.python-content}
+
+**Here is an implementation of those three points in Python**
+
+The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. A `ValueError` is raised if the columns (values) of the dataframe are not as expected.
+
+We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
+
+Two extra considerations to help the user (which again might be you in the future!):
+
+i. Update the docstring of your function to detail the exceptions that can be raised and why.
+ii. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
+
+
+```{python}
+import pandas as pd
+import warnings
+```
+
+
+```{python}
+#| eval: true
+#| file: code/defensive_programming__calculate_wait_times_1.py
+```
+
+## 2. Example use cases
+
+### Passing the wrong data type
+
+Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects.  Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a dataframe.  The code terminates immediately and we get a clear error message.
+
+```{python}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__wrong_datatype.py
+```
+
+### Missing columns
+
+Hypothetically let's take a scenario where a user is missing the "SERVICE" columns in their table of data.  The code now elegantly handles that error and reports back to the user.  Note that when an exception is raised the code will terminate.
+
+```{python}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__missing_column.py
+```
+
+### The edge case
+
+When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
+
+```{python}
+#| eval: true
+#| warning: true
+#| file: code/defensive_programming__empty_dataframe.py
+```
+
+:::
+
+::: {.r-content}
+
+Here is an implementation of those three points in R
+
+The first two issues are dealt with using the R `stop()` function. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
+
+We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
+
+Two extra considerations to help the user (which again might be you in the future!):
+
+1. Update the docstring of your function to detail the exceptions that can be raised and why.
+2. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
+
+```{r}
+#| file: code/defensive_programming__calculate_wait_times.R
+#| eval: true
+```
+
+## 2. Example use cases
+
+### Passing the wrong data type
+
+Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects. Here the user has the data held in an R list as an intermediate processing step and passes it to the function before converting to a data frame. The code terminates immediately and we get a clear error message.
+
+```{r}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__wrong_datatype.R
+```
+
+### Missing columns
+
+Now let's take a scenario where a user is missing the "SERVICE" columns in their table of data. The code now elegantly handles that error and reports back to the user. Note that when `stop()` is called the code will terminate.
+
+```{r}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__missing_column.R
+```
+
+### The edge case
+
+When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
+
+```{r}
+#| eval: true
+#| warning: true
+#| file: code/defensive_programming__empty_dataframe.R
+```
+
+:::
+
+
+## 3.  Write unit tests to check that the defensive code works as expected. 
+
+Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here. That the code fails as we expect.
+
+Here are some examples to test the defensive additions to `calculate_wait_times()`
+
+*  Test that passing a different data structure than a DataFrame raises the appropriate error and message.
+*  Test that passing a DataFrame missing one or more required columns raises the appropriate error and message.
+*  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
+*  If implemented, test that an empty DataFrame with valid column triggers a warning.
+
+
+
+
+
+## 4. What else could we do defensively?
+
+The example we provide here only scratches the surface of defensive programming.  We have introduced guardrails for our inputs, but the data within them could also be **garbage**. For example, the function expects date time data to be in a specific format.  Our `df` with a different format might fail in unexpected ways, potentially causing a runtime error, or even worse silently!  
+
+There is only so much time you have available to write defensive code, and deciding what to guard against is critical.  This is why testing your code is so important.  If, for example, you test your code and find it fails silently i.e. no error message, then you should strongly consider introducing a defensive programming routine to prevent that from happening in the future.
+
+> Remember: the goal is not to defensively program against every conceivable scenario, but to protect against the most likely errors and those with the most serious consequences for your research results.

@@ -135,7 +135,39 @@ Two extra considerations to help the user (which again might be you in the futur
 
 ```{r}
 #| file: code/defensive_programming__calculate_wait_times.R
-#| eval: false
+#| eval: true
+```
+
+## 2. Example use cases
+
+### Passing the wrong data type
+
+Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects. Here the user has the data held in an R list as an intermediate processing step and passes it to the function before converting to a data frame. The code terminates immediately and we get a clear error message.
+
+```{r}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__wrong_datatype.R
+```
+
+### Missing columns
+
+Now let's take a scenario where a user is missing the "SERVICE" columns in their table of data. The code now elegantly handles that error and reports back to the user. Note that when stop() is called the code will terminate.
+
+```{r}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__missing_column.R
+```
+
+### The edge case
+
+When the dataframe is empty a warning is raised. an empty dataframe is returned and the code continues to run:
+
+```{r}
+#| eval: true
+#| warning: true
+#| file: code/defensive_programming__empty_dataframe.R
 ```
 
 :::

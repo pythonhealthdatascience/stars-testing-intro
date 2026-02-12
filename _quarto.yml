@@ -6,11 +6,9 @@ project:
 
 website:
   title: "Testing in Research Workflows"
-  favicon: images/futures.png
+  favicon: images/stars_logo_blue.png
   page-navigation: true
   navbar:
-    logo: images/hdruk_futures.png
-    logo-alt: HDR UK Futures
     right:
       - icon: github
         href: https://github.com/pythonhealthdatascience/hdruk_tests/

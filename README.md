@@ -19,6 +19,10 @@ This work is shared:
 
 To cite this work, see the `CITATION.cff` file in this repository or use the "Cite this repository" button on GitHub.
 
+## Archive
+
+This repository is archived on Zenodo - DOI: [10.5281/zenodo.18311754](https://doi.org/10.5281/zenodo.18311754).
+
 ## Funding
 
 This project is supported by the Medical Research Council [grant number MR/Z503915/1].

@@ -34,6 +34,7 @@ website:
       - pages/break.qmd
       - pages/test_coverage.qmd
       - pages/github_actions.qmd
+      - pages/defensive_programming.qmd
       - pages/example_repositories.qmd
   page-footer:
     center:

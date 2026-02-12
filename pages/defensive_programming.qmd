@@ -14,7 +14,7 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 ## What is defensive programming?
 
-**Defensive programming** is a proactive approach to software development that anticipates potential failures, invalid inputs, and unexpected conditions before they occur. Rather than assuming code will receive perfect inputs and execute under ideal conditions, it operates on the principle that "anything that can go wrong will go wrong." The goal is to write code that detects problems early, handles them gracefully, and maintains system stability even when circumstances are unforeseen.
+**Defensive programming** is a proactive approach to software development that anticipates potential failures, invalid inputs, and unexpected conditions before they occur. Rather than assuming code will receive perfect inputs and execute under ideal conditions, it operates on the principle that "anything that can go wrong will go wrong." The goal is to write code that detects problems early, handles them gracefully, and prevents the user from making mistakes.
 
 This approach is particularly valuable in research code that may be reused by other researchers or even yourself in the future.  It aims to prevent another user (even yourself 5 years from now) from introducing a silent mistake into their analyses. These mistakes might be from implicit assumptions about data format, combinations of settings, invalid data ranges, or even the type of data structures used.
 
@@ -32,23 +32,17 @@ We will return to our [waiting times case study](case_study.qmd) and in particul
 As a reminder this was our original code for the `calculate_wait_times()` function.
 
 ```{python}
-import pandas as pd
-import warnings
-```
-
-
-```{python}
 #| eval: false
 #| file: code/patient_analysis__calculate_wait_times.py
 ```
 
 :::
 
-::: {.python-content}
+::: {.r-content}
 
 As a reminder this was our original code for the `calculate_wait_times()` function.
 
-```{.r-content}
+```{r}
 #| eval: false
 #| file: code/patient_analysis__calculate_wait_times.R
 ```
@@ -57,31 +51,34 @@ As a reminder this was our original code for the `calculate_wait_times()` functi
 
 ## 1. Protect your code from invalid and edge case inputs 
 
-<div class="h3-tight"></div>
-
 Here are some **minimal** defensive changes we could make to `calculate_wait_times()` 
 
-* Raise an exception if the `df` parameter passed to the function is not of type dataframe. 
-* Raise an exception if the `df` parameter does not have one or more of the expected columns within it.
-* If `df` is the edge case that does not contain any data (rows) warn the user and return an empty dataframe instead of attempting to perform a calculation (return early). 
+i. Raise an **exception** if the `df` parameter passed to the function is **not of type dataframe**. 
+ii. Raise an **exception** if the `df` parameter **does not have one or more of the expected columns** within it.
+iii. If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early). 
 
 These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing futher. It is important to provide a clear error message to the user to help them fix the mistake.
 
-The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. his is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
+The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
 
 ::: {.python-content}
 
-Here is an implementation of those three points in Python
+**Here is an implementation of those three points in Python**
 
 The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. An `ValueError` is raised if the columns (values) of the dataframe are not as expected.
 
-We handle the edge case of an empty dataframe through the combination of an `if` statement, the python warnings package, and an early return.
+We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
 
 Two extra considerations to help the user (which again might be you in the future!):
 
-1. Update the docstring of your function to detail the exceptions that can be raised and why.
-2. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
+i. Update the docstring of your function to detail the exceptions that can be raised and why.
+ii. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
 
+
+```{python}
+import pandas as pd
+import warnings
+```
 
 
 ```{python}

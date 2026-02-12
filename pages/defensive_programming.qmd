@@ -1,4 +1,4 @@
---
+---
 title: "Defensive Programming"
 ---
 
@@ -18,9 +18,9 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 This approach is particularly valuable in research code that may be reused by other researchers or even yourself in the future.  It aims to prevent another user (even yourself 5 years from now) from introducing a silent mistake into their analyses. These mistakes might be from implicit assumptions about data format, combinations of settings, invalid data ranges, or even the type of data structures used.
 
-By building in safeguards from the start, defensive programming significantly reduces bugs, improves reliability, and makes software behavior more predictable. If planned out carefully the practice will ultimately save debugging time and preventing costly failures.
+By building in safeguards from the start, defensive programming significantly reduces bugs, improves reliability, and makes software behavior more predictable. If planned out carefully the practice will ultimately save debugging time and prevent costly failures and rework of analyses.
 
-Testing of code and defensive programming are complementary practices that work together to create robust software. While defensive programming builds safeguards directly into the code, the testing methods we have described verify that these safeguards work as intended. 
+**Testing of code and defensive programming are complementary practices** that work together to create robust software. While defensive programming builds safeguards directly into the code, the testing methods we have described verify that these safeguards work as intended. 
 
 
 ## Example: calculating waiting times
@@ -57,15 +57,15 @@ i. Raise an **exception** if the `df` parameter passed to the function is **not 
 ii. Raise an **exception** if the `df` parameter **does not have one or more of the expected columns** within it.
 iii. If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early). 
 
-These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing futher. It is important to provide a clear error message to the user to help them fix the mistake.
+These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing further. It is important to provide a clear error message to the user to help them fix the mistake.
 
-The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fullfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
+The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fulfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
 
 ::: {.python-content}
 
 **Here is an implementation of those three points in Python**
 
-The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. An `ValueError` is raised if the columns (values) of the dataframe are not as expected.
+The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. A `ValueError` is raised if the columns (values) of the dataframe are not as expected.
 
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
 
@@ -110,7 +110,7 @@ Hypothetically let's take a scenario where a user is missing the "SERVICE" colum
 
 ### The edge case
 
-When the dataframe is empty a warning is raised. an empty dataframe is returned and the code continues to run:
+When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
 
 ```{python}
 #| eval: true
@@ -124,7 +124,7 @@ When the dataframe is empty a warning is raised. an empty dataframe is returned 
 
 Here is an implementation of those three points in R
 
-The first two issues are dealt with using the R `stop()` fucntion. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
+The first two issues are dealt with using the R `stop()` function. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
 
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
 
@@ -152,7 +152,7 @@ Hypothetically let's take a scenario where the user's preprocessing of the data 
 
 ### Missing columns
 
-Now let's take a scenario where a user is missing the "SERVICE" columns in their table of data. The code now elegantly handles that error and reports back to the user. Note that when stop() is called the code will terminate.
+Now let's take a scenario where a user is missing the "SERVICE" columns in their table of data. The code now elegantly handles that error and reports back to the user. Note that when `stop()` is called the code will terminate.
 
 ```{r}
 #| eval: true
@@ -162,7 +162,7 @@ Now let's take a scenario where a user is missing the "SERVICE" columns in their
 
 ### The edge case
 
-When the dataframe is empty a warning is raised. an empty dataframe is returned and the code continues to run:
+When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
 
 ```{r}
 #| eval: true

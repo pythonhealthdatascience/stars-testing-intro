@@ -1,5 +1,5 @@
 ---
-title: "Defensive Programming"
+title: "Defensive programming"
 ---
 
 ```{r}
@@ -14,22 +14,19 @@ use_condaenv("hdruk_tests", required = TRUE)
 
 ## What is defensive programming?
 
-**Defensive programming** is a proactive approach to software development that anticipates potential failures, invalid inputs, and unexpected conditions before they occur. Rather than assuming code will receive perfect inputs and execute under ideal conditions, it operates on the principle that "anything that can go wrong will go wrong." The goal is to write code that detects problems early, handles them gracefully, and prevents the user from making mistakes.
+**Defensive programming** involves building checks and safeguards into your code. These might catch problems such as incorrect data formats, invalid parameter combinations, unexpected data ranges, or wrong data structures. It's not the same as testing, but it complements it: **defensive programming adds safeguards inside your code, while testing checks that those safeguards and other features work as intended**.
 
-This approach is particularly valuable in research code that may be reused by other researchers or even yourself in the future.  It aims to prevent another user (even yourself 5 years from now) from introducing a silent mistake into their analyses. These mistakes might be from implicit assumptions about data format, combinations of settings, invalid data ranges, or even the type of data structures used.
+It is a proactive way of writing code that anticipates potential failures, operating on the principle that "anything that can go wrong will go wrong". This approach is especially useful in research code that may be reused by other people (or by you in a few years time!). It helps prevent subtle, silent mistakes that can creep in through hidden assumptions about how data should look, which settings are allowed together, or what ranges are valid.
 
-By building in safeguards from the start, defensive programming significantly reduces bugs, improves reliability, and makes software behavior more predictable. If planned out carefully the practice will ultimately save debugging time and prevent costly failures and rework of analyses.
-
-**Testing of code and defensive programming are complementary practices** that work together to create robust software. While defensive programming builds safeguards directly into the code, the testing methods we have described verify that these safeguards work as intended. 
-
+By adding these checks early, you make your code more robust and its behaviour more predictable. This can save time later by reducing debugging effort and avoiding the need to redo analyses because of errors that were only discovered after the fact.
 
 ## Example: calculating waiting times
 
-We will return to our [waiting times case study](case_study.qmd) and in particular the `calculate_wait_times()` function.
-
-::: {.python-content}
+We will return to the `calculate_wait_times()` function from our [waiting times case study](case_study.qmd).
 
 As a reminder this was our original code for the `calculate_wait_times()` function.
+
+::: {.python-content}
 
 ```{python}
 #| eval: false
@@ -40,40 +37,65 @@ As a reminder this was our original code for the `calculate_wait_times()` functi
 
 ::: {.r-content}
 
-As a reminder this was our original code for the `calculate_wait_times()` function.
-
 ```{r}
 #| eval: false
 #| file: code/patient_analysis__calculate_wait_times.R
 ```
+
 :::
 
 
 ## 1. Protect your code from invalid and edge case inputs 
 
-Here are some **minimal** defensive changes we could make to `calculate_wait_times()` 
+<div class="h3-tight"></div>
 
-i. Raise an **exception** if the `df` parameter passed to the function is **not of type dataframe**. 
-ii. Raise an **exception** if the `df` parameter **does not have one or more of the expected columns** within it.
-iii. If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early). 
+### Guard against invalid inputs
 
-These three examples demonstrate two approaches to handling invalid inputs. The first two errors modes are handled with a **hard stop**. Typically this done by raising an exception, a specific type of error, and stopping the program from executing further. It is important to provide a clear error message to the user to help them fix the mistake.
+::: {.box-blue}
 
-The third type of input is an edge case where the dataframe is a valid format, but is empty.  This might happen in unusual circumstances where there were no patients on a particular date.  To handle this scenario, you could choose to raise an exception, but if this is a legitimate edge case you may choose to **return early** i.e. return an empty dataframe. This is a way to gracefully handle the edge case before any data processing takes place that would otherwise generate runtime errors.  As well as returning early, you may decide to warn the user that they passed in an empty dataframe and return an empty result.  The approach means that the function still fulfills its contract i.e. returns an appropriate datatype, but prevents data processing errors.  
+**Suggested changes:**
+
+* Raise an **error** if the `df` parameter passed to the function is **not of type dataframe**. 
+
+* Raise an **error** if the `df` parameter **does not have one or more of the expected columns** within it.
+
+:::
+
+These checks use a **hard stop** approach. They prevent the function from running when the input is wrong, raising an error with a clear error message so the user can understand what went wrong and how to fix it.
+
+### Handle empty data as an edge case
+
+::: {.box-blue}
+
+**Suggested changes:**
+
+* If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early).
+
+:::
+
+In this situation, the input is structurally valid but represents an edge case, such as a day with no patients. You could treat this as an error, but if empty data is a legitimate case, it is often better to handle it gracefully. Returning early with an empty DataFrame (and a warning) avoids runtime errors while still keeping the function’s contract: it returns a DataFrame with the expected columns and types.
+
+### Additional defensive improvements
+
+::: {.box-blue}
+
+**Suggested changes:**
+
+* Document the possible errors in the function docstring.
+
+* Make error messages as clear and user-friendly as you can.
+
+:::
+
+These extra steps help future users (including you in the future) to understand how the function behaves when something goes wrong. Good documentation and messages make it easier to diagnose problems quickly.
+
+### Implementing these defensive programming changes
 
 ::: {.python-content}
-
-**Here is an implementation of those three points in Python**
 
 The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. A `ValueError` is raised if the columns (values) of the dataframe are not as expected.
 
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
-
-Two extra considerations to help the user (which again might be you in the future!):
-
-i. Update the docstring of your function to detail the exceptions that can be raised and why.
-ii. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
-
 
 ```{python}
 import pandas as pd
@@ -87,6 +109,8 @@ import warnings
 ```
 
 ## 2. Example use cases
+
+<div class="h3-tight"></div>
 
 ### Passing the wrong data type
 
@@ -122,16 +146,9 @@ When the dataframe is empty a warning is raised, an empty dataframe is returned 
 
 ::: {.r-content}
 
-Here is an implementation of those three points in R
-
 The first two issues are dealt with using the R `stop()` function. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
 
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
-
-Two extra considerations to help the user (which again might be you in the future!):
-
-1. Update the docstring of your function to detail the exceptions that can be raised and why.
-2. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
 
 ```{r}
 #| file: code/defensive_programming__calculate_wait_times.R
@@ -139,6 +156,8 @@ Two extra considerations to help the user (which again might be you in the futur
 ```
 
 ## 2. Example use cases
+
+<div class="h3-tight"></div>
 
 ### Passing the wrong data type
 

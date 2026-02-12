@@ -32,9 +32,15 @@
   color: rgba(0, 0, 0, 1);
 }
 
-/* Pale grey box for text */
+/* Coloured boxes */
 .box-grey {
   background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 1em 1em 0.2em 1em;
+  margin-bottom: 1em;
+}
+.box-blue {
+  background-color: #eff4fc;
   border-radius: 8px;
   padding: 1em 1em 0.2em 1em;
   margin-bottom: 1em;

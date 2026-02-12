@@ -44,6 +44,17 @@ import warnings
 
 :::
 
+::: {.python-content}
+
+As a reminder this was our original code for the `calculate_wait_times()` function.
+
+```{.r-content}
+#| eval: false
+#| file: code/patient_analysis__calculate_wait_times.R
+```
+:::
+
+
 ## 1. Protect your code from invalid and edge case inputs 
 
 <div class="h3-tight"></div>
@@ -78,6 +89,27 @@ Two extra considerations to help the user (which again might be you in the futur
 #| file: code/defensive_programming__calculate_wait_times_1.py
 ```
 :::
+
+::: {.r-content}
+
+Here is an implementation of those three points in R
+
+The first two issues are dealt with using the R `stop()` fucntion. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
+
+We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
+
+Two extra considerations to help the user (which again might be you in the future!):
+
+1. Update the docstring of your function to detail the exceptions that can be raised and why.
+2. Try as best you can to provide user friendly error messages to help fix mistakes (not easy!).
+
+```{r}
+#| file: code/defensive_programming__calculate_wait_times.R
+#| eval: false
+```
+
+:::
+
 
 ## 2.  Write tests to check that the defensive code works as expected. 
 

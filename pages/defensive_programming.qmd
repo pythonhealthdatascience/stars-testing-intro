@@ -82,9 +82,42 @@ import warnings
 
 
 ```{python}
-#| eval: false
+#| eval: true
 #| file: code/defensive_programming__calculate_wait_times_1.py
 ```
+
+## 2. Example use cases
+
+### Passing the wrong data type
+
+Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects.  Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a dataframe.  The code terminates immediately and we get a clear error message.
+
+```{python}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__wrong_datatype.py
+```
+
+### Missing columns
+
+Hypothetically let's take a scenario where a user is missing the "SERVICE" columns in their table of data.  The code now elegantly handles that error and reports back to the user.  Note that when an exception is raised the code will terminate.
+
+```{python}
+#| eval: true
+#| error: true
+#| file: code/defensive_programming__missing_column.py
+```
+
+### The edge case
+
+When the dataframe is empty a warning is raised. an empty dataframe is returned and the code continues to run:
+
+```{python}
+#| eval: true
+#| warning: true
+#| file: code/defensive_programming__empty_dataframe.py
+```
+
 :::
 
 ::: {.r-content}
@@ -108,19 +141,22 @@ Two extra considerations to help the user (which again might be you in the futur
 :::
 
 
-## 2.  Write tests to check that the defensive code works as expected. 
+## 3.  Write unit tests to check that the defensive code works as expected. 
 
 Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here. That the code fails as we expect.
 
 Here are some examples to test the defensive additions to `calculate_wait_times()`
 
-*  Test that passing a different data structure than a DataFrame raises the appropraite error and message.
-*  Test that passing a DataFrame missing one or more required columns raises the appropraite error and message.
+*  Test that passing a different data structure than a DataFrame raises the appropriate error and message.
+*  Test that passing a DataFrame missing one or more required columns raises the appropriate error and message.
 *  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
-*  If implemented, test that an empty DataFrame with valid column triggers a warning
+*  If implemented, test that an empty DataFrame with valid column triggers a warning.
 
 
-## 3. What else could we do defensively?
+
+
+
+## 4. What else could we do defensively?
 
 The example we provide here only scratches the surface of defensive programming.  We have introduced guardrails for our inputs, but the data within them could also be **garbage**. For example, the function expects date time data to be in a specific format.  Our `df` with a different format might fail in unexpected ways, potentially causing a runtime error, or even worse silently!  
 

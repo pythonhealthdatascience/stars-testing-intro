@@ -1,3 +1,22 @@
+@pytest.mark.parametrize(
+    "columns",
+    [
+        # Example 1: Missing columns
+        [
+            "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE"
+        ],
+        # Example 2: Extra columns
+        [
+            "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
+            "SERVICE_DATE", "SERVICE_TIME", "EXTRA",
+        ],
+        # Example 3: Right columns, wrong order
+        [
+            "ARRIVAL_DATE", "PATIENT_ID", "ARRIVAL_TIME",
+            "SERVICE_DATE", "SERVICE_TIME",
+        ],
+    ],
+)
 def test_import_errors(tmp_path, columns):
     """Incorrect columns should trigger ValueError."""
 

@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/pythonhealthdatascience/hdruk_tests/"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/pythonhealthdatascience/stars-testing-intro/"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -548,12 +548,12 @@ run-name: Run R tests</code></pre>
 <p>The video below demonstrates this workflow running in GitHub Actions. For the demo, the workflow is triggered manually using <code>workflow_dispatch</code>, but it would also run automatically whenever you push changes to <code>main</code>. In the video you’ll see we:</p>
 <div class="python-content">
 <ul>
-<li>Open the <a href="https://github.com/pythonhealthdatascience/hdruk_tests">GitHub repository</a>.</li>
-<li>Go to the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions">Actions</a> tab.</li>
-<li>Click on the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/python_tests.yaml">python_tests</a> action.</li>
-<li>View the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/python_tests.yaml">workflow YAML</a>.</li>
+<li>Open the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro">GitHub repository</a>.</li>
+<li>Go to the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions">Actions</a> tab.</li>
+<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml">python_tests</a> action.</li>
+<li>View the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/python_tests.yaml">workflow YAML</a>.</li>
 <li>Trigger the action via <code>workflow_dispatch</code>.</li>
-<li><a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21067946032">View the running test</a> - see they are installing the requirements, running tests, and pass.</li>
+<li><a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21067946032">View the running test</a> - see they are installing the requirements, running tests, and pass.</li>
 </ul>
 <div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_githubactions.webm"></video></div>
 <p>The tests all pass in the end-</p>
@@ -561,12 +561,12 @@ run-name: Run R tests</code></pre>
 </div>
 <div class="r-content">
 <ul>
-<li>Open the <a href="https://github.com/pythonhealthdatascience/hdruk_tests">GitHub repository</a>.</li>
-<li>Go to the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions">Actions</a> tab.</li>
-<li>Click on the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/r_tests.yaml">r_tests</a> action.</li>
-<li>View the <a href="https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/r_tests.yaml">workflow YAML</a>.</li>
+<li>Open the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro">GitHub repository</a>.</li>
+<li>Go to the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions">Actions</a> tab.</li>
+<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml">r_tests</a> action.</li>
+<li>View the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/r_tests.yaml">workflow YAML</a>.</li>
 <li>Trigger the action via <code>workflow_dispatch</code>, running it from the <code>dev</code> branch.</li>
-<li><a href="https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21166564091">View the running test</a> - see they are installing the packages, getting ready to run tests.</li>
+<li><a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21166564091">View the running test</a> - see they are installing the packages, getting ready to run tests.</li>
 </ul>
 <div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_r_githubactions.webm"></video></div>
 <p>The tests all pass in the end-</p>
@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/pythonhealthdatascience\.github\.io\/hdruk_tests\/");
+        var filterRegex = new RegExp("https:\/\/pythonhealthdatascience\.github\.io\/stars-testing-intro\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

@@ -1,1 +1,1 @@
-Sitemap: https://pythonhealthdatascience.github.io/hdruk_tests/sitemap.xml
+Sitemap: https://pythonhealthdatascience.github.io/stars-testing-intro/sitemap.xml

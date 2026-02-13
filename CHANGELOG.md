@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## Work in progress
+
+### Added
+
+* New page on defensive programming.
+* Example defensive programming versions of `calculate_wait_times()` added to `pages/code/`.
+
+### Changed
+
+* Removed HDR UK Futures logo and favicon.
+* Add link to Zenodo on README.
+
 ## v0.1.0 - 2026-01-20
 
 🌱 Initial release of the website.

@@ -1,4 +1,4 @@
-Title: hdruk_tests
+Title: stars-testing-intro
 Imports:
     covr
     devtools

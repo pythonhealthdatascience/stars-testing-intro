@@ -11,7 +11,7 @@ website:
   navbar:
     right:
       - icon: github
-        href: https://github.com/pythonhealthdatascience/hdruk_tests/
+        href: https://github.com/pythonhealthdatascience/stars-testing-intro/
   announcement:
     dismissable: false
     icon: info-circle

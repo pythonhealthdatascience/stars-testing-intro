@@ -5,7 +5,7 @@ title: "Running tests via GitHub actions"
 ```{r}
 #| include: false
 library(reticulate)
-use_condaenv("hdruk_tests", required = TRUE)
+use_condaenv("stars-testing-intro", required = TRUE)
 ```
 
 {{< include /assets/language-selector.html >}}
@@ -245,12 +245,12 @@ The video below demonstrates this workflow running in GitHub Actions. For the de
 
 ::: {.python-content}
 
-* Open the [GitHub repository](https://github.com/pythonhealthdatascience/hdruk_tests).
-* Go to the [Actions](https://github.com/pythonhealthdatascience/hdruk_tests/actions) tab.
-* Click on the [python_tests](https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/python_tests.yaml) action.
-* View the [workflow YAML](https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/python_tests.yaml).
+* Open the [GitHub repository](https://github.com/pythonhealthdatascience/stars-testing-intro).
+* Go to the [Actions](https://github.com/pythonhealthdatascience/stars-testing-intro/actions) tab.
+* Click on the [python_tests](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml) action.
+* View the [workflow YAML](https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/python_tests.yaml).
 * Trigger the action via `workflow_dispatch`.
-* [View the running test](https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21067946032) - see they are installing the requirements, running tests, and pass.
+* [View the running test](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21067946032) - see they are installing the requirements, running tests, and pass.
 
 {{< video /videos/run_tests_python_githubactions.webm >}}
 
@@ -262,12 +262,12 @@ The tests all pass in the end-
 
 ::: {.r-content}
 
-* Open the [GitHub repository](https://github.com/pythonhealthdatascience/hdruk_tests).
-* Go to the [Actions](https://github.com/pythonhealthdatascience/hdruk_tests/actions) tab.
-* Click on the [r_tests](https://github.com/pythonhealthdatascience/hdruk_tests/actions/workflows/r_tests.yaml) action.
-* View the [workflow YAML](https://github.com/pythonhealthdatascience/hdruk_tests/blob/main/.github/workflows/r_tests.yaml).
+* Open the [GitHub repository](https://github.com/pythonhealthdatascience/stars-testing-intro).
+* Go to the [Actions](https://github.com/pythonhealthdatascience/stars-testing-intro/actions) tab.
+* Click on the [r_tests](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml) action.
+* View the [workflow YAML](https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/r_tests.yaml).
 * Trigger the action via `workflow_dispatch`, running it from the `dev` branch.
-* [View the running test](https://github.com/pythonhealthdatascience/hdruk_tests/actions/runs/21166564091) - see they are installing the packages, getting ready to run tests.
+* [View the running test](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21166564091) - see they are installing the packages, getting ready to run tests.
 
 {{< video /videos/run_tests_r_githubactions.webm >}}
 

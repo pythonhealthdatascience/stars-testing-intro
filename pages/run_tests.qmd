@@ -90,7 +90,7 @@ project/
 The video below demonstrates running tests on a package structured this way. In the video we:
 
 * Use `tree`  to display the file structure (matches that shown above).
-* Activate our environment: `conda activate hdruk_tests` (which includes pytest).
+* Activate our environment: `conda activate stars-testing-intro` (which includes pytest).
 * Install our local package (if not already installed): `pip install -e .`.
 * Verify the installation with `conda list`, confirming our `waitingtimes` package appears.
 * Show you the test file (`nano tests/test_intro_simple.py`) (matches the one from the previous page on writing basic tests).
@@ -145,7 +145,7 @@ testthat::test_dir("tests/testthat")
 
 In the video below, we have an example of a research project structured as an our R project.
 
-* We highlight that the renv is active (`Project '~/Documents/stars/hdruk_tests' loaded. [renv 1.1.5]`).
+* We highlight that the renv is active (`Project '~/Documents/stars/stars-testing-intro' loaded. [renv 1.1.5]`).
 * We show the test file we will be running (`test_intro_simple.R`).
 * We run `devtools::test()` and can see that all tests pass.
 

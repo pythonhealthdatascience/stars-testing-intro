@@ -1,4 +1,4 @@
-name: hdruk_tests
+name: stars-testing-intro
 channels:
   - conda-forge
 dependencies:

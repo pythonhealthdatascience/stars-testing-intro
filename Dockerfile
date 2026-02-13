@@ -75,9 +75,9 @@ RUN rm -f /workspace/.Renviron
 RUN conda env create -f environment.yaml
 
 # Make the environment active by default
-ENV CONDA_DEFAULT_ENV=hdruk_tests
-ENV PATH="/opt/conda/envs/hdruk_tests/bin:${PATH}"
-RUN echo "conda activate hdruk_tests" >> /root/.bashrc
+ENV CONDA_DEFAULT_ENV=stars-testing-intro
+ENV PATH="/opt/conda/envs/stars-testing-intro/bin:${PATH}"
+RUN echo "conda activate stars-testing-intro" >> /root/.bashrc
 
 # R: set renv path and restore packages
 ENV RENV_PATHS_LIBRARY=/workspace/renv/library
@@ -87,7 +87,7 @@ RUN Rscript -e "install.packages('renv', repos = 'https://cloud.r-project.org')"
     Rscript -e "renv::restore()"
 
 # Set conda environment as default for reticulate
-ENV RETICULATE_PYTHON=/opt/conda/envs/hdruk_tests/bin/python
+ENV RETICULATE_PYTHON=/opt/conda/envs/stars-testing-intro/bin/python
 
 # Default command
 CMD ["/bin/bash"]

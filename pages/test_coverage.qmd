@@ -5,7 +5,7 @@ title: "Test coverage"
 ```{r}
 #| include: false
 library(reticulate)
-use_condaenv("hdruk_tests", required = TRUE)
+use_condaenv("stars-testing-intro", required = TRUE)
 ```
 
 {{< include /assets/language-selector.html >}}

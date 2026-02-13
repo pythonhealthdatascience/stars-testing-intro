@@ -1,6 +1,6 @@
 # Contributing
 
-This file is for contributors. It describes how the `hdruk_tests` site is set-up and quality controlled.
+This file is for contributors. It describes how the `stars-testing-intro` site is set-up and quality controlled.
 
 ## Example code
 

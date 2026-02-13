@@ -1,5 +1,7 @@
 ---
 title: "Defensive programming"
+filters:
+  - line-highlight
 ---
 
 ```{r}
@@ -97,11 +99,12 @@ The first two issues are dealt with through structured exception handling. A `Ty
 
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
 
+You can hover over the code to see the changes highlighted in **bold**.
+
 ```{python}
 import pandas as pd
 import warnings
 ```
-
 
 ```{python}
 #| eval: true
@@ -194,7 +197,7 @@ When the dataframe is empty a warning is raised, an empty dataframe is returned 
 
 ## 3.  Write unit tests to check that the defensive code works as expected. 
 
-Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here. That the code fails as we expect.
+Once you've added defensive programming safeguards to your code, it's essential to verify they work correctly. This is where the testing approaches we've covered earlier come into play.  Note we are testing for "negative" behaviour here - i.e., that the code fails as we expect.
 
 Here are some examples to test the defensive additions to `calculate_wait_times()`
 
@@ -204,13 +207,14 @@ Here are some examples to test the defensive additions to `calculate_wait_times(
 *  If implemented, test that an empty DataFrame with valid column triggers a warning.
 
 
-
-
-
 ## 4. What else could we do defensively?
 
 The example we provide here only scratches the surface of defensive programming.  We have introduced guardrails for our inputs, but the data within them could also be **garbage**. For example, the function expects date time data to be in a specific format.  Our `df` with a different format might fail in unexpected ways, potentially causing a runtime error, or even worse silently!  
 
 There is only so much time you have available to write defensive code, and deciding what to guard against is critical.  This is why testing your code is so important.  If, for example, you test your code and find it fails silently i.e. no error message, then you should strongly consider introducing a defensive programming routine to prevent that from happening in the future.
 
-> Remember: the goal is not to defensively program against every conceivable scenario, but to protect against the most likely errors and those with the most serious consequences for your research results.
+::: {.box-blue}
+
+**Remember: the goal is not to defensively program against every conceivable scenario, but to protect against the most likely errors and those with the most serious consequences for your research results.**
+
+:::

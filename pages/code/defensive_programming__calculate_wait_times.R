@@ -6,45 +6,41 @@
 #' @return A copy of the input data frame with additional columns:
 #'   `arrival_datetime`, `service_datetime`, and `waittime`.
 #'
-#' @section Errors:
-#' The function will stop with an error if:
-#' \itemize{
-#'   \item `df` is not a data frame
-#'   \item Required columns (`ARRIVAL_DATE`, `ARRIVAL_TIME`, 
-#'         `SERVICE_DATE`, `SERVICE_TIME`) are missing
-#' }
+#' @section Errors:#<<
+#' The function will stop with an error if:#<<
+#' \itemize{#<<
+#'   \item `df` is not a data frame#<<
+#'   \item Required columns (`ARRIVAL_DATE`, `ARRIVAL_TIME`,#<<
+#'         `SERVICE_DATE`, `SERVICE_TIME`) are missing#<<
+#' }#<<
 #'
-#' @section Warnings:
-#' A warning is issued if the input data frame is empty (has no rows).
+#' @section Warnings:#<<
+#' A warning is issued if the input data frame is empty (has no rows).#<<
 #'
 #' @export
 calculate_wait_times <- function(df) {
+
+  # Check `df` is a data frame. Hard fail using stop().#<<
+  if (!is.data.frame(df)) {#<<
+    stop(sprintf("Expected data frame, got %s", class(df)[1]))#<<
+  }#<<
   
-  # -- defensive programming additions --
+  # Check required columns are provided. Hard fail using stop().#<<
+  required_cols <- c("ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE", "SERVICE_TIME")#<<
+  missing_cols <- setdiff(required_cols, names(df))#<<
+  if (length(missing_cols) > 0) {#<<
+    stop(sprintf("Missing required columns: %s", paste(missing_cols, collapse = ", ")))#<<
+  }#<<
   
-  # 1. Check `df` is a data frame. Hard fail using stop().
-  if (!is.data.frame(df)) {
-    stop(sprintf("Expected data frame, got %s", class(df)[1]))
-  }
-  
-  # 2. Check required columns are provided. Hard fail using stop().
-  required_cols <- c("ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE", "SERVICE_TIME")
-  missing_cols <- setdiff(required_cols, names(df))
-  if (length(missing_cols) > 0) {
-    stop(sprintf("Missing required columns: %s", paste(missing_cols, collapse = ", ")))
-  }
-  
-  # 3. Check if data frame is empty. Graceful fail: return early + raise warning
-  if (nrow(df) == 0) {
-    warning("Input data frame is empty; returning empty result with expected columns")
-    df$arrival_datetime <- as.POSIXct(character(0))
-    df$service_datetime <- as.POSIXct(character(0))
-    df$waittime <- numeric(0)
-    return(df)
-  }
-  
-  # -- end of defensive additions --
-  
+  # Check if data frame is empty. Graceful fail: return early + raise warning#<<
+  if (nrow(df) == 0) {#<<
+    warning("Input data frame is empty; returning empty result with expected columns")#<<
+    df$arrival_datetime <- as.POSIXct(character(0))#<<
+    df$service_datetime <- as.POSIXct(character(0))#<<
+    df$waittime <- numeric(0)#<<
+    return(df)#<<
+  }#<<
+
   df <- df |>
     dplyr::mutate(
       arrival_datetime = lubridate::ymd_hm(

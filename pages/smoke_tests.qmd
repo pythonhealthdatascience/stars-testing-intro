@@ -39,9 +39,9 @@ We will need the following imports in our test script:
 
 ## Smoke test
 
-:::: {.python-content}
-
 In the test, we build a **tiny dummy dataset** so that the test runs quickly.
+
+:::: {.python-content}
 
 We use pytest's `tmp_path` fixture, which gives us a **temporary folder** that is created for the test and automatically cleaned up afterwards, so we do not touch any real files on your machine.
 
@@ -64,31 +64,66 @@ In this case, the fixture creates a temporary folder and passes a path object ca
 
 ::::
 
+::: {.r-content}
+
+We write it to a temporary file using `tempfile()`, so we do not touch any real files on your machine.
+
+We then run the full workflow end-to-end, and finish with a minimal expectation: checking only that `stats` exists.
+
+```{r}
+#| eval: false
+#| file: code/test_smoke__smoke_end_to_end_workflow.R
+```
+
+:::
+
 ## How to run the smoke test
 
-::: {.python-content}
-
 You can run only the smoke test file with:
+
+::: {.python-content}
 
 ```{.bash}
 pytest test_smoke.py
 ```
 
-However, it is common to treat the smoke test as a **gate** - i.e., if that test fails, no others are run. So, instead of just calling `pytest` when running your test suite, you can call:
+However, you may wish to treat the smoke test as a **gate** - i.e., if that test fails, no others are run. So, instead of just calling `pytest` when running your test suite, you can call:
 
 ```{.bash}
 pytest test_smoke.py && pytest --ignore=test_smoke.py
 ```
 
-This works as follows:
+:::
 
-* `pytest test_smoke.py` runs only the smoke tests.
-* `&&` means "only run the next command if the previous one succeeded".
-* `pytest --ignore=test_smoke.py` then runs the rest of the tests, but skips the smoke tests as we don't need to run them again.
+::: {.r-content}
 
-If the smoke test fails, the second command is never run, so the full test suite is not executed.
+```{.r}
+testthat::test_file("tests/testthat/test_smoke.R")
+```
+
+However, you may wish to treat the smoke test as a **gate** - i.e., if that test fails, no others are run. So, instead of just calling `devtools::test()` when running your test suite, you can create a `Makefile`:
+
+```{.bash}
+test:
+	Rscript -e "testthat::test_file('tests/testthat/test_smoke.R')" && \
+	Rscript -e "devtools::test()"
+```
+
+This is then run by calling:
+
+```{.bash}
+make test
+```
 
 :::
+
+This works as follows:
+
+* The first command runs the smoke test.
+* `&&` means "only run the next command if the previous one succeeded".
+* The second command runs the full test suite.
+
+If the smoke test fails, the second command is never run, so the full test suite is not executed.
 
 ## Running our example test
 
@@ -105,6 +140,19 @@ pytest.main(["../examples/python_package/tests/test_smoke.py"])
 :::
 
 ::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_smoke.R"
+)
+```
 
 :::
 

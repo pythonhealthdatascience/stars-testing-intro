@@ -23,6 +23,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 # to its own snippet file in OUT_DIR.
 FILES = [
     SRC_DIR / "src" / "waitingtimes" / "patient_analysis.py",
+    SRC_DIR / "tests" / "test_smoke.py",
     SRC_DIR / "tests" / "test_functional.py",
     SRC_DIR / "tests" / "test_unit.py",
     SRC_DIR / "tests" / "test_back.py",
@@ -61,7 +62,12 @@ def extract_functions(src_path):
     for node in tree.body:
         # Treat each top-level `def` as a separate snippet
         if isinstance(node, ast.FunctionDef):
-            start = node.lineno - 1
+            # Start at the first decorator if present, else at the function line
+            if node.decorator_list:
+                start = min(dec.lineno for dec in node.decorator_list) - 1
+            else:
+                start = node.lineno - 1
+
             end = node.end_lineno
             func_src = "".join(lines[start:end])
             yield node.name, func_src

@@ -66,7 +66,7 @@ Instead, they now see an average of 0.5 in the output.
 
 * They might not immediately realise that 0.5 means 0.5 hours.
 
-* They might start looking for some other explanation: "Has demand changed?" "Is the data different?"" "Did we filter a different subset?""
+* They might start looking for some other explanation: "Has demand changed?" "Is the data different?"" "Did we filter a different subset?"
 
 * They might even present the wrong numbers.
 
@@ -75,6 +75,18 @@ The code is still "working" in the sense that it runs successfully and produces 
 ## How the tests can help
 
 This is where tests come in handy! After the change to hours, the functional and back tests will both fail.
+
+::: {.python-content}
+
+{{< video /videos/python_break_test.mp4 >}}
+
+:::
+
+::: {.r-content}
+
+{{< video /videos/r_break_test.mp4 >}}
+
+:::
 
 These failures tell the team something important: the problem is in the code, not in the new data or some hidden change in demand.
 

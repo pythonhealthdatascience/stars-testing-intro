@@ -26,7 +26,7 @@ We will run back tests using the [dataset we introduced for our waiting times ca
 
 ::: {.python-content}
 
-On the test page, we need to import:
+In our test script, we need to import:
 
 ```{python}
 #| eval: false

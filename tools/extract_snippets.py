@@ -23,6 +23,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 # to its own snippet file in OUT_DIR.
 FILES = [
     SRC_DIR / "src" / "waitingtimes" / "patient_analysis.py",
+    SRC_DIR / "tests" / "test_smoke.py",
     SRC_DIR / "tests" / "test_functional.py",
     SRC_DIR / "tests" / "test_unit.py",
     SRC_DIR / "tests" / "test_back.py",

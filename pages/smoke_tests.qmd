@@ -1,0 +1,111 @@
+---
+title: "Smoke tests"
+---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("stars-testing-intro", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+## What is a smoke test?
+
+**Smoke tests** (also known as **build verification tests**) are a "sanity check" run before a complete test suite. They are extremely quick and just test that the code can run end-to-end, and not that the results are correct.
+
+If a smoke test fails, it usually means something fundamental is broken (for example, a missing dependency, a changed column name, or a syntax error). In that case, there is no point running slower, more detailed tests until the basic problem is fixed.
+
+## Example: waiting times case study
+
+We will create a simple smoke test for our case study workflow. This workflow uses three functions: 
+
+* `import_patient_data()` - reads patient data from CSV.
+* `calculate_wait_times()` - calculates wait times.
+* `summary_stats()` - produces summary statistics.
+
+For the smoke test, we do not care whether the CSV, wait times or statistics are correct. We only care that each function is able to run successfully, and that at least something is returned.
+
+::: {.python-content}
+
+We will need the following imports in our test script:
+
+```{python}
+#| eval: false
+#| file: code/test_smoke__imports.py
+```
+
+:::
+
+## Smoke test
+
+:::: {.python-content}
+
+In the test, we build a **tiny dummy dataset** so that the test runs quickly.
+
+We use pytest's `tmp_path` fixture, which gives us a **temporary folder** that is created for the test and automatically cleaned up afterwards, so we do not touch any real files on your machine.
+
+We then run the full workflow end-to-end, and finish with a minimal assertion: checking only that `stats` exists.
+
+```{python}
+#| eval: false
+#| file: code/test_smoke__test_smoke.py
+```
+
+::: {.callout-tip title="What is a fixture?"}
+
+In pytest, a **fixture** is a small helper function that prepares something your test needs and then passes it into the test function as a parameter.
+
+When you write a test like `def test_name(tmp_path):`, the name `tmp_path` tells pytest to call its built-in `tmp_path` fixture first. Whatever that fixture returns is then given to the test as the `tmp_path` argument.
+
+In this case, the fixture creates a temporary folder and passes a path object called `tmp_path` into the test. At the end of the test, pytest removes that folder, so you do not leave any files behind.
+
+:::
+
+::::
+
+## How to run the smoke test
+
+::: {.python-content}
+
+You can run only the smoke test file with:
+
+```{.bash}
+pytest test_smoke.py
+```
+
+However, it is common to treat the smoke test as a **gate** - i.e., if that test fails, no others are run. So, instead of just calling `pytest` when running your test suite, you can call:
+
+```{.bash}
+pytest test_smoke.py && pytest --ignore=test_smoke.py
+```
+
+This works as follows:
+
+* `pytest test_smoke.py` runs only the smoke tests.
+* `&&` means "only run the next command if the previous one succeeded".
+* `pytest --ignore=test_smoke.py` then runs the rest of the tests, but skips the smoke tests as we don't need to run them again.
+
+If the smoke test fails, the second command is never run, so the full test suite is not executed.
+
+:::
+
+## Running our example test
+
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_smoke.py"])
+```
+
+:::
+
+::: {.r-content}
+
+:::
+
+::::

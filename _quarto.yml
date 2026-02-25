@@ -28,6 +28,7 @@ website:
           - pages/parametrising_tests.qmd
       - section: Types of test
         contents:
+          - pages/smoke_tests.qmd
           - pages/unit_tests.qmd
           - pages/functional_tests.qmd
           - pages/back_tests.qmd

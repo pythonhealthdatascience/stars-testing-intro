@@ -62,7 +62,7 @@ def extract_functions(src_path):
     for node in tree.body:
         # Treat each top-level `def` as a separate snippet
         if isinstance(node, ast.FunctionDef):
-            # Start at the first decorator if present, else at the function line
+            # Start at first decorator if present, else at the function line
             if node.decorator_list:
                 start = min(dec.lineno for dec in node.decorator_list) - 1
             else:

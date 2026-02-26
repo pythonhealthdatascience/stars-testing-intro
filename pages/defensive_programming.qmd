@@ -102,8 +102,9 @@ We handle the edge case of an empty dataframe through the combination of an `if`
 You can hover over the code to see the changes highlighted in **bold**.
 
 ```{python}
-import pandas as pd
 import warnings
+
+import pandas as pd
 ```
 
 ```{python}
@@ -150,10 +151,13 @@ def calculate_wait_times(df):
     # Check if dataframe is empty. Graceful fail return early + raise warning#<<
     if df.empty:#<<
         df = df.copy()#<<
-        warnings.warn("Input DataFrame is empty; returning empty result with expected columns")#<<
-        df["arrival_datetime"] = pd.Series(dtype='datetime64[ns]')#<<
-        df["service_datetime"] = pd.Series(dtype='datetime64[ns]')#<<
-        df["waittime"] = pd.Series(dtype='float64')#<<
+        warnings.warn(#<<
+          "Input DataFrame is empty; returning empty result with "#<<
+          "expected columns"#<<
+        )#<<
+        df["arrival_datetime"] = pd.Series(dtype="datetime64[ns]")#<<
+        df["service_datetime"] = pd.Series(dtype="datetime64[ns]")#<<
+        df["waittime"] = pd.Series(dtype="float64")#<<
         return df#<<
 
     df = df.copy()
@@ -186,8 +190,8 @@ Hypothetically let's take a scenario where the user's preprocessing of the data 
 ```{python}
 #| error: true
 patient_data = [
-    {'ARRIVAL_DATE': '2026-01-15', 'ARRIVAL_TIME': '0900'},
-    {'ARRIVAL_DATE': '2026-01-15', 'ARRIVAL_TIME': '1030'}
+    {"ARRIVAL_DATE": "2026-01-15", "ARRIVAL_TIME": "0900"},
+    {"ARRIVAL_DATE": "2026-01-15", "ARRIVAL_TIME": "1030"}
 ]
 
 result = calculate_wait_times(patient_data)
@@ -201,8 +205,8 @@ Hypothetically let's take a scenario where a user is missing the "SERVICE" colum
 #| error: true
 # User forgot to include SERVICE columns
 incomplete_df = pd.DataFrame({
-    'ARRIVAL_DATE': ['2026-01-15', '2026-01-15'],
-    'ARRIVAL_TIME': ['0900', '1030']
+    "ARRIVAL_DATE": ["2026-01-15", "2026-01-15"],
+    "ARRIVAL_TIME": ["0900", "1030"]
 })
 
 result = calculate_wait_times(incomplete_df)
@@ -216,10 +220,10 @@ When the dataframe is empty a warning is raised, an empty dataframe is returned 
 #| warning: true
 # User filters data but no records match
 empty_df = pd.DataFrame({
-    'ARRIVAL_DATE': [],
-    'ARRIVAL_TIME': [],
-    'SERVICE_DATE': [],
-    'SERVICE_TIME': []
+    "ARRIVAL_DATE": [],
+    "ARRIVAL_TIME": [],
+    "SERVICE_DATE": [],
+    "SERVICE_TIME": []
 })
 
 result = calculate_wait_times(empty_df)
@@ -236,7 +240,7 @@ We handle the edge case of an empty dataframe through the combination of an `if`
 ```{r}
 #' Add arrival/service datetimes and waiting time in minutes.
 #'
-#' @param df Data frame with patient-level data containing `ARRIVAL_DATE`, 
+#' @param df Data frame with patient-level data containing `ARRIVAL_DATE`,
 #'   `ARRIVAL_TIME`, `SERVICE_DATE`, and `SERVICE_TIME` columns.
 #'
 #' @return A copy of the input data frame with additional columns:
@@ -260,17 +264,26 @@ calculate_wait_times <- function(df) {
   if (!is.data.frame(df)) {#<<
     stop(sprintf("Expected data frame, got %s", class(df)[1]))#<<
   }#<<
-  
+
   # Check required columns are provided. Hard fail using stop().#<<
-  required_cols <- c("ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE", "SERVICE_TIME")#<<
+  required_cols <- c(#<<
+    "ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE", "SERVICE_TIME"#<<
+  )#<<
   missing_cols <- setdiff(required_cols, names(df))#<<
   if (length(missing_cols) > 0) {#<<
-    stop(sprintf("Missing required columns: %s", paste(missing_cols, collapse = ", ")))#<<
+    stop(#<<
+      sprintf(#<<
+        "Missing required columns: %s", paste(missing_cols, collapse = ", ")#<<
+      )#<<
+    )#<<
   }#<<
   
   # Check if data frame is empty. Graceful fail: return early + raise warning#<<
   if (nrow(df) == 0) {#<<
-    warning("Input data frame is empty; returning empty result with expected columns")#<<
+    warning(#<<
+      "Input data frame is empty; returning empty result with ",#<<
+      "expected columns"#<<
+    )#<<
     df$arrival_datetime <- as.POSIXct(character(0))#<<
     df$service_datetime <- as.POSIXct(character(0))#<<
     df$waittime <- numeric(0)#<<
@@ -322,10 +335,10 @@ Hypothetically let's take a scenario where the user's preprocessing of the data 
 ```{r}
 #| error: true
 patient_data <- list(
-  ARRIVAL_DATE = c('2026-01-15', '2026-01-15'),
-  ARRIVAL_TIME = c('0900', '1030'),
-  SERVICE_DATE = c('2026-01-15', '2026-01-15'),
-  SERVICE_TIME = c('0930', '1100')
+  ARRIVAL_DATE = c("2026-01-15", "2026-01-15"),
+  ARRIVAL_TIME = c("0900", "1030"),
+  SERVICE_DATE = c("2026-01-15", "2026-01-15"),
+  SERVICE_TIME = c("0930", "1100")
 )
 
 result <- calculate_wait_times(patient_data)
@@ -338,8 +351,8 @@ Now let's take a scenario where a user is missing the "SERVICE" columns in their
 ```{r}
 #| error: true
 incomplete_df <- data.frame(
-  ARRIVAL_DATE = c('2026-01-15', '2026-01-15'),
-  ARRIVAL_TIME = c('0900', '1030')
+  ARRIVAL_DATE = c("2026-01-15", "2026-01-15"),
+  ARRIVAL_TIME = c("0900", "1030")
 )
 
 result <- calculate_wait_times(incomplete_df)

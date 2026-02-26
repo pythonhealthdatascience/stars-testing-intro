@@ -213,6 +213,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../pages/smoke_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Smoke tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../pages/unit_tests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit tests</span></a>
   </div>
@@ -659,7 +665,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">calculate_wait_times</span>(patient_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
-<pre data-code-line-numbers=""><code>Error in calculate_wait_times(patient_data): Expected data frame, got list</code></pre>
+<pre data-code-line-numbers=""><code>Error in `calculate_wait_times()`:
+! Expected data frame, got list</code></pre>
 </div>
 </div>
 </section>
@@ -674,7 +681,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">calculate_wait_times</span>(incomplete_df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
-<pre data-code-line-numbers=""><code>Error in calculate_wait_times(incomplete_df): Missing required columns: SERVICE_DATE, SERVICE_TIME</code></pre>
+<pre data-code-line-numbers=""><code>Error in `calculate_wait_times()`:
+! Missing required columns: SERVICE_DATE, SERVICE_TIME</code></pre>
 </div>
 </div>
 </section>

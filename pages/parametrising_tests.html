@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../pages/unit_tests.html" rel="next">
+<link href="../pages/smoke_tests.html" rel="next">
 <link href="../pages/run_tests.html" rel="prev">
 <link href="../images/stars_logo_blue.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -210,6 +210,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/smoke_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Smoke tests</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/unit_tests.html" class="sidebar-item-text sidebar-link">
@@ -429,15 +435,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Instead of writing separate test functions for each case, we can use pytest’s <code>@pytest.mark.parametrize</code> decorator:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_summary_stats(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>):</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Running summary_stats returns expected values."""</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> summary_stats(pd.Series(data))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"mean"</span>] <span class="op">==</span> pytest.approx(expected_mean, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"std_dev"</span>] <span class="op">==</span> pytest.approx(expected_std, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"ci_lower"</span>] <span class="op">==</span> pytest.approx(expected_ci_lower, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"ci_upper"</span>] <span class="op">==</span> pytest.approx(expected_ci_upper, rel<span class="op">=</span><span class="fl">5e-3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Five value sample with known summary statistics</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        ([<span class="fl">1.0</span>, <span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">4.0</span>, <span class="fl">5.0</span>], <span class="fl">3.0</span>, <span class="fl">1.58</span>, <span class="fl">1.04</span>, <span class="fl">4.96</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># No variation: CI collapse to mean</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        ([<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>], <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_summary_stats(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    data, expected_mean, expected_std, expected_ci_lower, expected_ci_upper</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Running summary_stats returns expected values."""</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> summary_stats(pd.Series(data))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"mean"</span>] <span class="op">==</span> pytest.approx(expected_mean, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"std_dev"</span>] <span class="op">==</span> pytest.approx(expected_std, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"ci_lower"</span>] <span class="op">==</span> pytest.approx(expected_ci_lower, rel<span class="op">=</span><span class="fl">5e-3</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> res[<span class="st">"ci_upper"</span>] <span class="op">==</span> pytest.approx(expected_ci_upper, rel<span class="op">=</span><span class="fl">5e-3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="how-it-works" class="level2">
 <h2 class="anchored" data-anchor-id="how-it-works">How it works</h2>
@@ -533,7 +548,7 @@ collected 2 items
 
 ../examples/python_package/tests/test_intro_parametrised.py ..           [100%]
 
-============================== 2 passed in 0.83s ===============================
+============================== 2 passed in 1.00s ===============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -1000,8 +1015,8 @@ document.addEventListener('DOMContentLoaded', function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../pages/unit_tests.html" class="pagination-link" aria-label="Unit tests">
-        <span class="nav-page-text">Unit tests</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../pages/smoke_tests.html" class="pagination-link" aria-label="Smoke tests">
+        <span class="nav-page-text">Smoke tests</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

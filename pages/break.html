@@ -79,6 +79,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-cdb88f3e6d851db23d7e5af580bdeefd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -212,6 +214,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../pages/smoke_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Smoke tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../pages/unit_tests.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Unit tests</span></a>
   </div>
@@ -332,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Instead, they now see an average of 0.5 in the output.</p>
 <ul>
 <li><p>They might not immediately realise that 0.5 means 0.5 hours.</p></li>
-<li><p>They might start looking for some other explanation: “Has demand changed?” “Is the data different?”” “Did we filter a different subset?””</p></li>
+<li><p>They might start looking for some other explanation: “Has demand changed?” “Is the data different?”” “Did we filter a different subset?”</p></li>
 <li><p>They might even present the wrong numbers.</p></li>
 </ul>
 <p>The code is still “working” in the sense that it runs successfully and produces numbers, but those numbers are now in a different unit from before. The change in meaning is silent and potentially easy to miss.</p>
@@ -340,6 +348,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-the-tests-can-help" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-tests-can-help">How the tests can help</h2>
 <p>This is where tests come in handy! After the change to hours, the functional and back tests will both fail.</p>
+<div class="python-content">
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/python_break_test.mp4"></video></div>
+</div>
+<div class="r-content">
+<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/r_break_test.mp4"></video></div>
+</div>
 <p>These failures tell the team something important: the problem is in the code, not in the new data or some hidden change in demand.</p>
 <p>Without these tests, this kind of “innocent” change could easily slip through and only be discovered much later.</p>
 
@@ -808,6 +822,8 @@ Text licence: <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="
     </div>
   </div>
 </footer>
+<script>videojs(video_shortcode_videojs_video1);</script>
+<script>videojs(video_shortcode_videojs_video2);</script>
 
 
 

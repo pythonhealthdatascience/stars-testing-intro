@@ -4,6 +4,7 @@ Imports:
     devtools
     DT
     knitr
+    lintr
     patrick
     reticulate
     rmarkdown

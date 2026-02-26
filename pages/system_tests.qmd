@@ -61,8 +61,7 @@ In our case study, we only have a simple three-step pipeline - but more complex 
 
 Think about realistic scenarios that cover:
 
-* **Clean/positive/success cases:** standard inputs where everything should work correctly.
-* **Variations:** realistic variations in the inputs (e.g., different sample sizes, different distributions in the data input).
+* **Clean/positive/success cases:** standard inputs where everything should work correctly, including realistic variations in the inputs (e.g., different sample sizes, different distributions in the data input).
 * **Edge/extreme cases:** unusual but plausible inputs (e.g., unusual sample sizes, boundary values).
 * **Error/negative/dirty cases:** invalid inputs that should trigger errors.
 
@@ -90,7 +89,7 @@ This test confirms the workflow succeeds with standard inputs and produces corre
 
 :::
 
-#### Variation: data with different distributions
+#### Clean case: variation using data with different distributions
 
 This test confirms the workflow handles realistic variation in wait times.
 

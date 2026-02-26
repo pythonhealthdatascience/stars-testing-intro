@@ -17,9 +17,9 @@ FILES = [
     SRC_DIR / "tests" / "testthat" / "test_intro_simple.R",
     SRC_DIR / "tests" / "testthat" / "test_intro_parametrised.R",
     SRC_DIR / "tests" / "testthat" / "test_smoke.R",
-    SRC_DIR / "tests" / "testthat" / "test_functional.R",
+    SRC_DIR / "tests" / "testthat" / "test_system.R",
     SRC_DIR / "tests" / "testthat" / "test_unit.R",
-    SRC_DIR / "tests" / "testthat" / "test_back.R"
+    SRC_DIR / "tests" / "testthat" / "test_regression.R"
 ]
 
 TEST_THAT_PATTERN = r"^\s*(test_that|(?:\w+::)?with_parameters_test_that)\s*\("

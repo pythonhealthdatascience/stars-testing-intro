@@ -30,8 +30,8 @@ website:
         contents:
           - pages/smoke_tests.qmd
           - pages/unit_tests.qmd
-          - pages/functional_tests.qmd
-          - pages/back_tests.qmd
+          - pages/system_tests.qmd
+          - pages/regression_tests.qmd
       - pages/break.qmd
       - pages/test_coverage.qmd
       - pages/github_actions.qmd

@@ -1,8 +1,4 @@
-# Back testing
-
-
 test_that("re-running on historical data produces consistent results", {
-  # Re-running on historical data should produce consistent results.
 
   # Specify path to historical data
   csv_path <- testthat::test_path("data", "patient_data.csv")

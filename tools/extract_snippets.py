@@ -24,9 +24,9 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 FILES = [
     SRC_DIR / "src" / "waitingtimes" / "patient_analysis.py",
     SRC_DIR / "tests" / "test_smoke.py",
-    SRC_DIR / "tests" / "test_functional.py",
+    SRC_DIR / "tests" / "test_system.py",
     SRC_DIR / "tests" / "test_unit.py",
-    SRC_DIR / "tests" / "test_back.py",
+    SRC_DIR / "tests" / "test_regression.py",
     SRC_DIR / "tests" / "test_intro_simple.py",
     SRC_DIR / "tests" / "test_intro_parametrised.py"
 ]

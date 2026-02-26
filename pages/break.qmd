@@ -6,7 +6,7 @@ title: "What was the point? Let's break it and see!"
 
 <br>
 
-We have built a suite of unit, functional and back tests. These took time and effort to write. It is natural to ask: was it worth it?
+We have built a suite of unit, system and regression tests. These took time and effort to write. It is natural to ask: was it worth it?
 
 We all know that tests "give confidence" and "check things", but that can feel abstract and slightly theoretical. To make it concrete, this page deliberately breaks the code and shows how the tests help.
 
@@ -74,7 +74,7 @@ The code is still "working" in the sense that it runs successfully and produces 
 
 ## How the tests can help
 
-This is where tests come in handy! After the change to hours, the functional and back tests will both fail.
+This is where tests come in handy! After the change to hours, the system and regression tests will both fail.
 
 ::: {.python-content}
 

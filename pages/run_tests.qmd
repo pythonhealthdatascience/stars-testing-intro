@@ -35,8 +35,8 @@ Pytest automatically discovers and runs tests when your test files start with `t
 
 ```
 tests/
-├── test_back.py
-├── test_functional.py
+├── test_regression.py
+├── test_system.py
 └── test_unit.py
 ```
 

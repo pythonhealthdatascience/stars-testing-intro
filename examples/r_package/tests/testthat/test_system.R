@@ -1,4 +1,4 @@
-# Functional testing
+# System testing
 
 
 test_that("complete workflow should calculate correct wait statistics", {

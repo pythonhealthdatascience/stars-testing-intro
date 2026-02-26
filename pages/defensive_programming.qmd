@@ -277,11 +277,11 @@ calculate_wait_times <- function(df) {
       )#<<
     )#<<
   }#<<
-  
+
   # Check if data frame is empty. Graceful fail: return early + raise warning#<<
   if (nrow(df) == 0) {#<<
     warning(#<<
-      "Input data frame is empty; returning empty result with ",#<<
+      "Input data frame is empty; returning empty result with ", #<<
       "expected columns"#<<
     )#<<
     df$arrival_datetime <- as.POSIXct(character(0))#<<

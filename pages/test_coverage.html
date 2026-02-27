@@ -199,6 +199,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Parameterising tests</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/temp_mock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data, temporary files and mocking</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -224,14 +230,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/functional_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functional tests</span></a>
+  <a href="../pages/system_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">System tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/back_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Back tests</span></a>
+  <a href="../pages/regression_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression tests</span></a>
   </div>
 </li>
       </ul>
@@ -330,13 +336,16 @@ platform linux -- Python 3.12.12, pytest-9.0.2, pluggy-1.6.0
 rootdir: /__w/stars-testing-intro/stars-testing-intro/examples/python_package
 configfile: pyproject.toml
 plugins: cov-7.0.0
-collected 14 items
+collected 17 items
 
-../examples/python_package/tests/test_back.py .                          [  7%]
-../examples/python_package/tests/test_functional.py ...                  [ 28%]
-../examples/python_package/tests/test_intro_parametrised.py ..           [ 42%]
-../examples/python_package/tests/test_intro_simple.py .                  [ 50%]
-../examples/python_package/tests/test_smoke.py .                         [ 57%]
+../examples/python_package/tests/test_data_mock.py .                     [  5%]
+../examples/python_package/tests/test_data_real.py .                     [ 11%]
+../examples/python_package/tests/test_data_temp.py .                     [ 17%]
+../examples/python_package/tests/test_intro_parametrised.py ..           [ 29%]
+../examples/python_package/tests/test_intro_simple.py .                  [ 35%]
+../examples/python_package/tests/test_regression.py .                    [ 41%]
+../examples/python_package/tests/test_smoke.py .                         [ 47%]
+../examples/python_package/tests/test_system.py ...                      [ 64%]
 ../examples/python_package/tests/test_unit.py ......                     [100%]
 
 ================================ tests coverage ================================
@@ -348,7 +357,7 @@ Name                                                                      Stmts 
 /workspace/examples/python_package/src/waitingtimes/patient_analysis.py      30      1    97%
 ---------------------------------------------------------------------------------------------
 TOTAL                                                                        31      1    97%
-============================== 14 passed in 2.03s ==============================
+============================== 17 passed in 1.94s ==============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -367,7 +376,7 @@ TOTAL                                                                        31 
 <p>If not structured as a package, you can use <a href="https://github.com/r-lib/covr">covr</a>’s <code>file_coverage()</code> function - for example:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>covr<span class="sc">::</span><span class="fu">file_coverage</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_files =</span> <span class="fu">c</span>(<span class="st">"patient_analysis.R"</span>),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_files =</span> <span class="fu">c</span>(<span class="st">"test_unit.R"</span>, <span class="st">"test_functional.R"</span>, <span class="st">"test_back.R"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_files =</span> <span class="fu">c</span>(<span class="st">"test_unit.R"</span>, <span class="st">"test_system.R"</span>, <span class="st">"test_regression.R"</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="calculating-coverage-for-our-example" class="level2">

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Back tests – Testing in Research Workflows</title>
+<title>Regression tests – Testing in Research Workflows</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../pages/break.html" rel="next">
-<link href="../pages/functional_tests.html" rel="prev">
+<link href="../pages/system_tests.html" rel="prev">
 <link href="../images/stars_logo_blue.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/smoke_tests.html">Types of test</a></li><li class="breadcrumb-item"><a href="../pages/back_tests.html">Back tests</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/smoke_tests.html">Types of test</a></li><li class="breadcrumb-item"><a href="../pages/regression_tests.html">Regression tests</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -199,6 +199,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Parameterising tests</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/temp_mock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data, temporary files and mocking</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -224,14 +230,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/functional_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functional tests</span></a>
+  <a href="../pages/system_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">System tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/back_tests.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Back tests</span></a>
+  <a href="../pages/regression_tests.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Regression tests</span></a>
   </div>
 </li>
       </ul>
@@ -275,9 +281,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content column-page-right" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/smoke_tests.html">Types of test</a></li><li class="breadcrumb-item"><a href="../pages/back_tests.html">Back tests</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pages/smoke_tests.html">Types of test</a></li><li class="breadcrumb-item"><a href="../pages/regression_tests.html">Regression tests</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Back tests</h1>
+<h1 class="title">Regression tests</h1>
 </div>
 
 
@@ -301,15 +307,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <br>
 <p><br></p>
-<section id="what-is-a-back-test" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-a-back-test">What is a back test?</h2>
-<p>A <strong>back</strong> test involves running your workflow on historical data and confirming that results are consistent over time.</p>
+<section id="what-is-a-regression-test" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-regression-test">What is a regression test?</h2>
+<p>A <strong>regression</strong> test involves running your workflow on historical data and confirming that results are consistent over time.</p>
 <p>It’s not focused on whether results are theoretically correct. It’s about <strong>consistency and reproducibility</strong> - confirming that code changes, environment updates, or data pipeline tweaks have not silently changed results.</p>
-<p>This overlaps with functional testing, but is distinct, because functional tests ask “is this output <em>correct</em>” whereas back tests ask “is this output <em>the same as before</em>?”.</p>
 </section>
 <section id="example-waiting-times-case-study" class="level2">
 <h2 class="anchored" data-anchor-id="example-waiting-times-case-study">Example: waiting times case study</h2>
-<p>We will run back tests using the <a href="../pages/case_study.html">dataset we introduced for our waiting times case study</a>.</p>
+<p>We will run regression tests using the <a href="../pages/case_study.html">dataset we introduced for our waiting times case study</a>.</p>
 <div class="python-content">
 <p>In our test script, we need to import:</p>
 <div class="cell">
@@ -321,8 +326,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="back-test" class="level2">
-<h2 class="anchored" data-anchor-id="back-test">Back test</h2>
+<section id="regression-test" class="level2">
+<h2 class="anchored" data-anchor-id="regression-test">Regression test</h2>
 <div class="python-content">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_reproduction():</span>
@@ -345,22 +350,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="r-content">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"re-running on historical data produces consistent results"</span>, {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Re-running on historical data should produce consistent results.</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Specify path to historical data</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  csv_path <span class="ot">&lt;-</span> testthat<span class="sc">::</span><span class="fu">test_path</span>(<span class="st">"data"</span>, <span class="st">"patient_data.csv"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Run functions</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">import_patient_data</span>(csv_path)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">calculate_wait_times</span>(df)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  stats <span class="ot">&lt;-</span> <span class="fu">summary_stats</span>(df<span class="sc">$</span>waittime)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verify the workflow produces consistent results</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>mean,     <span class="fl">4.1666</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>std_dev,  <span class="fl">2.7869</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>ci_lower, <span class="fl">1.2420</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>ci_upper, <span class="fl">7.0913</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Specify path to historical data</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  csv_path <span class="ot">&lt;-</span> testthat<span class="sc">::</span><span class="fu">test_path</span>(<span class="st">"data"</span>, <span class="st">"patient_data.csv"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Run functions</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">import_patient_data</span>(csv_path)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">calculate_wait_times</span>(df)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  stats <span class="ot">&lt;-</span> <span class="fu">summary_stats</span>(df<span class="sc">$</span>waittime)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Verify the workflow produces consistent results</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>mean,     <span class="fl">4.1666</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>std_dev,  <span class="fl">2.7869</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>ci_lower, <span class="fl">1.2420</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(stats<span class="sc">$</span>ci_upper, <span class="fl">7.0913</span>, <span class="at">tolerance =</span> <span class="fl">1e-4</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -386,9 +390,9 @@ configfile: pyproject.toml
 plugins: cov-7.0.0
 collected 1 item
 
-../examples/python_package/tests/test_back.py .                          [100%]
+../examples/python_package/tests/test_regression.py .                    [100%]
 
-============================== 1 passed in 1.02s ===============================
+============================== 1 passed in 0.98s ===============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -397,7 +401,7 @@ collected 1 item
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
-══ Testing test_back.R ═════════════════════════════════════════════════════════
+══ Testing test_regression.R ═══════════════════════════════════════════════════
 
 [ FAIL 0 | WARN 0 | SKIP 0 | PASS 0 ]
 [ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]
@@ -410,10 +414,10 @@ collected 1 item
 </div>
 </div>
 </section>
-<section id="when-should-you-update-your-back-tests" class="level2">
-<h2 class="anchored" data-anchor-id="when-should-you-update-your-back-tests">When should you update your back tests?</h2>
-<p><strong>Errors:</strong> If you identify an error in your pipeline, you first fix the code and then deliberately update the back test in isolation, so you know the only change in behaviour is the error fix and not something unintended elsewhere.</p>
-<p><strong>Changes over time:</strong> As your research evolves, you may update the workflow (e.g., improve the wait time calculation method) or use more recent datasets. You can keep the old back test running alongside new ones - this verifies that changes to the workflow don’t accidentally alter results on historical data, while new back tests validate that updated methods work correctly on current data.</p>
+<section id="when-should-you-update-your-regression-tests" class="level2">
+<h2 class="anchored" data-anchor-id="when-should-you-update-your-regression-tests">When should you update your regression tests?</h2>
+<p><strong>Errors:</strong> If you identify an error in your pipeline, you first fix the code and then deliberately update the regression test in isolation, so you know the only change in behaviour is the error fix and not something unintended elsewhere.</p>
+<p><strong>Changes over time:</strong> As your research evolves, you may update the workflow (e.g., improve the wait time calculation method) or use more recent datasets. You can keep the old regression test running alongside new ones - this verifies that changes to the workflow don’t accidentally alter results on historical data, while new regression tests validate that updated methods work correctly on current data.</p>
 
 
 </section>
@@ -851,8 +855,8 @@ document.addEventListener('DOMContentLoaded', function() {
   </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="../pages/functional_tests.html" class="pagination-link" aria-label="Functional tests">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Functional tests</span>
+      <a href="../pages/system_tests.html" class="pagination-link" aria-label="System tests">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">System tests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

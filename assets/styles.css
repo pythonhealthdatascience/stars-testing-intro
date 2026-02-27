@@ -45,6 +45,18 @@
   padding: 1em 1em 0.2em 1em;
   margin-bottom: 1em;
 }
+.box-green {
+  background-color: #d3ebba;
+  border-radius: 8px;
+  padding: 1em 1em 0.2em 1em;
+  margin-bottom: 1em;
+}
+.box-red {
+  background-color: #fbcbca;
+  border-radius: 8px;
+  padding: 1em 1em 0.2em 1em;
+  margin-bottom: 1em;
+}
 
 /* Add space before H2 + H3 */
 h2 {

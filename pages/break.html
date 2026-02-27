@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../pages/test_coverage.html" rel="next">
-<link href="../pages/back_tests.html" rel="prev">
+<link href="../pages/regression_tests.html" rel="prev">
 <link href="../images/stars_logo_blue.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -201,6 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Parameterising tests</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pages/temp_mock.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data, temporary files and mocking</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -226,14 +232,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/functional_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Functional tests</span></a>
+  <a href="../pages/system_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">System tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pages/back_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Back tests</span></a>
+  <a href="../pages/regression_tests.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression tests</span></a>
   </div>
 </li>
       </ul>
@@ -303,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <br>
 <p><br></p>
-<p>We have built a suite of unit, functional and back tests. These took time and effort to write. It is natural to ask: was it worth it?</p>
+<p>We have built a suite of unit, system and regression tests. These took time and effort to write. It is natural to ask: was it worth it?</p>
 <p>We all know that tests “give confidence” and “check things”, but that can feel abstract and slightly theoretical. To make it concrete, this page deliberately breaks the code and shows how the tests help.</p>
 <section id="the-innocent-change-minutes-to-hours" class="level2">
 <h2 class="anchored" data-anchor-id="the-innocent-change-minutes-to-hours">The “innocent change”: minutes to hours</h2>
@@ -347,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="how-the-tests-can-help" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-tests-can-help">How the tests can help</h2>
-<p>This is where tests come in handy! After the change to hours, the functional and back tests will both fail.</p>
+<p>This is where tests come in handy! After the change to hours, the system and regression tests will both fail.</p>
 <div class="python-content">
 <div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/python_break_test.mp4"></video></div>
 </div>
@@ -793,8 +799,8 @@ document.addEventListener('DOMContentLoaded', function() {
   </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="../pages/back_tests.html" class="pagination-link" aria-label="Back tests">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Back tests</span>
+      <a href="../pages/regression_tests.html" class="pagination-link" aria-label="Regression tests">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Regression tests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

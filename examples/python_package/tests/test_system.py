@@ -1,5 +1,5 @@
 """
-Functional testing.
+System testing.
 """
 
 import numpy as np

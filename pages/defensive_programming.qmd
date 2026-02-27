@@ -102,13 +102,81 @@ We handle the edge case of an empty dataframe through the combination of an `if`
 You can hover over the code to see the changes highlighted in **bold**.
 
 ```{python}
-import pandas as pd
 import warnings
+
+import pandas as pd
 ```
 
 ```{python}
-#| eval: true
-#| file: code/defensive_programming__calculate_wait_times_1.py
+def calculate_wait_times(df):
+    """
+    Add arrival/service datetimes and waiting time in minutes.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Patient-level data containing `ARRIVAL_DATE`, `ARRIVAL_TIME`,
+        `SERVICE_DATE`, and `SERVICE_TIME` columns.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Copy of the input DataFrame with additional columns:
+        `arrival_datetime`, `service_datetime`, and `waittime`.
+
+    Raises#<<
+    ------#<<
+    TypeError#<<
+        If `df` is not a pandas DataFrame.#<<
+    ValueError#<<
+        If required columns (`ARRIVAL_DATE`, `ARRIVAL_TIME`,#<<
+        `SERVICE_DATE`, `SERVICE_TIME`) are missing from the DataFrame.#<<
+
+    Warns#<<
+    -----#<<
+    UserWarning#<<
+        If the input DataFrame is empty.#<<
+    """
+    # Check `df` is a dataframe. Hard fail using exception.#<<
+    if not isinstance(df, pd.DataFrame):#<<
+        raise TypeError(f"Expected pandas DataFrame, got {type(df).__name__}")#<<
+
+    # Check required columns are provided. Hard fail using exception.#<<
+    required_cols = ["ARRIVAL_DATE", "ARRIVAL_TIME",#<<
+                     "SERVICE_DATE", "SERVICE_TIME"]#<<
+    missing_cols = [col for col in required_cols if col not in df.columns]#<<
+    if missing_cols:#<<
+        raise ValueError(f"Missing required columns: {missing_cols}")#<<
+
+    # Check if dataframe is empty. Graceful fail return early + raise warning#<<
+    if df.empty:#<<
+        df = df.copy()#<<
+        warnings.warn(#<<
+          "Input DataFrame is empty; returning empty result with "#<<
+          "expected columns"#<<
+        )#<<
+        df["arrival_datetime"] = pd.Series(dtype="datetime64[ns]")#<<
+        df["service_datetime"] = pd.Series(dtype="datetime64[ns]")#<<
+        df["waittime"] = pd.Series(dtype="float64")#<<
+        return df#<<
+
+    df = df.copy()
+
+    # Combine date and time columns into datetime columns
+    for prefix in ("ARRIVAL", "SERVICE"):
+        df[f"{prefix.lower()}_datetime"] = pd.to_datetime(
+            df[f"{prefix}_DATE"].astype(str) +
+            " " +
+            df[f"{prefix}_TIME"].astype(str).str.zfill(4),
+            format="%Y-%m-%d %H%M"
+        )
+
+    # Waiting time in minutes
+    df["waittime"] = (
+        df["service_datetime"] - df["arrival_datetime"]
+    ) / pd.Timedelta(minutes=1)
+
+    return df
 ```
 
 ## 2. Example use cases
@@ -120,9 +188,13 @@ import warnings
 Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects.  Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a dataframe.  The code terminates immediately and we get a clear error message.
 
 ```{python}
-#| eval: true
 #| error: true
-#| file: code/defensive_programming__wrong_datatype.py
+patient_data = [
+    {"ARRIVAL_DATE": "2026-01-15", "ARRIVAL_TIME": "0900"},
+    {"ARRIVAL_DATE": "2026-01-15", "ARRIVAL_TIME": "1030"}
+]
+
+result = calculate_wait_times(patient_data)
 ```
 
 ### Missing columns
@@ -130,9 +202,14 @@ Hypothetically let's take a scenario where the user's preprocessing of the data 
 Hypothetically let's take a scenario where a user is missing the "SERVICE" columns in their table of data.  The code now elegantly handles that error and reports back to the user.  Note that when an exception is raised the code will terminate.
 
 ```{python}
-#| eval: true
 #| error: true
-#| file: code/defensive_programming__missing_column.py
+# User forgot to include SERVICE columns
+incomplete_df = pd.DataFrame({
+    "ARRIVAL_DATE": ["2026-01-15", "2026-01-15"],
+    "ARRIVAL_TIME": ["0900", "1030"]
+})
+
+result = calculate_wait_times(incomplete_df)
 ```
 
 ### The edge case
@@ -140,9 +217,16 @@ Hypothetically let's take a scenario where a user is missing the "SERVICE" colum
 When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
 
 ```{python}
-#| eval: true
 #| warning: true
-#| file: code/defensive_programming__empty_dataframe.py
+# User filters data but no records match
+empty_df = pd.DataFrame({
+    "ARRIVAL_DATE": [],
+    "ARRIVAL_TIME": [],
+    "SERVICE_DATE": [],
+    "SERVICE_TIME": []
+})
+
+result = calculate_wait_times(empty_df)
 ```
 
 :::
@@ -154,8 +238,90 @@ The first two issues are dealt with using the R `stop()` function. This is calle
 We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
 
 ```{r}
-#| file: code/defensive_programming__calculate_wait_times.R
-#| eval: true
+#' Add arrival/service datetimes and waiting time in minutes.
+#'
+#' @param df Data frame with patient-level data containing `ARRIVAL_DATE`,
+#'   `ARRIVAL_TIME`, `SERVICE_DATE`, and `SERVICE_TIME` columns.
+#'
+#' @return A copy of the input data frame with additional columns:
+#'   `arrival_datetime`, `service_datetime`, and `waittime`.
+#'
+#' @section Errors:#<<
+#' The function will stop with an error if:#<<
+#' \itemize{#<<
+#'   \item `df` is not a data frame#<<
+#'   \item Required columns (`ARRIVAL_DATE`, `ARRIVAL_TIME`,#<<
+#'         `SERVICE_DATE`, `SERVICE_TIME`) are missing#<<
+#' }#<<
+#'
+#' @section Warnings:#<<
+#' A warning is issued if the input data frame is empty (has no rows).#<<
+#'
+#' @export
+calculate_wait_times <- function(df) {
+
+  # Check `df` is a data frame. Hard fail using stop().#<<
+  if (!is.data.frame(df)) {#<<
+    stop(sprintf("Expected data frame, got %s", class(df)[1]))#<<
+  }#<<
+
+  # Check required columns are provided. Hard fail using stop().#<<
+  required_cols <- c(#<<
+    "ARRIVAL_DATE", "ARRIVAL_TIME", "SERVICE_DATE", "SERVICE_TIME"#<<
+  )#<<
+  missing_cols <- setdiff(required_cols, names(df))#<<
+  if (length(missing_cols) > 0) {#<<
+    stop(#<<
+      sprintf(#<<
+        "Missing required columns: %s", paste(missing_cols, collapse = ", ")#<<
+      )#<<
+    )#<<
+  }#<<
+
+  # Check if data frame is empty. Graceful fail: return early + raise warning#<<
+  if (nrow(df) == 0) {#<<
+    warning(#<<
+      "Input data frame is empty; returning empty result with ", #<<
+      "expected columns"#<<
+    )#<<
+    df$arrival_datetime <- as.POSIXct(character(0))#<<
+    df$service_datetime <- as.POSIXct(character(0))#<<
+    df$waittime <- numeric(0)#<<
+    return(df)#<<
+  }#<<
+
+  df <- df |>
+    dplyr::mutate(
+      arrival_datetime = lubridate::ymd_hm(
+        paste(
+          as.character(ARRIVAL_DATE),
+          sprintf("%04d", as.integer(ARRIVAL_TIME))
+        )
+      ),
+      service_datetime = lubridate::ymd_hm(
+        paste(
+          as.character(SERVICE_DATE),
+          sprintf("%04d", as.integer(SERVICE_TIME))
+        )
+      )
+    )
+
+  if (any(is.na(df$arrival_datetime) | is.na(df$service_datetime))) {
+    stop(
+      "Failed to parse arrival or service datetimes; ",
+      "check for missing or invalid dates/times."
+    )
+  }
+
+  df <- df |>
+    dplyr::mutate(
+      waittime = as.numeric(
+        difftime(service_datetime, arrival_datetime, units = "mins")
+      )
+    )
+
+  df
+}
 ```
 
 ## 2. Example use cases
@@ -167,9 +333,15 @@ We handle the edge case of an empty dataframe through the combination of an `if`
 Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects. Here the user has the data held in an R list as an intermediate processing step and passes it to the function before converting to a data frame. The code terminates immediately and we get a clear error message.
 
 ```{r}
-#| eval: true
 #| error: true
-#| file: code/defensive_programming__wrong_datatype.R
+patient_data <- list(
+  ARRIVAL_DATE = c("2026-01-15", "2026-01-15"),
+  ARRIVAL_TIME = c("0900", "1030"),
+  SERVICE_DATE = c("2026-01-15", "2026-01-15"),
+  SERVICE_TIME = c("0930", "1100")
+)
+
+result <- calculate_wait_times(patient_data)
 ```
 
 ### Missing columns
@@ -177,9 +349,13 @@ Hypothetically let's take a scenario where the user's preprocessing of the data 
 Now let's take a scenario where a user is missing the "SERVICE" columns in their table of data. The code now elegantly handles that error and reports back to the user. Note that when `stop()` is called the code will terminate.
 
 ```{r}
-#| eval: true
 #| error: true
-#| file: code/defensive_programming__missing_column.R
+incomplete_df <- data.frame(
+  ARRIVAL_DATE = c("2026-01-15", "2026-01-15"),
+  ARRIVAL_TIME = c("0900", "1030")
+)
+
+result <- calculate_wait_times(incomplete_df)
 ```
 
 ### The edge case
@@ -187,9 +363,15 @@ Now let's take a scenario where a user is missing the "SERVICE" columns in their
 When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
 
 ```{r}
-#| eval: true
 #| warning: true
-#| file: code/defensive_programming__empty_dataframe.R
+empty_df <- data.frame(
+  ARRIVAL_DATE = character(0),
+  ARRIVAL_TIME = character(0),
+  SERVICE_DATE = character(0),
+  SERVICE_TIME = character(0)
+)
+
+result <- calculate_wait_times(empty_df)
 ```
 
 :::

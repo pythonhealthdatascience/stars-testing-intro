@@ -15,7 +15,7 @@ library(dplyr)
 #'
 #' @param data Numeric vector of data to use in the calculation.
 #'
-#' @return A named list with elements `mean`, `std_dev`, `ci_lower` and 
+#' @return A named list with elements `mean`, `std_dev`, `ci_lower` and
 #'   `ci_upper`. Each value is a numeric, or `NA` if it can't be computed.
 #'
 #' @export

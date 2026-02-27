@@ -1,6 +1,6 @@
 #' Add arrival/service datetimes and waiting time in minutes.
 #'
-#' @param df Data frame with patient-level data containing `ARRIVAL_DATE`, 
+#' @param df Data frame with patient-level data containing `ARRIVAL_DATE`,
 #'   `ARRIVAL_TIME`, `SERVICE_DATE`, and `SERVICE_TIME` columns.
 #'
 #' @return A copy of the input data frame with additional columns:

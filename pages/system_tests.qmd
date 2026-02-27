@@ -1,5 +1,5 @@
 ---
-title: "Functional tests"
+title: "System tests"
 ---
 
 ```{r}
@@ -12,9 +12,19 @@ use_condaenv("stars-testing-intro", required = TRUE)
 
 <br>
 
-## What is a functional test?
+## What is a system test?
 
-**Functional** tests are broader than unit tests. They focus on a whole feature or workflow, often involving several functions or classes working together. They check whether this end-to-end behaviour gives the correct outputs for given inputs, matching our requirements or expected results.
+**System** tests are broader than unit tests. They focus on a whole feature or workflow, often involving several functions or classes working together. They check whether this end-to-end behaviour gives the correct outputs for given inputs, matching our requirements or expected results.
+
+::: {.callout-note title="Integration tests"}
+
+Another useful type of test that sits between unit and system tests is the **integration test**.
+
+Integration tests focus on how two or more components work together (e.g., how a data import function hands data to a processing function), without necessarily running the whole workflow end-to-end.
+
+In this small case study, adding separate integration tests would not add much beyond our unit and system tests, but in larger projects they are very helpful for checking the interactions between parts of your code.
+
+:::
 
 ## Example: waiting times case study
 
@@ -24,7 +34,7 @@ We will return to our [waiting times case study](case_study.qmd) which involved 
 * `calculate_wait_times()` - adds arrival and service datetimes, and waiting time in minutes.
 * `summary_stats()` - calculates mean, standard deviation and 95% confidence interval.
 
-Unlike unit tests, which check each function in isolation, functional tests run all three steps together and verify the end-to-end workflow produces correct results.
+Unlike unit tests, which check each function in isolation, **system tests** run all three steps together and verify the end‑to‑end workflow produces correct results.
 
 ::: {.python-content}
 
@@ -32,12 +42,12 @@ We will need the follow imports in our test script:
 
 ```{python}
 #| eval: false
-#| file: code/test_functional__imports.py
+#| file: code/test_system__imports.py
 ```
 
 :::
 
-## How to write functional tests
+## How to write system tests
 
 <div class="h3-tight"></div>
 
@@ -51,21 +61,20 @@ In our case study, we only have a simple three-step pipeline - but more complex 
 
 Think about realistic scenarios that cover:
 
-* **Success cases:** standard inputs where everything should work correctly.
-* **Variations:** realistic variations in the inputs (e.g., different sample sizes, different distributions in the data input).
-* **Edge cases:** unusual but plausible inputs (e.g., unusual sample sizes, boundary values).
-* **Error cases:** invalid inputs that should trigger errors.
+* **Clean/positive/success cases:** standard inputs where everything should work correctly, including realistic variations in the inputs (e.g., different sample sizes, different distributions in the data input).
+* **Edge/extreme cases:** unusual but plausible inputs (e.g., unusual sample sizes, boundary values).
+* **Error/negative/dirty cases:** invalid inputs that should trigger errors.
 
 ### 3. Write tests for these scenarios
 
-#### Success case: typical data
+#### Clean case: typical data
 
 This test confirms the workflow succeeds with standard inputs and produces correct summary statistics.
 
 ::: {.python-content}
 
 ```{python}
-#| file: code/test_functional__test_workflow_success.py
+#| file: code/test_system__test_workflow_success.py
 #| eval: false
 ```
 
@@ -74,20 +83,20 @@ This test confirms the workflow succeeds with standard inputs and produces corre
 ::: {.r-content}
 
 ```{r}
-#| file: code/test_functional__complete_workflow_should.R
+#| file: code/test_system__complete_workflow_should.R
 #| eval: false
 ```
 
 :::
 
-#### Variation: data with different distributions
+#### Clean case: variation using data with different distributions
 
 This test confirms the workflow handles realistic variation in wait times.
 
 ::: {.python-content}
 
 ```{python}
-#| file: code/test_functional__test_workflow_with_variation.py
+#| file: code/test_system__test_workflow_with_variation.py
 #| eval: false
 ```
 
@@ -96,7 +105,7 @@ This test confirms the workflow handles realistic variation in wait times.
 ::: {.r-content}
 
 ```{r}
-#| file: code/test_functional__workflow_should_correctly.R
+#| file: code/test_system__workflow_should_give.R
 #| eval: false
 ```
 
@@ -109,7 +118,7 @@ This test confirms the workflow fails appropriately when given invalid data.
 ::: {.python-content}
 
 ```{python}
-#| file: code/test_functional__test_missing_date_error.py
+#| file: code/test_system__test_missing_date_error.py
 #| eval: false
 ```
 
@@ -118,7 +127,7 @@ This test confirms the workflow fails appropriately when given invalid data.
 ::: {.r-content}
 
 ```{r}
-#| file: code/test_functional__workflow_should_raise.R
+#| file: code/test_system__workflow_should_raise.R
 #| eval: false
 ```
 
@@ -133,7 +142,7 @@ This test confirms the workflow fails appropriately when given invalid data.
 ```{python}
 #| echo: false
 import pytest
-pytest.main(["../examples/python_package/tests/test_functional.py"])
+pytest.main(["../examples/python_package/tests/test_system.py"])
 ```
 
 :::
@@ -149,7 +158,7 @@ devtools::load_all("../examples/r_package")
 ```{r}
 #| echo: false
 testthat::test_file(
-  "../examples/r_package/tests/testthat/test_functional.R"
+  "../examples/r_package/tests/testthat/test_system.R"
 )
 ```
 

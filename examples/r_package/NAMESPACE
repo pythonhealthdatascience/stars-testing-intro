@@ -3,3 +3,4 @@
 export(calculate_wait_times)
 export(import_patient_data)
 export(summary_stats)
+importFrom(readr,read_csv)

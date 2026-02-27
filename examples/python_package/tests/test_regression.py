@@ -1,5 +1,5 @@
 """
-Back testing.
+Regression testing.
 """
 
 from pathlib import Path

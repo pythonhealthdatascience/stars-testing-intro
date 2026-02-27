@@ -92,7 +92,9 @@ raw_data
 
 ```{r}
 raw_data <- import_patient_data(
-  file.path("..", "examples", "r_package", "inst", "extdata", "patient_data.csv")
+  file.path(
+    "..", "examples", "r_package", "inst", "extdata", "patient_data.csv"
+  )
 )
 raw_data
 ```

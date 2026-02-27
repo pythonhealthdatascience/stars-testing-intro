@@ -1,8 +1,7 @@
-# Functional testing
+# System testing
 
 
 test_that("complete workflow should calculate correct wait statistics", {
-  # Complete workflow should calculate correct wait statistics.
 
   # Create test data with known values
   test_data <- tibble::tibble(
@@ -31,8 +30,7 @@ test_that("complete workflow should calculate correct wait statistics", {
 })
 
 
-test_that("workflow should correctly compute statistics for variable wait times", {
-  # Workflow should correctly compute statistics for variable wait times.
+test_that("workflow should give correct statistics for variable wait times", {
 
   # Create test data with known wait times: 15, 30, 45 minutes
   test_data <- tibble::tibble(
@@ -62,7 +60,6 @@ test_that("workflow should correctly compute statistics for variable wait times"
 
 
 test_that("workflow should raise error when dates are missing", {
-  # Workflow should raise error when dates are missing.
 
   test_data <- tibble::tibble(
     PATIENT_ID   = c("p1", "p2", "p3"),
@@ -80,8 +77,8 @@ test_that("workflow should raise error when dates are missing", {
   df <- import_patient_data(csv_path)
   expect_warning(
     expect_error(
-        calculate_wait_times(df),
-        regexp = "Failed to parse arrival or service datetimes"
+      calculate_wait_times(df),
+      regexp = "Failed to parse arrival or service datetimes"
     ),
     regexp = "failed to parse"
   )

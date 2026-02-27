@@ -1,5 +1,4 @@
 test_that("complete workflow should calculate correct wait statistics", {
-  # Complete workflow should calculate correct wait statistics.
 
   # Create test data with known values
   test_data <- tibble::tibble(

@@ -7,29 +7,67 @@ from pathlib import Path
 import re
 import textwrap
 
+
+# Get path to project root
 ROOT = Path(__file__).resolve().parents[1]
+
+# Directory containing the example package
 SRC_DIR = ROOT / "examples" / "r_package"
+
+# Source files to process. Each function in these files will be written
+# to its own snippet file in OUT_DIR.
+SRC_CODE_DIR = SRC_DIR / "R"
+TESTS_DIR = SRC_DIR / "tests" / "testthat"
+FILES = list(SRC_CODE_DIR.rglob("*.R")) + list(TESTS_DIR.rglob("*.R"))
+
+# Output directory for generated snippet files used in website
 OUT_DIR = ROOT / "pages" / "code"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-FILES = [
-    SRC_DIR / "R" / "patient_analysis.R",
-    SRC_DIR / "tests" / "testthat" / "test_intro_simple.R",
-    SRC_DIR / "tests" / "testthat" / "test_intro_parametrised.R",
-    SRC_DIR / "tests" / "testthat" / "test_smoke.R",
-    SRC_DIR / "tests" / "testthat" / "test_functional.R",
-    SRC_DIR / "tests" / "testthat" / "test_unit.R",
-    SRC_DIR / "tests" / "testthat" / "test_back.R"
-]
-
-TEST_THAT_PATTERN = r'^\s*(test_that|(?:\w+::)?with_parameters_test_that)\s*\('
+TEST_THAT_PATTERN = r"^\s*(test_that|(?:\w+::)?with_parameters_test_that)\s*\("
 
 
 def is_test_file(src_path):
-    return src_path.name.startswith("test_") or src_path.name.startswith("test-")
+    """
+    Determine whether a given R source path refers to a test file
+
+    Parameters
+    ----------
+    src_path : pathlib.Path
+        Path to the R source file.
+
+    Returns
+    -------
+    bool
+        True if the file appears to be a test file, False otherwise.
+    """
+    return (
+        src_path.name.startswith("test_") or src_path.name.startswith("test-")
+    )
 
 
-def slugify_desc(desc: str, max_words: int = 5, max_len: int = 40) -> str:
+def slugify_desc(desc, max_words=5, max_len=40):
+    """
+    Generate a short, safe slug from a test description string.
+
+    The description is truncated to the first `max_words` words,
+    non-alphanumeric characters are replaced with underscores, and
+    the result is trimmed to `max_len` characters.
+
+    Parameters
+    ----------
+    desc : str
+        The test description (usually from a ``test_that()`` block).
+    max_words : int, optional
+        Maximum number of words to keep from the original description.
+    max_len : int, optional
+        Maximum character length of the resulting slug.
+
+    Returns
+    -------
+    str
+        A cleaned, underscore-separated slug suitable for use in filenames.
+    """
     # Keep only first `max_words`
     words = desc.split()
     trimmed = " ".join(words[:max_words])
@@ -80,7 +118,7 @@ def extract_r_functions(src_path):
 
     # Match function definitions at start of line (allowing indentation)
     # Captures: name <- function(args) {
-    func_pattern = r'^\s*(\w+)\s*<-\s*function\s*\('
+    func_pattern = r"^\s*(\w+)\s*<-\s*function\s*\("
 
     i = 0
     while i < len(lines):
@@ -105,11 +143,11 @@ def extract_r_functions(src_path):
                     break
 
             # Now find the end of function (matching closing brace)
-            brace_count = lines[i].count('{') - lines[i].count('}')
+            brace_count = lines[i].count("{") - lines[i].count("}")
             end = i + 1
 
             while end < len(lines) and brace_count > 0:
-                brace_count += lines[end].count('{') - lines[end].count('}')
+                brace_count += lines[end].count("{") - lines[end].count("}")
                 end += 1
 
             # Extract full source (docstring + function)
@@ -143,7 +181,9 @@ def extract_testthat_blocks(src_path):
         if re.match(TEST_THAT_PATTERN, line):
             # Description: first quoted string after the function name
             desc_match = re.search(r'"([^"]+)"', "".join(lines[i: i + 3]))
-            raw_name = desc_match.group(1) if desc_match else f"test_{test_idx}"
+            raw_name = (
+                desc_match.group(1) if desc_match else f"test_{test_idx}"
+            )
             slug = slugify_desc(raw_name, max_words=3)
             test_idx += 1
 

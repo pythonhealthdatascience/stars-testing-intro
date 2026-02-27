@@ -75,7 +75,7 @@ If not structured as a package, you can use [covr](https://github.com/r-lib/covr
 ```{.r}
 covr::file_coverage(
   source_files = c("patient_analysis.R"),
-  test_files = c("test_unit.R", "test_functional.R", "test_back.R")
+  test_files = c("test_unit.R", "test_system.R", "test_regression.R")
 )
 ```
 

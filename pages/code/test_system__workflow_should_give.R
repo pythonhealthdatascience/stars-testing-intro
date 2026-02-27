@@ -1,5 +1,4 @@
-test_that("workflow should correctly compute statistics for variable wait times", {
-  # Workflow should correctly compute statistics for variable wait times.
+test_that("workflow should give correct statistics for variable wait times", {
 
   # Create test data with known wait times: 15, 30, 45 minutes
   test_data <- tibble::tibble(

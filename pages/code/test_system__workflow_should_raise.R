@@ -1,5 +1,4 @@
 test_that("workflow should raise error when dates are missing", {
-  # Workflow should raise error when dates are missing.
 
   test_data <- tibble::tibble(
     PATIENT_ID   = c("p1", "p2", "p3"),
@@ -17,8 +16,8 @@ test_that("workflow should raise error when dates are missing", {
   df <- import_patient_data(csv_path)
   expect_warning(
     expect_error(
-        calculate_wait_times(df),
-        regexp = "Failed to parse arrival or service datetimes"
+      calculate_wait_times(df),
+      regexp = "Failed to parse arrival or service datetimes"
     ),
     regexp = "failed to parse"
   )

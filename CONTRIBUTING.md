@@ -2,6 +2,14 @@
 
 This file is for contributors. It describes how the `stars-testing-intro` site is set-up and quality controlled.
 
+## Linting
+
+Simply run from terminal:
+
+```
+bash lint.sh
+```
+
 ## Example code
 
 The example code is contained in `examples`.

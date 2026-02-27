@@ -15,21 +15,15 @@ ROOT = Path(__file__).resolve().parents[1]
 # Directory containing the example package
 SRC_DIR = ROOT / "examples" / "python_package"
 
+# Source files to process. Each function in these files will be written
+# to its own snippet file in OUT_DIR.
+SRC_CODE_DIR = SRC_DIR / "src"
+TESTS_DIR = SRC_DIR / "tests"
+FILES = list(SRC_CODE_DIR.rglob("*.py")) + list(TESTS_DIR.rglob("*.py"))
+
 # Output directory for generated snippet files used in website
 OUT_DIR = ROOT / "pages" / "code"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# Source files to process. Each function in these files will be written
-# to its own snippet file in OUT_DIR.
-FILES = [
-    SRC_DIR / "src" / "waitingtimes" / "patient_analysis.py",
-    SRC_DIR / "tests" / "test_smoke.py",
-    SRC_DIR / "tests" / "test_functional.py",
-    SRC_DIR / "tests" / "test_unit.py",
-    SRC_DIR / "tests" / "test_back.py",
-    SRC_DIR / "tests" / "test_intro_simple.py",
-    SRC_DIR / "tests" / "test_intro_parametrised.py"
-]
 
 
 def extract_functions(src_path):
@@ -62,7 +56,7 @@ def extract_functions(src_path):
     for node in tree.body:
         # Treat each top-level `def` as a separate snippet
         if isinstance(node, ast.FunctionDef):
-            # Start at the first decorator if present, else at the function line
+            # Start at first decorator if present, else at the function line
             if node.decorator_list:
                 start = min(dec.lineno for dec in node.decorator_list) - 1
             else:

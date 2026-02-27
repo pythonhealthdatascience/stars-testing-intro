@@ -1,0 +1,94 @@
+---
+title: "Regression tests"
+---
+
+```{r}
+#| include: false
+library(reticulate)
+use_condaenv("stars-testing-intro", required = TRUE)
+```
+
+{{< include /assets/language-selector.html >}}
+
+<br>
+
+## What is a regression test?
+
+A **regression** test involves running your workflow on historical data and confirming that results are consistent over time.
+
+It's not focused on whether results are theoretically correct. It's about **consistency and reproducibility** - confirming that code changes, environment updates, or data pipeline tweaks have not silently changed results.
+
+
+## Example: waiting times case study
+
+We will run regression tests using the [dataset we introduced for our waiting times case study](case_study.qmd).
+
+::: {.python-content}
+
+In our test script, we need to import:
+
+```{python}
+#| eval: false
+#| file: code/test_regression__imports.py
+```
+
+:::
+
+## Regression test
+
+::: {.python-content}
+
+```{python}
+#| eval: false
+#| file: code/test_regression__test_reproduction.py
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/test_regression__re_running_on_historical.R
+```
+
+:::
+
+## Running our example test
+
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main(["../examples/python_package/tests/test_regression.py"])
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+testthat::test_file(
+  "../examples/r_package/tests/testthat/test_regression.R"
+)
+```
+
+:::
+
+::::
+
+## When should you update your regression tests?
+
+**Errors:** If you identify an error in your pipeline, you first fix the code and then deliberately update the regression test in isolation, so you know the only change in behaviour is the error fix and not something unintended elsewhere.
+
+**Changes over time:** As your research evolves, you may update the workflow (e.g., improve the wait time calculation method) or use more recent datasets. You can keep the old regression test running alongside new ones - this verifies that changes to the workflow don't accidentally alter results on historical data, while new regression tests validate that updated methods work correctly on current data.

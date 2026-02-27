@@ -10,11 +10,11 @@ Another common requirement when writing tests for research code is to provide a 
 
 This page shows three ways to give a file path to your test code:
 
-1. A **real data file** under version control
+1. A **real data file**.
 
-2. A **temporary file** created inside the test
+2. A **temporary file** created inside the test.
 
-3. **Mocking**, where we pretend to read a file but never touch the filesystem
+3. **Mocking**, where we pretend to read a file but never touch the filesystem.
 
 ## Example: `import_patient_data()`
 
@@ -44,7 +44,7 @@ To demonstrate, we will use the `import_patient_data()` function from our case s
 
 On the rest of this page, we will focus on **how** to provide the path to the test, and the tests themselves are then just dummy examples confirming that the import data exists, and no detailed checks (those come later!).
 
-## Option 1: real data file
+## Option 1: Real data file
 
 ::: {.python-content}
 
@@ -98,12 +98,16 @@ We have to find the folder containing the test file (`Path(__file).parent`), and
 
 ::: {.r-content}
 
+We use `testthat::test_path()` to find the folder containing the test file, then locate `data/patient_data.csv` relative to the test file itself, rather than relying on the current working directory (which will change depending on where tests are run from).
+
 ```{r}
+#| eval: false
+#| file: code/test_data_real__real_data_file.R
 ```
 
 :::
 
-## Option 2: temporary file
+## Option 2: Temporary file
 
 For many tests, we do not need a full real dataset. We just need a **small CSV with the right structure** so the code can run.
 
@@ -148,13 +152,17 @@ The `tmp_path` argument is a pytest fixture that provides a temporary directory 
 
 ::: {.r-content}
 
+The `tempfile()` function creates a temporary file path unique to the test session. We use this path to write a CSV file during the test, ensuring the file is created in an isolated temporary location and is automatically cleaned up by R after use.
+
 ```{r}
+#| eval: false
+#| file: code/test_data_temp__tempfile_is_created.R
 ```
 
 :::
 
 
-## Option 3: mocking
+## Option 3: Mocking
 
 An improvement on the temporary file approach is to **avoid writing any files at all**.
 
@@ -206,7 +214,22 @@ Because `pd.read_csv` is patched, the file path passed to `import_patient_data` 
 
 ::: {.r-content}
 
+Mocking an external function like `readr::read_csv()` is only really only practical when your R code is structured as a package.
+
+This is because `testthat::local_mocked_bindings()` can only replace names that live in your package namespace. For an external function, that means you must either:
+
+* Import it into your namespace - with `@importFrom readr read_csv` so `read_csv` appears in `NAMESPACE` and you call `read_csv` without `readr::`.
+* Wrap the external call in your own helper function and mock that helper instead.
+
+Older approaches such as `mockr::with_mock` and `mockery::stub` can intercept `readr::read_csv()` directly, but they are now considered legacy or superseded, and are not recommended for new code.
+
+The current guidance is to use `local_mocked_bindings()`: it works well for mocking your own functions, and for external functions once they are either imported into your namespace or accessed through a small helper you control.
+
+If your code is not structured as a package (for example, it lives in loose scripts or notebooks), adding helpers purely to enable mocking is often not worth the extra complexity. In that case, it is usually simpler to use temporary files or real data files instead of forcing package-style mocking patterns into an ad‑hoc project.
+
 ```{r}
+#| eval: false
+#| file: code/test_data_mock__providing_data_to.R
 ```
 
 :::
@@ -239,9 +262,9 @@ devtools::load_all("../examples/r_package")
 
 ```{r}
 #| echo: false
-#testthat::test_file(
-#  "../examples/r_package/tests/testthat/test_data_real.R"
-#)
+testthat::test_dir(
+  "../examples/r_package/tests/testthat", filter = "data_"
+)
 ```
 
 :::

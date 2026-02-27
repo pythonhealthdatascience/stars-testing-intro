@@ -7,7 +7,7 @@
 import_patient_data(path)
 }
 \arguments{
-\item{path}{Character string or path to the CSV file containing the
+\item{path}{Character string giving path to the CSV file containing the
 patient data.}
 }
 \value{

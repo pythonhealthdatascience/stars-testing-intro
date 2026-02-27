@@ -7,20 +7,22 @@ from pathlib import Path
 import re
 import textwrap
 
+
+# Get path to project root
 ROOT = Path(__file__).resolve().parents[1]
+
+# Directory containing the example package
 SRC_DIR = ROOT / "examples" / "r_package"
+
+# Source files to process. Each function in these files will be written
+# to its own snippet file in OUT_DIR.
+SRC_CODE_DIR = SRC_DIR / "R"
+TESTS_DIR = SRC_DIR / "tests" / "testthat"
+FILES = list(SRC_CODE_DIR.rglob("*.R")) + list(TESTS_DIR.rglob("*.R"))
+
+# Output directory for generated snippet files used in website
 OUT_DIR = ROOT / "pages" / "code"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-FILES = [
-    SRC_DIR / "R" / "patient_analysis.R",
-    SRC_DIR / "tests" / "testthat" / "test_intro_simple.R",
-    SRC_DIR / "tests" / "testthat" / "test_intro_parametrised.R",
-    SRC_DIR / "tests" / "testthat" / "test_smoke.R",
-    SRC_DIR / "tests" / "testthat" / "test_system.R",
-    SRC_DIR / "tests" / "testthat" / "test_unit.R",
-    SRC_DIR / "tests" / "testthat" / "test_regression.R"
-]
 
 TEST_THAT_PATTERN = r"^\s*(test_that|(?:\w+::)?with_parameters_test_that)\s*\("
 

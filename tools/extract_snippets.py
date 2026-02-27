@@ -15,21 +15,15 @@ ROOT = Path(__file__).resolve().parents[1]
 # Directory containing the example package
 SRC_DIR = ROOT / "examples" / "python_package"
 
+# Source files to process. Each function in these files will be written
+# to its own snippet file in OUT_DIR.
+SRC_CODE_DIR = SRC_DIR / "src"
+TESTS_DIR = SRC_DIR / "tests"
+FILES = list(SRC_CODE_DIR.rglob("*.py")) + list(TESTS_DIR.rglob("*.py"))
+
 # Output directory for generated snippet files used in website
 OUT_DIR = ROOT / "pages" / "code"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# Source files to process. Each function in these files will be written
-# to its own snippet file in OUT_DIR.
-FILES = [
-    SRC_DIR / "src" / "waitingtimes" / "patient_analysis.py",
-    SRC_DIR / "tests" / "test_smoke.py",
-    SRC_DIR / "tests" / "test_system.py",
-    SRC_DIR / "tests" / "test_unit.py",
-    SRC_DIR / "tests" / "test_regression.py",
-    SRC_DIR / "tests" / "test_intro_simple.py",
-    SRC_DIR / "tests" / "test_intro_parametrised.py"
-]
 
 
 def extract_functions(src_path):

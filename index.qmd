@@ -2,7 +2,7 @@
 
 ::: {.box-grey}
 
-Testing is an essential part of reproducible and reliable research. This practical course explains how to write and run tests, covering key ideas such as unit and integration testing, test coverage, and automated testing with GitHub Actions. Using hands-on examples in Python and R, you’ll learn how to build tests and include them in your research workflow.
+Testing is an essential part of reproducible and reliable research. This practical course explains how to write and run tests, covering key ideas such as unit and system testing, test coverage, and automated testing with GitHub Actions. Using hands-on examples in Python and R, you’ll learn how to build tests and include them in your research workflow.
 
 :::
 

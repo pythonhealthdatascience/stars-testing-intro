@@ -4,15 +4,19 @@ title: Data, temporary files and mocking
 
 {{< include /assets/language-selector.html >}}
 
+<br>
+
 Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV, load a model from disk, or export results to a file.
 
 This page shows three ways to give a file path to your test code:
 
-1. A real data file under version control
-2. A temporary file created inside the test
-3. Mocking, where we pretend to read a file but never touch the filesystem
+1. A **real data file** under version control
 
-## Example: Testing `import_patient_data()`
+2. A **temporary file** created inside the test
+
+3. **Mocking**, where we pretend to read a file but never touch the filesystem
+
+## Example: `import_patient_data()`
 
 To demonstrate, we will use the `import_patient_data()` function from our case study. This function expects a path to a CSV file.
 
@@ -38,7 +42,7 @@ To demonstrate, we will use the `import_patient_data()` function from our case s
 
 ::::
 
-In the rest of this page we focus on how to provide the `path` argument in tests, rather than on all the detailed checks you might write.
+On the rest of this page, we will focus on **how** to provide the path to the test, and the tests themselves are then just dummy examples confirming that the import data exists, and no detailed checks (those come later!).
 
 ## Option 1: real data file
 
@@ -54,19 +58,40 @@ The simplest approach is to point your test at a **real CSV file** that lives al
 
 :::
 
-This is **straightforward** and useful when you want to **run your workflow on the same file your analysis uses**. For example:
+::: {.box-green}
+
+This is straightforward, and is useful when you want to run your workflow on the same file your analysis uses. For example:
 
 * The data file is produced by an earlier part of your pipeline and you want to check that later steps still work on that file.
+
 * You expect the file to evolve over time (e.g., updated extracts or slightly different structure) and want to know if those changes affect your results.
+
+:::
+
+::: {.box-red}
 
 However, there are some downsides:
 
 * The test is tightly coupled to that specific file and its content. Any change to the file (even a harmless one, such as reordering rows) can cause tests to fail unexpectedly.
+
 * If the file is large, tests can become slow and feel heavy to run.
+
+:::
+
+### Example
 
 ::: {.python-content}
 
+We have to find the folder containing the test file (`Path(__file).parent`), and then locate `data/patient_data.csv` relative to the test file itself, rather than relying on the current working directory (which will change depending on where tests are run from).
+
 ```{python}
+#| eval: false
+#| file: code/test_data_real__imports.py
+```
+
+```{python}
+#| eval: false
+#| file: code/test_data_real__test_real_data_file.py
 ```
 
 :::
@@ -84,20 +109,39 @@ For many tests, we do not need a full real dataset. We just need a **small CSV w
 
 In that case we can build a tiny dataset inside the test, write it to a temporary file, and pass that temporary path to `import_patient_data()`.
 
+::: {.box-green}
+
 This has several advantages:
 
 * The test is self-contained - all the data it needs is defined inside the test, and it does not rely on any particular file being present on someone's machine.
 * It is fast, because the file is tiny and only exists for the duration of the test.
 
+:::
+
+::: {.box-red}
+
 The main downside is that we are still doing **file I/O**.
+
+:::
 
 > **What is file I/O?**
 >
 > File I/O (input/output) just means reading from or writing to files on disk. This is slower than working purely in memory, and it depends on the filesystem behaving as expected (paths existing, permissions being correct, enough space, etc.).
 
+### Example
+
 ::: {.python-content}
 
+The `tmp_path` argument is a pytest fixture that provides a temporary directory unique to the test. We use this directory to construct a file path and save a CSV file during the test, ensuring file creation happens in an isolated location managed and cleaned up automatically by pytest.
+
 ```{python}
+#| eval: false
+#| file: code/test_data_temp__imports.py
+```
+
+```{python}
+#| eval: false
+#| file: code/test_data_temp__test_temporary_file.py
 ```
 
 :::
@@ -118,21 +162,44 @@ Mocking means temporarily replacing parts of your code (for example, the functio
 
 The fake function still returns a dataset, but it does so directly from memory, without reading or writing any files, even temporarily.
 
+:::: {.box-green}
+
 Benefits of mocking are:
 
 * No file I/O - tests are faster and do not touch the filesystem at all.
+
 ::: {.python-content}
 * Better isolation - tests do not depend on the behaviour of third-party libraries like `pd.read_csv()`, which themselves could change or break.
 :::
+
 ::: {.r-content}
 * Better isolation - tests do not depend on the behaviour of third-party libraries like `readr::read_csv()`, which themselves could change or break.
 :::
 
+::::
+
+::: {.box-red}
+
 The trade‑off is that mocking is more complex to understand and set up than using a temporary file.
+
+:::
+
+### Example
 
 ::: {.python-content}
 
+Pytest provides the `monkeypatch` fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace `pd.read_csv` with a mock function that returns a pre-defined DataFrame.
+
+Because `pd.read_csv` is patched, the file path passed to `import_patient_data` is irrelvant - no file is ever opened. The file behaves as if it is successfully read a CSV file, allowing us to focus purely on testing the data processing logic.
+
 ```{python}
+#| eval: false
+#| file: code/test_data_mock__imports.py
+```
+
+```{python}
+#| eval: false
+#| file: code/test_data_mock__test_mocking.py
 ```
 
 :::
@@ -144,12 +211,49 @@ The trade‑off is that mocking is more complex to understand and set up than us
 
 :::
 
+## Running our example tests
+
+:::: {.callout-note title="Test output"}
+
+::: {.python-content}
+
+```{python}
+#| echo: false
+import pytest
+pytest.main([
+    "../examples/python_package/tests/test_data_real.py",
+    "../examples/python_package/tests/test_data_temp.py",
+    "../examples/python_package/tests/test_data_mock.py"
+])
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| echo: false
+#| output: false
+devtools::load_all("../examples/r_package")
+```
+
+```{r}
+#| echo: false
+#testthat::test_file(
+#  "../examples/r_package/tests/testthat/test_data_real.R"
+#)
+```
+
+:::
+
+::::
+
 ## When to use each option
 
 You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test:
 
 * **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd), where check that results stay consistent over time by comparing to a saved analysis output.
 
-* **Tmporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. We will use in our [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
+* **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. We will use in our [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
 
 * **Mocking** - most appropriate for small, fast [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely.

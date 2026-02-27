@@ -1,0 +1,155 @@
+---
+title: Data, temporary files and mocking
+---
+
+{{< include /assets/language-selector.html >}}
+
+Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV, load a model from disk, or export results to a file.
+
+This page shows three ways to give a file path to your test code:
+
+1. A real data file under version control
+2. A temporary file created inside the test
+3. Mocking, where we pretend to read a file but never touch the filesystem
+
+## Example: Testing `import_patient_data()`
+
+To demonstrate, we will use the `import_patient_data()` function from our case study. This function expects a path to a CSV file.
+
+:::: {.callout-note title="View `import_patient_data()`" collapse="true"}
+
+::: {.python-content}
+
+```{python}
+#| eval: false
+#| file: code/patient_analysis__import_patient_data.py
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+#| eval: false
+#| file: code/patient_analysis__import_patient_data.R
+```
+
+:::
+
+::::
+
+In the rest of this page we focus on how to provide the `path` argument in tests, rather than on all the detailed checks you might write.
+
+## Option 1: real data file
+
+::: {.python-content}
+
+The simplest approach is to point your test at a **real CSV file** that lives alongside your project (e.g., in `tests/data/`).
+
+:::
+
+::: {.r-content}
+
+The simplest approach is to point your test at a **real CSV file** that lives alongside your project (e.g., in `tests/testthat/testdata`).
+
+:::
+
+This is **straightforward** and useful when you want to **run your workflow on the same file your analysis uses**. For example:
+
+* The data file is produced by an earlier part of your pipeline and you want to check that later steps still work on that file.
+* You expect the file to evolve over time (e.g., updated extracts or slightly different structure) and want to know if those changes affect your results.
+
+However, there are some downsides:
+
+* The test is tightly coupled to that specific file and its content. Any change to the file (even a harmless one, such as reordering rows) can cause tests to fail unexpectedly.
+* If the file is large, tests can become slow and feel heavy to run.
+
+::: {.python-content}
+
+```{python}
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+## Option 2: temporary file
+
+For many tests, we do not need a full real dataset. We just need a **small CSV with the right structure** so the code can run.
+
+In that case we can build a tiny dataset inside the test, write it to a temporary file, and pass that temporary path to `import_patient_data()`.
+
+This has several advantages:
+
+* The test is self-contained - all the data it needs is defined inside the test, and it does not rely on any particular file being present on someone's machine.
+* It is fast, because the file is tiny and only exists for the duration of the test.
+
+The main downside is that we are still doing **file I/O**.
+
+> **What is file I/O?**
+>
+> File I/O (input/output) just means reading from or writing to files on disk. This is slower than working purely in memory, and it depends on the filesystem behaving as expected (paths existing, permissions being correct, enough space, etc.).
+
+::: {.python-content}
+
+```{python}
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+
+## Option 3: mocking
+
+An improvement on the temporary file approach is to **avoid writing any files at all**.
+
+Mocking means temporarily replacing parts of your code (for example, the function that reads a CSV, `read_csv()`) with a **fake version** during the test.
+
+The fake function still returns a dataset, but it does so directly from memory, without reading or writing any files, even temporarily.
+
+Benefits of mocking are:
+
+* No file I/O - tests are faster and do not touch the filesystem at all.
+::: {.python-content}
+* Better isolation - tests do not depend on the behaviour of third-party libraries like `pd.read_csv()`, which themselves could change or break.
+:::
+::: {.r-content}
+* Better isolation - tests do not depend on the behaviour of third-party libraries like `readr::read_csv()`, which themselves could change or break.
+:::
+
+The trade‑off is that mocking is more complex to understand and set up than using a temporary file.
+
+::: {.python-content}
+
+```{python}
+```
+
+:::
+
+::: {.r-content}
+
+```{r}
+```
+
+:::
+
+## When to use each option
+
+You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test:
+
+* **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd), where check that results stay consistent over time by comparing to a saved analysis output.
+
+* **Tmporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. We will use in our [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
+
+* **Mocking** - most appropriate for small, fast [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely.

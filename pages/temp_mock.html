@@ -600,7 +600,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="r-content">
-<p>Mocking an external function like <code>readr::read_csv()</code> is only really only practical when your R code is structured as a package.</p>
+<p>Mocking an external function like <code>readr::read_csv()</code> is only really practical when your R code is structured as a package.</p>
 <p>This is because <code>testthat::local_mocked_bindings()</code> can only replace names that live in your package namespace. For an external function, that means you must either:</p>
 <ul>
 <li>Import it into your namespace - with <code>@importFrom readr read_csv</code> so <code>read_csv</code> appears in <code>NAMESPACE</code> and you call <code>read_csv</code> without <code>readr::</code>.</li>
@@ -657,7 +657,7 @@ collected 3 items
 ../examples/python_package/tests/test_data_temp.py .                     [ 66%]
 ../examples/python_package/tests/test_data_mock.py .                     [100%]
 
-============================== 3 passed in 0.98s ===============================
+============================== 3 passed in 1.00s ===============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -678,9 +678,7 @@ collected 3 items
 ✔ |          1 | data_temp
 
 ══ Results ═════════════════════════════════════════════════════════════════════
-[ FAIL 0 | WARN 0 | SKIP 0 | PASS 3 ]
-
-😀</code></pre>
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 3 ]</code></pre>
 </div>
 </div>
 </div>
@@ -689,12 +687,27 @@ collected 3 items
 </section>
 <section id="when-to-use-each-option" class="level2">
 <h2 class="anchored" data-anchor-id="when-to-use-each-option">When to use each option</h2>
-<p>You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test:</p>
+<p>You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test.</p>
+<div class="python-content">
+<p>In Python, we often mix all three patterns:</p>
+</div>
+<div class="r-content">
+<p>In R, you choice will also be impacted by whether you are working inside a package:</p>
+</div>
 <ul>
-<li><p><strong>Real data file</strong> - best when you want to run your workflow on a specific dataset. For example, we will use this in <a href="../pages/regression_tests.html">regression tests</a>, where check that results stay consistent over time by comparing to a saved analysis output.</p></li>
-<li><p><strong>Temporary file</strong> - a good default for many tests where you just need a small, representative dataset with the right structure. We will use in our <a href="../pages/smoke_tests.html">smoke tests</a> and <a href="../pages/system_tests.html">system tests</a>.</p></li>
-<li><p><strong>Mocking</strong> - most appropriate for small, fast <a href="../pages/unit_tests.html">unit tests</a> where you want to <strong>isolate your own logic from external libraries and the filesystem</strong>, and avoid file I/O entirely.</p></li>
+<li><p><strong>Real data file</strong> - best when you want to run your workflow on a specific dataset. For example, we will use this in <a href="../pages/regression_tests.html">regression tests</a> where you compare current results to a saved output to check that behaviour stays stable over time.</p></li>
+<li><p><strong>Temporary file</strong> - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in <a href="../pages/smoke_tests.html">smoke tests</a> and <a href="../pages/system_tests.html">system tests</a>.</p></li>
 </ul>
+<div class="python-content">
+<ul>
+<li><strong>Mocking</strong> - most useful when your code lives in a package and you want fast, isolated <a href="../pages/unit_tests.html">unit tests</a> where you want to <strong>isolate your own logic from external libraries and the filesystem</strong>, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).</li>
+</ul>
+</div>
+<div class="r-content">
+<ul>
+<li><strong>Mocking</strong> - most useful when your code lives in a <strong>package</strong> and you want fast <a href="../pages/unit_tests.html">unit tests</a> which <strong>isolate your own logic from external libraries and the filesystem</strong>, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format). Also, for non‑package workflows (scripts, notebooks), mocking infrastructure is usually more effort than it’s worth. In these cases, it’s clearer and more robust to use temporary or real data files.</li>
+</ul>
+</div>
 
 
 </section>

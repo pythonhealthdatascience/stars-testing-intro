@@ -1,6 +1,6 @@
 def test_import_path_types(tmp_path):
     """str and Path inputs should behave identically."""
-    # Create temporary CSV file
+    # Create sample patient data
     expected_cols = [
         "PATIENT_ID",
         "ARRIVAL_DATE", "ARRIVAL_TIME",
@@ -10,6 +10,9 @@ def test_import_path_types(tmp_path):
         [["p1", "2024-01-01", "08:00", "2024-01-01", "09:00"]],
         columns=expected_cols,
     )
+
+    # Create temporary file (not mocking, as this is about checking
+    # pd.read_csv is working as expected)
     csv_path = tmp_path / "patients.csv"
     df_in.to_csv(csv_path, index=False)
 

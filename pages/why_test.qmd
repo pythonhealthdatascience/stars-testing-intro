@@ -66,4 +66,4 @@ Some software engineers write tests before code - this is called "test-driven de
 
 Run tests regularly **after any code or data changes**, as catching errors earlier makes them easier to fix.
 
-This practice of re-running tests is called **regression testing**, and it ensures recent changes haven't introduced errors.
+It ensures recent changes haven't introduced errors.

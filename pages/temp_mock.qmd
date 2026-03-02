@@ -214,7 +214,7 @@ Because `pd.read_csv` is patched, the file path passed to `import_patient_data` 
 
 ::: {.r-content}
 
-Mocking an external function like `readr::read_csv()` is only really only practical when your R code is structured as a package.
+Mocking an external function like `readr::read_csv()` is only really practical when your R code is structured as a package.
 
 This is because `testthat::local_mocked_bindings()` can only replace names that live in your package namespace. For an external function, that means you must either:
 

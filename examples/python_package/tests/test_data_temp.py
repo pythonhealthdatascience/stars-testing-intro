@@ -6,6 +6,7 @@ import pandas as pd
 
 from waitingtimes.patient_analysis import import_patient_data
 
+
 def test_temporary_file(tmp_path):
     """Providing data to a test via a temporary file"""
 

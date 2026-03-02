@@ -8,27 +8,29 @@ import pytest
 from waitingtimes.patient_analysis import import_patient_data
 
 
-def test_import_success(tmp_path):
+def test_import_success(monkeypatch):
     """Small CSV with correct columns should work."""
 
+    # Create sample patient data
     expected_cols = [
         "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
         "SERVICE_DATE", "SERVICE_TIME",
     ]
-
-    # Create temporary CSV file
-    df_in = pd.DataFrame(
+    testdata = pd.DataFrame(
         [["p1", "2024-01-01", "08:00", "2024-01-01", "09:00"]],
         columns=expected_cols,
     )
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
 
-    # Run function and check it looks correct
-    result = import_patient_data(csv_path)
+    # Call function (with mocking for pd.read_csv())
+    def mock_read_csv(*args, **kwargs):
+        return testdata
+    monkeypatch.setattr(pd, "read_csv", mock_read_csv)
+    result = import_patient_data("path.csv")
+
+    # Check the result looks correct
     assert isinstance(result, pd.DataFrame)
     assert list(result.columns) == expected_cols
-    pd.testing.assert_frame_equal(result, df_in)
+    pd.testing.assert_frame_equal(result, testdata)
 
 
 @pytest.mark.parametrize(
@@ -50,41 +52,44 @@ def test_import_success(tmp_path):
         ],
     ],
 )
-def test_import_errors(tmp_path, columns):
+def test_import_errors(monkeypatch, columns):
     """Incorrect columns should trigger ValueError."""
 
-    # Create temporary CSV file
-    df_in = pd.DataFrame([range(len(columns))], columns=columns)
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
+    # Create sample patient data
+    testdata = pd.DataFrame([range(len(columns))], columns=columns)
 
-    # Check it raises ValueError
+    # Call function (with mocking for pd.read_csv()), should raise an error
+    def mock_read_csv(*args, **kwargs):
+        return testdata
+    monkeypatch.setattr(pd, "read_csv", mock_read_csv)
     with pytest.raises(ValueError):
-        import_patient_data(csv_path)
+        import_patient_data("path.csv")
 
 
-def test_import_empty_csv(tmp_path):
+def test_import_empty_csv(monkeypatch):
     """Empty CSV with correct columns should succeed."""
 
+    # Create empty CSV with correct header
     expected_cols = [
         "PATIENT_ID", "ARRIVAL_DATE", "ARRIVAL_TIME",
         "SERVICE_DATE", "SERVICE_TIME",
     ]
+    testdata = pd.DataFrame(columns=expected_cols)
 
-    # Create empty CSV with correct header
-    df_in = pd.DataFrame(columns=expected_cols)
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
+    # Call function (with mocking for pd.read_csv())
+    def mock_read_csv(*args, **kwargs):
+        return testdata
+    monkeypatch.setattr(pd, "read_csv", mock_read_csv)
+    result = import_patient_data("path.csv")
 
-    # Should succeed and return empty DataFrame
-    result = import_patient_data(csv_path)
+    # Should succeed and return an empty dataframe
     assert len(result) == 0
     assert list(result.columns) == expected_cols
 
 
 def test_import_path_types(tmp_path):
     """str and Path inputs should behave identically."""
-    # Create temporary CSV file
+    # Create sample patient data
     expected_cols = [
         "PATIENT_ID",
         "ARRIVAL_DATE", "ARRIVAL_TIME",
@@ -94,6 +99,9 @@ def test_import_path_types(tmp_path):
         [["p1", "2024-01-01", "08:00", "2024-01-01", "09:00"]],
         columns=expected_cols,
     )
+
+    # Create temporary file (not mocking, as this is about checking
+    # pd.read_csv is working as expected)
     csv_path = tmp_path / "patients.csv"
     df_in.to_csv(csv_path, index=False)
 

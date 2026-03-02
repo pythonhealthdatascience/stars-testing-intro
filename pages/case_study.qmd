@@ -28,6 +28,8 @@ In the example we will:
 <!-- We don't use code/patient_analysis__imports.py as we have some additional imports used for displaying things nicely -->
 
 ```{python}
+from IPython.display import HTML
+from itables import to_html_datatable
 import json
 from pathlib import Path
 
@@ -42,9 +44,14 @@ pd.set_option("display.max_columns", 8)
 
 ::: {.r-content}
 
+<!-- We don't use code/patient_analysis__imports.R as we have some additional imports used for displaying things nicely -->
+
 ```{r}
-#| file: code/patient_analysis__imports.R
 #| output: false
+library(dplyr)
+library(knitr)
+library(lubridate)
+library(readr)
 ```
 
 :::
@@ -83,7 +90,7 @@ You can download a copy of this data here:
 raw_data = import_patient_data(
    "../examples/python_package/data/patient_data.csv"
 )
-raw_data
+HTML(to_html_datatable(raw_data))
 ```
 
 :::
@@ -96,7 +103,7 @@ raw_data <- import_patient_data(
     "..", "examples", "r_package", "inst", "extdata", "patient_data.csv"
   )
 )
-raw_data
+kable(raw_data)
 ```
 
 :::
@@ -127,7 +134,7 @@ We then apply this function to the raw data.
 
 ```{python}
 processed_data = calculate_wait_times(raw_data)
-processed_data
+HTML(to_html_datatable(processed_data))
 ```
 
 :::
@@ -136,7 +143,7 @@ processed_data
 
 ```{r}
 processed_data <- calculate_wait_times(raw_data)
-processed_data
+kable(processed_data)
 ```
 
 :::

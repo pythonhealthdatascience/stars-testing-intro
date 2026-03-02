@@ -6,6 +6,7 @@ from pathlib import Path
 
 from waitingtimes.patient_analysis import import_patient_data
 
+
 def test_real_data_file():
     """Importing a real data file to a test"""
 

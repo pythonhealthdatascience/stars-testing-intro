@@ -17,14 +17,15 @@
         ],
     ],
 )
-def test_import_errors(tmp_path, columns):
+def test_import_errors(monkeypatch, columns):
     """Incorrect columns should trigger ValueError."""
 
-    # Create temporary CSV file
-    df_in = pd.DataFrame([range(len(columns))], columns=columns)
-    csv_path = tmp_path / "patients.csv"
-    df_in.to_csv(csv_path, index=False)
+    # Create sample patient data
+    testdata = pd.DataFrame([range(len(columns))], columns=columns)
 
-    # Check it raises ValueError
+    # Call function (with mocking for pd.read_csv()), should raise an error
+    def mock_read_csv(*args, **kwargs):
+        return testdata
+    monkeypatch.setattr(pd, "read_csv", mock_read_csv)
     with pytest.raises(ValueError):
-        import_patient_data(csv_path)
+        import_patient_data("path.csv")

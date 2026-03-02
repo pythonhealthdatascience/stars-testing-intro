@@ -100,7 +100,7 @@ Each of these becomes something you can check with a test.
 
 Pick the simplest input that should work.
 
-In our case, we can create a small CSV with correct columns in the right order and one or two data rows. We can then write tests that confirm:
+In our case, we can create a small table with correct columns in the right order and one or two data rows. We can then write tests that confirm:
 
 ::: {.python-content}
 

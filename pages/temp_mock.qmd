@@ -214,7 +214,7 @@ Because `pd.read_csv` is patched, the file path passed to `import_patient_data` 
 
 ::: {.r-content}
 
-Mocking an external function like `readr::read_csv()` is only really only practical when your R code is structured as a package.
+Mocking an external function like `readr::read_csv()` is only really practical when your R code is structured as a package.
 
 This is because `testthat::local_mocked_bindings()` can only replace names that live in your package namespace. For an external function, that means you must either:
 
@@ -273,10 +273,32 @@ testthat::test_dir(
 
 ## When to use each option
 
-You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test:
+You do not need to pick a single approach for your whole project. Instead, choose the best option for the goal of each test.
 
-* **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd), where check that results stay consistent over time by comparing to a saved analysis output.
+::: {.python-content}
 
-* **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. We will use in our [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
+In Python, we often mix all three patterns:
 
-* **Mocking** - most appropriate for small, fast [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely.
+:::
+
+::: {.r-content}
+
+In R, you choice will also be impacted by whether you are working inside a package:
+
+:::
+
+* **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd)  where you compare current results to a saved output to check that behaviour stays stable over time.
+
+* **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
+
+::: {.python-content}
+
+* **Mocking** - most useful when your code lives in a package and you want fast, isolated [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).
+
+:::
+
+::: {.r-content}
+
+* **Mocking** - most useful when your code lives in a **package** and you want fast [unit tests](unit_tests.qmd) which **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format). Also, for non‑package workflows (scripts, notebooks), mocking infrastructure is usually more effort than it's worth. In these cases, it's clearer and more robust to use temporary or real data files.
+
+:::

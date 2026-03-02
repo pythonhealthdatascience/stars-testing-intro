@@ -3,6 +3,8 @@ channels:
   - conda-forge
 dependencies:
   - flake8=7.3.0
+  - ipython=9.10.0
+  - itables=2.7.0
   - lintquarto=0.7.0
   - numpy=2.4.1
   - pandas=2.3.3

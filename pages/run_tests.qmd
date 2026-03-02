@@ -8,7 +8,7 @@ title: "How to run tests"
 
 ::: {.python-content}
 
-The standard and recommended way to run tests in Python is from the **terminal** using pytest.
+The standard and recommended way to run tests in Python is from the **command line** using pytest.
 
 ## Required structure for running tests from the command line
 
@@ -273,7 +273,17 @@ test_that("add works correctly", {
 
 :::
 
+::: {.python-content}
+
 ### Why command line testing is better
+
+:::
+
+::: {.r-content}
+
+### Why testing from the R console is better
+
+:::
 
 Running tests from the terminal with code organised into separate files  is the preferred approach because:
 

@@ -63,8 +63,19 @@ install.packages("testthat")
 If you are structuring your research as a package, we suggest also installing `usethis` and running:
 
 ```{.r}
+install.packages("usethis")
 usethis::use_testthat()
 ```
+
+This will set up the testing infrastructure for you: it creates a `tests/testthat/` folder, adds the files needed to run tests, and records `testthat` in your package metadata.
+
+You can then create individual test files with:
+
+```{.r}
+usethis::use_test("filename")
+```
+
+This creates a new file called `tests/testthat/test-filename.R`, and opens it in your editor so you can start adding tests. We explain how this folder structure is used when you [run tests on the next page](run_tests.qmd).
 
 ## What a testthat test looks like
 

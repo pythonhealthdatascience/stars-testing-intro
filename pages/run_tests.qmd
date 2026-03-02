@@ -107,6 +107,13 @@ In an R package, tests will be automatically discovered and run if they follow t
 1. Stored within `tests/testthat/`.
 2. In R files starting with `test_` or `test-`.
 
+You may have created these structures with `usethis` (as explained on [the prior page](write_basic_test.qmd)) - for example:
+
+```{.r}
+usethis::use_testthat()
+usethis::use_test("intro_simple")
+```
+
 For example, your project might look like:
 
 ```

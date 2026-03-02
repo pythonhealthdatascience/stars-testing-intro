@@ -6,7 +6,7 @@ title: Data, temporary files and mocking
 
 <br>
 
-Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV, load a model from disk, or export results to a file.
+Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV.
 
 This page shows three ways to give a file path to your test code:
 

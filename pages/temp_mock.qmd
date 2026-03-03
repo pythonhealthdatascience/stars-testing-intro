@@ -6,7 +6,9 @@ title: Data, temporary files and mocking
 
 <br>
 
-Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV, load a model from disk, or export results to a file.
+Another common requirement when writing tests for research code is to provide a **file path** as input. For example, you may have functions that read a CSV.
+
+::: {.python-content}
 
 This page shows three ways to give a file path to your test code:
 
@@ -15,6 +17,22 @@ This page shows three ways to give a file path to your test code:
 2. A **temporary file** created inside the test.
 
 3. **Mocking**, where we pretend to read a file but never touch the filesystem.
+
+Later on, we also show an alternative design where you test the data‑processing code directly without passing a file path at all.
+
+:::
+
+::: {.r-content}
+
+This page shows two ways to give a file path to your test code:
+
+1. A **real data file**.
+
+2. A **temporary file** created inside the test.
+
+We also briefly mention a third way called **mocking**, where we pretend to read a file but never touch the filesystem. For most R workflows, you can get a long way with real or temporary files, and treat mocking as an advanced tool you may grow into later.
+
+:::
 
 ## Example: `import_patient_data()`
 
@@ -161,30 +179,25 @@ The `tempfile()` function creates a temporary file path unique to the test sessi
 
 :::
 
+:::: {.python-content}
 
 ## Option 3: Mocking
 
-An improvement on the temporary file approach is to **avoid writing any files at all**.
+An alternative to the temporary file approach is to **avoid writing any files at all**.
 
 Mocking means temporarily replacing parts of your code (for example, the function that reads a CSV, `read_csv()`) with a **fake version** during the test.
 
 The fake function still returns a dataset, but it does so directly from memory, without reading or writing any files, even temporarily.
 
-:::: {.box-green}
+::: {.box-green}
 
 Benefits of mocking are:
 
 * No file I/O - tests are faster and do not touch the filesystem at all.
 
-::: {.python-content}
 * Better isolation - tests do not depend on the behaviour of third-party libraries like `pd.read_csv()`, which themselves could change or break.
-:::
 
-::: {.r-content}
-* Better isolation - tests do not depend on the behaviour of third-party libraries like `readr::read_csv()`, which themselves could change or break.
 :::
-
-::::
 
 ::: {.box-red}
 
@@ -193,8 +206,6 @@ The trade‑off is that mocking is more complex to understand and set up than us
 :::
 
 ### Example
-
-::: {.python-content}
 
 Pytest provides the `monkeypatch` fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace `pd.read_csv` with a mock function that returns a pre-defined DataFrame.
 
@@ -210,29 +221,45 @@ Because `pd.read_csv` is patched, the file path passed to `import_patient_data` 
 #| file: code/test_data_mock__test_mocking.py
 ```
 
-:::
+## Alternative: design for testability
 
-::: {.r-content}
+For small examples like reading a single CSV file, mocking `pandas.read_csv` is a simple way to show how tests can avoid real file I/O. In larger projects, a common alternative is to change the **design** of the code so that most tests do not need to mock external libraries at all.
 
-Mocking an external function like `readr::read_csv()` is only really practical when your R code is structured as a package.
+A typical pattern is to separate your code into:
 
-This is because `testthat::local_mocked_bindings()` can only replace names that live in your package namespace. For an external function, that means you must either:
+* One function that **gets the data** (I/O).
+* One function that **processes the data** (logic only).
 
-* Import it into your namespace - with `@importFrom readr read_csv` so `read_csv` appears in `NAMESPACE` and you call `read_csv` without `readr::`.
-* Wrap the external call in your own helper function and mock that helper instead.
+For example:
 
-Older approaches such as `mockr::with_mock` and `mockery::stub` can intercept `readr::read_csv()` directly, but they are now considered legacy or superseded, and are not recommended for new code.
-
-The current guidance is to use `local_mocked_bindings()`: it works well for mocking your own functions, and for external functions once they are either imported into your namespace or accessed through a small helper you control.
-
-If your code is not structured as a package (for example, it lives in loose scripts or notebooks), adding helpers purely to enable mocking is often not worth the extra complexity. In that case, it is usually simpler to use temporary files or real data files instead of forcing package-style mocking patterns into an ad‑hoc project.
-
-```{r}
+```{python}
 #| eval: false
-#| file: code/test_data_mock__providing_data_to.R
+
+import pandas as pd
+
+
+def get_patient_data(path):
+    """I/O layer: read data from disk."""
+    return pd.read_csv(path)
+
+
+def process_patient_data(df):
+    """Logic layer: all processing goes here, no file I/O."""
+    # do whatever transformation you need
+    return df
+
+
+def import_patient_data(path):
+    """Public entry point."""
+    df = get_patient_data(path)
+    return process_patient_data(df)
 ```
 
-:::
+With this structure, you can write most of your unit tests against `process_patient_data()` by passing in a small, in‑memory DataFrame, without touching the filesystem or mocking `pd.read_csv` at all.
+
+For a simple CSV reader like this, splitting into `get_patient_data()` and `process_patient_data()` can feel like overkill, because `import_patient_data()` is already very small. But in real projects, especially when you are pulling data from databases, servers, or APIs, having a thin I/O layer and a separate "business logic" layer makes tests much easier to write and understand. This design also matches the "don't mock what you don’t own" guideline, which encourages against heavily mocking complex external APIs.
+
+::::
 
 ## Running our example tests
 
@@ -279,26 +306,168 @@ You do not need to pick a single approach for your whole project. Instead, choos
 
 In Python, we often mix all three patterns:
 
-:::
-
-::: {.r-content}
-
-In R, you choice will also be impacted by whether you are working inside a package:
-
-:::
-
 * **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd)  where you compare current results to a saved output to check that behaviour stays stable over time.
 
 * **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
 
-::: {.python-content}
-
-* **Mocking** - most useful when your code lives in a package and you want fast, isolated [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).
+* **Mocking** or **alternative design** - most useful when your code lives in a package and you want fast, isolated [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test requries this: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).
 
 :::
 
-::: {.r-content}
+::::: {.r-content}
 
-* **Mocking** - most useful when your code lives in a **package** and you want fast [unit tests](unit_tests.qmd) which **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test needs mocking: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format). Also, for non‑package workflows (scripts, notebooks), mocking infrastructure is usually more effort than it's worth. In these cases, it's clearer and more robust to use temporary or real data files.
+In R, you choice will also be impacted by whether you are working inside a package:
+
+* **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd)  where you compare current results to a saved output to check that behaviour stays stable over time.
+
+* **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in [smoke tests](smoke_tests.qmd), [system tests](system_tests.qmd) and [unit tests](unit_tests.qmd).
+
+## Optional advanced learning: mocking
+
+:::: {.callout-note title="Click to find out more about mocking in R" collapse="true"}
+
+Mocking means temporarily replacing parts of your code (for example, the function that reads a CSV, `read_csv()`) with a **fake version** during the test. The fake function still returns a dataset, but it does so directly from memory, without reading or writing any files, even temporarily.
+
+::: {.box-green}
+
+Benefits of mocking are:
+
+* No file I/O - tests are faster and do not touch the filesystem at all.
+
+* Better isolation - tests do not depend on the behaviour of third-party libraries like `readr::read_csv()`, which themselves could change or break.
 
 :::
+
+::: {.box-red}
+
+The trade‑off is that mocking is more complex to understand and set up than using a temporary file, and in R it works a bit differently than in Python.
+
+:::
+
+### How mocking works in R
+
+In R, the modern recommended tool for mocking is `testthat::local_mocked_bindings()`. It works by temporarily changing function bindings inside a package's **namespace**. The namespace is a list that maps each function name to the code it runs, including both your own functions and any external functions you imported with `@import` or `@importFrom`. For example, the `NAMESPACE` for our case study package is:
+
+```{r}
+#| eval: false
+#| file: ../examples/r_package/NAMESPACE
+```
+
+Mocking temporarily changes that mapping for a given function name, so during the test the package calls your fake version instead of the original one, and then everything is restored afterwards.
+
+The [testthat documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) describes four places the function you want to mock might come from:
+
+* A function defined inside your package.
+* A function you imported from another package via `NAMESPACE` (using `@import` or `@importFrom`).
+* A function from `base`.
+* A function you call with `pkg::fun`.
+
+The first three cases are treated the same: if the name exists in your package (either because you defined it or imported it), you can mock it directly. In our example, if we want to mock `readr::read_csv()`, we can:
+
+1. Add `@importFrom readr read_csv` to the function documentation so `read_csv` appears in `NAMESPACE`.
+2. Call `read_csv(...)` (without `readr::`) inside `import_patient_data()`.
+
+We would then be able to mock `read_csv` like this:
+
+```{r}
+#| eval: false
+
+test_that("providing data to a test via mocking", {
+  testdata <- tibble::tibble(
+    PATIENT_ID   = "p1",
+    ARRIVAL_DATE = lubridate::ymd("2024-01-01"),
+    ARRIVAL_TIME = hms::as_hms("08:00:00"),
+    SERVICE_DATE = lubridate::ymd("2024-01-01"),
+    SERVICE_TIME = hms::as_hms("09:00:00")
+  )
+
+  testthat::local_mocked_bindings(
+    read_csv = function(path, show_col_types = FALSE) testdata,
+    .package = "waitingtimes"
+  )
+
+  df <- import_patient_data("does_not_matter.csv")
+  expect_gt(nrow(df), 0)
+})
+```
+
+Here, `local_mocked_bindings()` temporarily replaces the `read_csv()` binding inside the `waitingtimes` namespace, so any call to `read_csv()` from our package code uses the fake version during the test
+
+The fourth case (`pkg::fun`) is trickier. If your code calls `readr::read_csv()` directly, then the function you want to mock lives in the `readr` namespace, not your own. You *can* point `local_mocked_bindings()` at another package by setting `.package = "readr"`, but the [testthat documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) cautions against this, because it will affect all calls to `readr::read_csv()`.
+
+The [documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) instead recommends a safer pattern:
+
+> "It's safer to either import the function into your package, or make a wrapper that you can mock"
+
+We have seen the import approach above - the other option is keeping using `readr::read_csv()` inside a small helper than you own, and mock that helper in your tests. For example, in your package:
+
+```{r}
+#| eval: false
+
+# Small helper that actually reads from disk
+get_patient_data <- function(path) {
+  readr::read_csv(path, show_col_types = FALSE)
+}
+
+# Function we want to test
+import_patient_data <- function(path) {
+  df <- get_patient_data(path)
+
+  # Processing would go here
+  df
+}
+```
+
+In your test:
+
+```{r}
+#| eval: false
+
+test_that("providing data to a test via mocking", {
+  testdata <- tibble::tibble(
+    PATIENT_ID   = "p1",
+    ARRIVAL_DATE = lubridate::ymd("2024-01-01"),
+    ARRIVAL_TIME = hms::as_hms("08:00:00"),
+    SERVICE_DATE = lubridate::ymd("2024-01-01"),
+    SERVICE_TIME = hms::as_hms("09:00:00")
+  )
+
+  # Temporarily replace get_patient_data() inside the waitingtimes package
+  testthat::local_mocked_bindings(
+    get_patient_data = function(path) testdata,
+    .package = "waitingtimes"
+  )
+
+  df <- import_patient_data("does_not_matter.csv")
+  expect_gt(nrow(df), 0)
+})
+```
+
+A closely related design, which you will often see in larger projects, is to split the workflow into two functions: one that **gets the data** (I/O) and one that **processes the data** (pure-ish logic) - and then just focuses entirely on `process_patient_data()` when testing, without touching the filesystem or mocking anything.
+
+```{r}
+#| eval: false
+
+# I/O layer
+get_patient_data <- function(path) {
+  readr::read_csv(path, show_col_types = FALSE)
+}
+
+# Logic layer
+process_patient_data <- function(df) {
+  # all processing goes here, no file I/O
+  df
+}
+
+# Public entry point
+import_patient_data <- function(path) {
+  df <- get_patient_data(path)
+  process_patient_data(df)
+}
+```
+
+**Final note:** For this course, you do not need to use mocking in R to write useful tests. Real files and temporary files are usually enough. We show mocking here as an optional technique you might use later, especially in package code where you want very fast, isolated unit tests.
+
+::::
+
+:::::

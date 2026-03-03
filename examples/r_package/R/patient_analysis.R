@@ -12,14 +12,12 @@ library(lubridate)
 #'
 #' @param path Character string giving path to the CSV file containing the
 #'   patient data.
-#' 
-#' @importFrom readr read_csv
 #'
 #' @return A data frame containing the raw patient-level data.
 #'
 #' @export
 import_patient_data <- function(path) {
-  df <- read_csv(path, show_col_types = FALSE)
+  df <- readr::read_csv(path, show_col_types = FALSE)
 
   # Expected columns in the raw data (names and order must match)
   expected <- c(

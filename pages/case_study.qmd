@@ -28,11 +28,11 @@ In the example we will:
 <!-- We don't use code/patient_analysis__imports.py as we have some additional imports used for displaying things nicely -->
 
 ```{python}
-from IPython.display import HTML
-from itables import to_html_datatable
 import json
 from pathlib import Path
 
+from IPython.display import HTML
+from itables import to_html_datatable
 import numpy as np
 import pandas as pd
 import scipy.stats as st

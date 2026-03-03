@@ -320,11 +320,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="python-content">
 <!-- We don't use code/patient_analysis__imports.py as we have some additional imports used for displaying things nicely -->
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> to_html_datatable</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itables <span class="im">import</span> to_html_datatable</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> st</span>
@@ -393,38 +393,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param path Character string giving path to the CSV file containing the</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#'   patient data.</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' @importFrom readr read_csv</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A data frame containing the raw patient-level data.</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A data frame containing the raw patient-level data.</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>import_patient_data <span class="ot">&lt;-</span> <span class="cf">function</span>(path) {</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Expected columns in the raw data (names and order must match)</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  expected <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PATIENT_ID"</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ARRIVAL_DATE"</span>, <span class="st">"ARRIVAL_TIME"</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SERVICE_DATE"</span>, <span class="st">"SERVICE_TIME"</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">identical</span>(<span class="fu">colnames</span>(df), expected)) {</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sprintf</span>(</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Unexpected columns: %s (expected %s)"</span>,</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="fu">colnames</span>(df), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(expected, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  df</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>import_patient_data <span class="ot">&lt;-</span> <span class="cf">function</span>(path) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Expected columns in the raw data (names and order must match)</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  expected <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PATIENT_ID"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ARRIVAL_DATE"</span>, <span class="st">"ARRIVAL_TIME"</span>,</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SERVICE_DATE"</span>, <span class="st">"SERVICE_TIME"</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">identical</span>(<span class="fu">colnames</span>(df), expected)) {</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sprintf</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Unexpected columns: %s (expected %s)"</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(<span class="fu">colnames</span>(df), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="fu">paste</span>(expected, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  df</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <p>We can run this function on our example dataset <code>patient_data.csv</code>.</p>
 <p>You can download a copy of this data here:</p>
-<p><a href="#dnldts6433" onclick="fetch('data:text/csv;base64,UEFUSUVOVF9JRCxBUlJJVkFMX0RBVEUsQVJSSVZBTF9USU1FLFNFUlZJQ0VfREFURSxTRVJWSUNFX1RJTUUKMSwyMDI1LTAxLTAxLDAwMDEsMjAyNS0wMS0wMSwwMDA3CjIsMjAyNS0wMS0wMSwwMDAyLDIwMjUtMDEtMDEsMDAwNAozLDIwMjUtMDEtMDEsMDAwMywyMDI1LTAxLTAxLDAwMTAKNCwyMDI1LTAxLTAxLDAwMDcsMjAyNS0wMS0wMSwwMDE0CjUsMjAyNS0wMS0wMSwwMDEwLDIwMjUtMDEtMDEsMDAxMgo2LDIwMjUtMDEtMDEsMDAxMCwyMDI1LTAxLTAxLDAwMTE=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts15853" onclick="fetch('data:text/csv;base64,UEFUSUVOVF9JRCxBUlJJVkFMX0RBVEUsQVJSSVZBTF9USU1FLFNFUlZJQ0VfREFURSxTRVJWSUNFX1RJTUUKMSwyMDI1LTAxLTAxLDAwMDEsMjAyNS0wMS0wMSwwMDA3CjIsMjAyNS0wMS0wMSwwMDAyLDIwMjUtMDEtMDEsMDAwNAozLDIwMjUtMDEtMDEsMDAwMywyMDI1LTAxLTAxLDAwMTAKNCwyMDI1LTAxLTAxLDAwMDcsMjAyNS0wMS0wMSwwMDE0CjUsMjAyNS0wMS0wMSwwMDEwLDIwMjUtMDEtMDEsMDAxMgo2LDIwMjUtMDEtMDEsMDAxMCwyMDI1LTAxLTAxLDAwMTE=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -432,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'patient_data.csv.csv'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-primary downloadthis  " id="dnldts6433"><i class="bi bi-download"></i> Download the example patient-level data </button></a></p>
+        });"><button class="btn btn-primary downloadthis  " id="dnldts15853"><i class="bi bi-download"></i> Download the example patient-level data </button></a></p>
 <div class="python-content">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="op">=</span> import_patient_data(</span>
@@ -441,7 +439,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>HTML(to_html_datatable(raw_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_882e890e_4703_4e6c_a43d_bc1111d69b6f"><tbody><tr>
+<table id="itables_637f2c0d_7542_4b80_bedd_bff4cc8c9ec9"><tbody><tr>
     <td style="vertical-align:middle; text-align:left">
     <a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
     <g style="fill:#d9d7fc">
@@ -507,11 +505,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.0/dt_bundle.js';
 
-    document.querySelectorAll("#itables_882e890e_4703_4e6c_a43d_bc1111d69b6f:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_637f2c0d_7542_4b80_bedd_bff4cc8c9ec9:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
-        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "order": [], "classes": ["display", "nowrap", "compact"], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7], [2, \"2025-01-01\", 2, \"2025-01-01\", 4], [3, \"2025-01-01\", 3, \"2025-01-01\", 10], [4, \"2025-01-01\", 7, \"2025-01-01\", 14], [5, \"2025-01-01\", 10, \"2025-01-01\", 12], [6, \"2025-01-01\", 10, \"2025-01-01\", 11]]"};
+        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "classes": ["display", "nowrap", "compact"], "order": [], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7], [2, \"2025-01-01\", 2, \"2025-01-01\", 4], [3, \"2025-01-01\", 3, \"2025-01-01\", 10], [4, \"2025-01-01\", 7, \"2025-01-01\", 14], [5, \"2025-01-01\", 10, \"2025-01-01\", 12], [6, \"2025-01-01\", 10, \"2025-01-01\", 11]]"};
         new ITable(table, dt_args);
     });
 </script>
@@ -679,7 +677,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>HTML(to_html_datatable(processed_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_0fc34aeb_c903_44fa_aa5b_fc9dc9210848"><tbody><tr>
+<table id="itables_f0b79da7_84e0_4fb7_8f18_fb33fa37ecc4"><tbody><tr>
     <td style="vertical-align:middle; text-align:left">
     <a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
     <g style="fill:#d9d7fc">
@@ -745,11 +743,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.0/dt_bundle.js';
 
-    document.querySelectorAll("#itables_0fc34aeb_c903_44fa_aa5b_fc9dc9210848:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_f0b79da7_84e0_4fb7_8f18_fb33fa37ecc4:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
-        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "order": [], "classes": ["display", "nowrap", "compact"], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n      <th>arrival_datetime</th>\n      <th>service_datetime</th>\n      <th>waittime</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7, \"2025-01-01 00:01:00\", \"2025-01-01 00:07:00\", [\"6.0\", 3]], [2, \"2025-01-01\", 2, \"2025-01-01\", 4, \"2025-01-01 00:02:00\", \"2025-01-01 00:04:00\", [\"2.0\", 2]], [3, \"2025-01-01\", 3, \"2025-01-01\", 10, \"2025-01-01 00:03:00\", \"2025-01-01 00:10:00\", [\"7.0\", 4]], [4, \"2025-01-01\", 7, \"2025-01-01\", 14, \"2025-01-01 00:07:00\", \"2025-01-01 00:14:00\", [\"7.0\", 4]], [5, \"2025-01-01\", 10, \"2025-01-01\", 12, \"2025-01-01 00:10:00\", \"2025-01-01 00:12:00\", [\"2.0\", 2]], [6, \"2025-01-01\", 10, \"2025-01-01\", 11, \"2025-01-01 00:10:00\", \"2025-01-01 00:11:00\", [\"1.0\", 1]]]", "columnDefs": [{"targets": [7], "render": "\n                        function (data, type, row, meta) {\n                            return type === 'sort' ? data[1] : data[0];\n                        }\n                    "}], "keys_to_be_evaluated": [["columnDefs", 0, "render"]]};
+        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "classes": ["display", "nowrap", "compact"], "order": [], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n      <th>arrival_datetime</th>\n      <th>service_datetime</th>\n      <th>waittime</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7, \"2025-01-01 00:01:00\", \"2025-01-01 00:07:00\", [\"6.0\", 3]], [2, \"2025-01-01\", 2, \"2025-01-01\", 4, \"2025-01-01 00:02:00\", \"2025-01-01 00:04:00\", [\"2.0\", 2]], [3, \"2025-01-01\", 3, \"2025-01-01\", 10, \"2025-01-01 00:03:00\", \"2025-01-01 00:10:00\", [\"7.0\", 4]], [4, \"2025-01-01\", 7, \"2025-01-01\", 14, \"2025-01-01 00:07:00\", \"2025-01-01 00:14:00\", [\"7.0\", 4]], [5, \"2025-01-01\", 10, \"2025-01-01\", 12, \"2025-01-01 00:10:00\", \"2025-01-01 00:12:00\", [\"2.0\", 2]], [6, \"2025-01-01\", 10, \"2025-01-01\", 11, \"2025-01-01 00:10:00\", \"2025-01-01 00:11:00\", [\"1.0\", 1]]]", "columnDefs": [{"targets": [7], "render": "\n                        function (data, type, row, meta) {\n                            return type === 'sort' ? data[1] : data[0];\n                        }\n                    "}], "keys_to_be_evaluated": [["columnDefs", 0, "render"]]};
         new ITable(table, dt_args);
     });
 </script>

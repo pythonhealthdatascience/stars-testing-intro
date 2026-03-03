@@ -237,14 +237,17 @@ For example:
 
 import pandas as pd
 
+
 def get_patient_data(path):
     """I/O layer: read data from disk."""
     return pd.read_csv(path)
+
 
 def process_patient_data(df):
     """Logic layer: all processing goes here, no file I/O."""
     # do whatever transformation you need
     return df
+
 
 def import_patient_data(path):
     """Public entry point."""

@@ -157,7 +157,7 @@ The main downside is that we are still doing **file I/O**.
 The `tmp_path` argument is a pytest fixture that provides a temporary directory unique to the test. We use this directory to construct a file path and save a CSV file during the test, ensuring file creation happens in an isolated location managed and cleaned up automatically by pytest.
 
 > A **fixture** is the thing inside the brackets of a test function (like `tmp_path`). When pytest runs the test, it automatically provides that object, in this case a temporary folder, so you can use it without having to set it up yourself.
- 
+
 ```{python}
 #| eval: false
 #| file: code/test_data_temp__imports.py
@@ -318,8 +318,6 @@ In Python, we often mix all three patterns:
 
 ::::: {.r-content}
 
-In R, you choice will also be impacted by whether you are working inside a package:
-
 * **Real data file** - best when you want to run your workflow on a specific dataset. For example, we will use this in [regression tests](regression_tests.qmd)  where you compare current results to a saved output to check that behaviour stays stable over time.
 
 * **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in [smoke tests](smoke_tests.qmd), [system tests](system_tests.qmd) and [unit tests](unit_tests.qmd).
@@ -445,7 +443,13 @@ test_that("providing data to a test via mocking", {
 })
 ```
 
-A closely related design, which you will often see in larger projects, is to split the workflow into two functions: one that **gets the data** (I/O) and one that **processes the data** (pure-ish logic) - and then just focuses entirely on `process_patient_data()` when testing, without touching the filesystem or mocking anything.
+**Final note:** For this course, you do not need to use mocking in R to write useful tests. Real files and temporary files are usually enough. We show mocking here as an optional technique you might use later, especially in package code where you want very fast, isolated unit tests.
+
+::::
+
+## Alternative: design for testability
+
+Another option which you will often see in larger projects is to split the workflow into two functions: one that **gets the data** (I/O) and one that **processes the data** (pure-ish logic) - and then just focus entirely on `process_patient_data()` when testing, without touching the filesystem or mocking anything.
 
 ```{r}
 #| eval: false
@@ -467,9 +471,5 @@ import_patient_data <- function(path) {
   process_patient_data(df)
 }
 ```
-
-**Final note:** For this course, you do not need to use mocking in R to write useful tests. Real files and temporary files are usually enough. We show mocking here as an optional technique you might use later, especially in package code where you want very fast, isolated unit tests.
-
-::::
 
 :::::

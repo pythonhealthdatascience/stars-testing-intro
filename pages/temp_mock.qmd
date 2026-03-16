@@ -156,6 +156,8 @@ The main downside is that we are still doing **file I/O**.
 
 The `tmp_path` argument is a pytest fixture that provides a temporary directory unique to the test. We use this directory to construct a file path and save a CSV file during the test, ensuring file creation happens in an isolated location managed and cleaned up automatically by pytest.
 
+> A **fixture** is the thing inside the brackets of a test function (like `tmp_path`). When pytest runs the test, it automatically provides that object, in this case a temporary folder, so you can use it without having to set it up yourself.
+ 
 ```{python}
 #| eval: false
 #| file: code/test_data_temp__imports.py

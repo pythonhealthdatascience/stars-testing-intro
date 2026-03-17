@@ -157,3 +157,40 @@ testthat::test_file(
 :::
 
 ::::
+
+::: {.python-content}
+
+## Optional aside: pytest markers
+
+In the example above, we treated the smoke test as a separate file (`test_smoke.py`) and ran it from the command line.
+
+As your project grows, you might instead prefer to group tests by what they cover (for example `test_patient_flow.py`, `test_dispatch_logic.py`) rather than by type (smoke, unit, integration).
+
+**Pytest markers** let you tag individual tests as "smoke" (or other test types) while keeping this feature‑based organisation. For example:
+
+```{.python}
+import pytest
+
+@pytest.mark.smoke
+def test_smoke_workflow_runs(tmp_path):
+    ...
+
+```
+
+You then register the marker in your configuration (e.g., `pytest.ini` or `pyproject.toml`) to avoid warnings:
+
+```{.bash}
+[pytest]
+markers =
+    smoke: small, fast checks that the main workflow still runs
+```
+
+Now you can run only the smoke tests from the command line, wherever they live:
+
+```{.bash}
+pytest -m smoke
+```
+
+Find out more about pytest markers here: <https://pytest-with-eric.com/pytest-best-practices/pytest-markers/>.
+
+:::

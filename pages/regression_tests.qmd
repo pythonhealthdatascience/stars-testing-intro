@@ -89,6 +89,10 @@ testthat::test_file(
 
 ## When should you update your regression tests?
 
-**Errors:** If you identify an error in your pipeline, you first fix the code and then deliberately update the regression test in isolation, so you know the only change in behaviour is the error fix and not something unintended elsewhere.
+There are two situations where you should deliberately update the expected results in a regression test.
 
-**Changes over time:** As your research evolves, you may update the workflow (e.g., improve the wait time calculation method) or use more recent datasets. You can keep the old regression test running alongside new ones - this verifies that changes to the workflow don't accidentally alter results on historical data, while new regression tests validate that updated methods work correctly on current data.
+**Bug fixes** - when you fix a real bug in the pipeline, you correct the code, then update the stored expected results so the new baseline reflects the bug fix and nothing else.
+
+**Deliberate method changes** - when you intentionally change or improve the method itself, you also refresh the expected outputs so that any future failures signal behaviour that has changed beyond what you intended.
+
+It's important to **ensure that any change in results comes from the bug fix or deliberate method update**, and not from an unintended change somewhere else.

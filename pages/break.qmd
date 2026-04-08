@@ -6,7 +6,7 @@ title: "What was the point? Let's break it and see!"
 
 <br>
 
-We have built a suite of unit, system and regression tests. These took time and effort to write. It is natural to ask: was it worth it?
+We have built a suite of smoke, unit, system and regression tests. These took time and effort to write. It is natural to ask: was it worth it?
 
 We all know that tests "give confidence" and "check things", but that can feel abstract and slightly theoretical. To make it concrete, this page deliberately breaks the code and shows how the tests help.
 

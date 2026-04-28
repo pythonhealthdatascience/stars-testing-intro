@@ -3,6 +3,9 @@ project:
   pre-render:
     - python tools/extract_snippets.py
     - python tools/extract_rsnippets.py
+  render:
+    - "*.qmd"
+    - "!videos/"
 
 website:
   title: "Testing in Research Workflows"

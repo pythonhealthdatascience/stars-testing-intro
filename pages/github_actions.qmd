@@ -18,7 +18,7 @@ GitHub Actions can be a great tool to support this.
 
 ## GitHub Actions
 
-GitHub is widely used for hosting research code and managing version control. We have a [tutorial on setting up a repository](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/version.html) if you are new to GitHUb.
+GitHub is widely used for hosting research code and managing version control. We have a [tutorial on setting up a repository](https://pythonhealthdatascience.github.io/des_rap_book/pages/guide/setup/version.html) if you are new to GitHub.
 
 **GitHub Actions** is a built-in automation system that runs workflows directly in your repository. You can access it from the **Actions** tab on your GitHub repository page:
 

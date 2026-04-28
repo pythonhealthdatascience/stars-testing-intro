@@ -1,0 +1,1 @@
+This folder contains videos used in this Quarto site, as well as Jupyter notebooks and R markdown files used when creating videos showing the code for the HDR UK futures platform. The code in these files is copied from the relevant pages of the quarto site.

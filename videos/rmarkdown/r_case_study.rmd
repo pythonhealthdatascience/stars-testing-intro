@@ -45,7 +45,7 @@ import_patient_data <- function(path) {
 ```{r}
 raw_data <- import_patient_data(
   file.path(
-    "examples", "r_package", "inst", "extdata", "patient_data.csv"
+    "..", "..", "examples", "r_package", "inst", "extdata", "patient_data.csv"
   )
 )
 kable(raw_data)

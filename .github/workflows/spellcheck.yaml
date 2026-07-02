@@ -29,6 +29,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y hunspell hunspell-en-gb
 
+      - name: Install knitr & rmarkdown
+        run: |
+          Rscript -e 'install.packages(c("knitr","rmarkdown"), repos="https://cloud.r-project.org")'
+
       - name: Run spellcheck render
         run: |
           quarto render . --metadata execute.eval=false

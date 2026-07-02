@@ -55,3 +55,12 @@ format:
       - assets/styles.css
       - assets/language-selector.css
     include-after-body: assets/language-selector.js
+
+filters:
+  - spellcheck
+spellcheck-lang: en_GB
+spellcheck-ignore:
+  - ORCID
+  - RSE001
+  - Z503915
+  - Parameterising

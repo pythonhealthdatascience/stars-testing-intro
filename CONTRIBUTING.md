@@ -2,12 +2,29 @@
 
 This file is for contributors. It describes how the `stars-testing-intro` site is set-up and quality controlled.
 
+## Environment
+
+```
+mamba env create -f environment.yaml
+mamba activate stars-testing-intro
+```
+
 ## Linting
 
 Simply run from terminal:
 
 ```
 bash lint.sh
+```
+
+## Spellcheck
+
+There is a spellcheck extension - this required installation of hunspell. On linux:
+
+```
+sudo apt update
+sudo apt install hunspell
+sudo apt install hunspell-en-gb
 ```
 
 ## Example code

@@ -209,9 +209,9 @@ The trade‑off is that mocking is more complex to understand and set up than us
 
 ### Example
 
-Pytest provides the `monkeypatch` fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace `pd.read_csv` with a mock function that returns a pre-defined DataFrame.
+`pytest` provides the `monkeypatch` fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace `pd.read_csv` with a mock function that returns a pre-defined DataFrame.
 
-Because `pd.read_csv` is patched, the file path passed to `import_patient_data` is irrelvant - no file is ever opened. The file behaves as if it is successfully read a CSV file, allowing us to focus purely on testing the data processing logic.
+Because `pd.read_csv` is patched, the file path passed to `import_patient_data` is irrelevant - no file is ever opened. The file behaves as if it is successfully read a CSV file, allowing us to focus purely on testing the data processing logic.
 
 ```{python}
 #| eval: false
@@ -312,7 +312,7 @@ In Python, we often mix all three patterns:
 
 * **Temporary file** - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in [smoke tests](smoke_tests.qmd) and [system tests](system_tests.qmd).
 
-* **Mocking** or **alternative design** - most useful when your code lives in a package and you want fast, isolated [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test requries this: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).
+* **Mocking** or **alternative design** - most useful when your code lives in a package and you want fast, isolated [unit tests](unit_tests.qmd) where you want to **isolate your own logic from external libraries and the filesystem**, and avoid file I/O entirely. However, not every unit test requires this: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).
 
 :::
 
@@ -355,7 +355,7 @@ In R, the modern recommended tool for mocking is `testthat::local_mocked_binding
 
 Mocking temporarily changes that mapping for a given function name, so during the test the package calls your fake version instead of the original one, and then everything is restored afterwards.
 
-The [testthat documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) describes four places the function you want to mock might come from:
+The [`testthat` documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) describes four places the function you want to mock might come from:
 
 * A function defined inside your package.
 * A function you imported from another package via `NAMESPACE` (using `@import` or `@importFrom`).
@@ -393,7 +393,7 @@ test_that("providing data to a test via mocking", {
 
 Here, `local_mocked_bindings()` temporarily replaces the `read_csv()` binding inside the `waitingtimes` namespace, so any call to `read_csv()` from our package code uses the fake version during the test
 
-The fourth case (`pkg::fun`) is trickier. If your code calls `readr::read_csv()` directly, then the function you want to mock lives in the `readr` namespace, not your own. You *can* point `local_mocked_bindings()` at another package by setting `.package = "readr"`, but the [testthat documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) cautions against this, because it will affect all calls to `readr::read_csv()`.
+The fourth case (`pkg::fun`) is trickier. If your code calls `readr::read_csv()` directly, then the function you want to mock lives in the `readr` namespace, not your own. You *can* point `local_mocked_bindings()` at another package by setting `.package = "readr"`, but the [`testthat` documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) cautions against this, because it will affect all calls to `readr::read_csv()`.
 
 The [documentation](https://rdrr.io/cran/testthat/man/local_mocked_bindings.html) instead recommends a safer pattern:
 

@@ -2,12 +2,33 @@
 
 This file is for contributors. It describes how the `stars-testing-intro` site is set-up and quality controlled.
 
+## Environment
+
+```
+mamba env create -f environment.yaml
+mamba activate stars-testing-intro
+```
+
 ## Linting
 
 Simply run from terminal:
 
 ```
 bash lint.sh
+```
+
+## Spellcheck
+
+There is a spellcheck GitHub action.
+
+If you want to run the spellcheck locally, you need to install vale. On linux:
+
+```
+sudo apt update
+sudo apt install snapd
+sudo snap install vale
+vale sync
+vale .
 ```
 
 ## Example code

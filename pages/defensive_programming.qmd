@@ -57,7 +57,7 @@ As a reminder this was our original code for the `calculate_wait_times()` functi
 
 **Suggested changes:**
 
-* Raise an **error** if the `df` parameter passed to the function is **not of type dataframe**. 
+* Raise an **error** if the `df` parameter passed to the function is **not of type DataFrame**. 
 
 * Raise an **error** if the `df` parameter **does not have one or more of the expected columns** within it.
 
@@ -71,7 +71,7 @@ These checks use a **hard stop** approach. They prevent the function from runnin
 
 **Suggested changes:**
 
-* If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty dataframe** instead of attempting to perform a calculation (return early).
+* If `df` is the edge case that does not contain any data (rows) **warn the user** and **return an empty DataFrame** instead of attempting to perform a calculation (return early).
 
 :::
 
@@ -95,9 +95,9 @@ These extra steps help future users (including you in the future) to understand 
 
 ::: {.python-content}
 
-The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a dataframe is passed to the function. A `ValueError` is raised if the columns (values) of the dataframe are not as expected.
+The first two issues are dealt with through structured exception handling. A `TypeError` is raised if anything other than a DataFrame is passed to the function. A `ValueError` is raised if the columns (values) of the DataFrame are not as expected.
 
-We handle the edge case of an empty dataframe through the combination of an `if` statement, the python `warnings` module, and an early return.
+We handle the edge case of an empty DataFrame through the combination of an `if` statement, the python `warnings` module, and an early return.
 
 You can hover over the code to see the changes highlighted in **bold**.
 
@@ -137,7 +137,7 @@ def calculate_wait_times(df):
     UserWarning#<<
         If the input DataFrame is empty.#<<
     """
-    # Check `df` is a dataframe. Hard fail using exception.#<<
+    # Check `df` is a DataFrame. Hard fail using exception.#<<
     if not isinstance(df, pd.DataFrame):#<<
         raise TypeError(f"Expected pandas DataFrame, got {type(df).__name__}")#<<
 
@@ -148,7 +148,7 @@ def calculate_wait_times(df):
     if missing_cols:#<<
         raise ValueError(f"Missing required columns: {missing_cols}")#<<
 
-    # Check if dataframe is empty. Graceful fail return early + raise warning#<<
+    # Check if DataFrame is empty. Graceful fail return early + raise warning#<<
     if df.empty:#<<
         df = df.copy()#<<
         warnings.warn(#<<
@@ -185,7 +185,7 @@ def calculate_wait_times(df):
 
 ### Passing the wrong data type
 
-Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects.  Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a dataframe.  The code terminates immediately and we get a clear error message.
+Hypothetically let's take a scenario where the user's preprocessing of the data does not match what the function expects.  Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a DataFrame.  The code terminates immediately and we get a clear error message.
 
 ```{python}
 #| error: true
@@ -214,7 +214,7 @@ result = calculate_wait_times(incomplete_df)
 
 ### The edge case
 
-When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
+When the DataFrame is empty a warning is raised, an empty DataFrame is returned and the code continues to run:
 
 ```{python}
 #| warning: true
@@ -233,9 +233,9 @@ result = calculate_wait_times(empty_df)
 
 ::: {.r-content}
 
-The first two issues are dealt with using the R `stop()` function. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.
+The first two issues are dealt with using the R `stop()` function. This is called if anything other than a DataFrame is passed to the function or raised if the columns (values) of the DataFrame are not as expected.
 
-We handle the edge case of an empty dataframe through the combination of an `if` statement, the `warning()` function, and an early return.
+We handle the edge case of an empty DataFrame through the combination of an `if` statement, the `warning()` function, and an early return.
 
 ```{r}
 #' Add arrival/service datetimes and waiting time in minutes.
@@ -360,7 +360,7 @@ result <- calculate_wait_times(incomplete_df)
 
 ### The edge case
 
-When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:
+When the DataFrame is empty a warning is raised, an empty DataFrame is returned and the code continues to run:
 
 ```{r}
 #| warning: true
@@ -385,7 +385,7 @@ Here are some examples to test the defensive additions to `calculate_wait_times(
 
 *  Test that passing a different data structure than a DataFrame raises the appropriate error and message.
 *  Test that passing a DataFrame missing one or more required columns raises the appropriate error and message.
-*  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
+*  Test that an empty DataFrame returns the correct structure with `arrival_datetime`, `service_datetime`, and `waittime` columns
 *  If implemented, test that an empty DataFrame with valid column triggers a warning.
 
 

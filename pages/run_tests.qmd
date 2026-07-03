@@ -31,7 +31,7 @@ from src.analysis import summary_stats
 
 ### 2. Test files following the `test_` naming convention
 
-Pytest automatically discovers and runs tests when your test files start with `test_`. It is also typical (but not mandatory) to store test files in a folder called `tests/`. For example:
+In pytest, tests are automatically discovered and run when your test files start with `test_`. It is also typical (but not mandatory) to store test files in a folder called `tests/`. For example:
 
 ```
 tests/
@@ -152,7 +152,7 @@ testthat::test_dir("tests/testthat")
 
 In the video below, we have an example of a research project structured as an our R project.
 
-* We highlight that the renv is active (`Project '~/Documents/stars/stars-testing-intro' loaded. [renv 1.1.5]`).
+* We highlight that the `renv` is active (`Project '~/Documents/stars/stars-testing-intro' loaded. [renv 1.1.5]`).
 * We show the test file we will be running (`test_intro_simple.R`).
 * We run `devtools::test()` and can see that all tests pass.
 
@@ -188,7 +188,7 @@ In the video below, we:
 
 ::: {.r-content}
 
-You don't need a full package to use testthat. When your code exists in `.R` files but isn't packaged, you can still run tests from the R console. You project might, for example, look like:
+You don't need a full package to use `testthat`. When your code exists in `.R` files but isn't packaged, you can still run tests from the R console. You project might, for example, look like:
 
 ```
 project/
@@ -215,9 +215,9 @@ In the video below, we:
 
 While running tests from the command line is the recommended approach, there are alternative tools for specific use cases.
 
-### testbook
+### `testbook`
 
-[testbook](https://testbook.readthedocs.io/) allows you to test code within Jupyter notebooks:
+[`testbook`](https://testbook.readthedocs.io/) allows you to test code within Jupyter notebooks:
 
 ```{.python}
 # Install: pip install testbook
@@ -229,9 +229,9 @@ def test_notebook_function(tb):
     assert func(2, 3) == 5
 ```
 
-### ipytest
+### `ipytest`
 
-[ipytest](https://github.com/chmp/ipytest) lets you run pytest directly inside Jupyter notebook cells:
+[`ipytest`](https://github.com/chmp/ipytest) lets you run pytest directly inside Jupyter notebook cells:
 
 ```{.python}
 # Install: pip install ipytest

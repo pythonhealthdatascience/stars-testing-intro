@@ -1,5 +1,5 @@
 ---
-title: "Parameterising tests"
+title: "Parametrising tests"
 ---
 
 ```{r}
@@ -14,7 +14,7 @@ use_condaenv("stars-testing-intro", required = TRUE)
 
 There are many tools you can make use of when testing - one example is **parametrising** tests.
 
-When you need to test the same logic with different inputs and expected outputs, you can parameterise your tests instead of writing repetitive test functions. This minimises code duplication and makes it easy to add new test cases.
+When you need to test the same logic with different inputs and expected outputs, you can parametrise your tests instead of writing repetitive test functions. This minimises code duplication and makes it easy to add new test cases.
 
 ## Example: Testing `summary_stats()`
 

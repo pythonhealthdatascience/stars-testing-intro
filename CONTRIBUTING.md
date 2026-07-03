@@ -19,12 +19,16 @@ bash lint.sh
 
 ## Spellcheck
 
-There is a spellcheck extension - this required installation of hunspell. On linux:
+There is a spellcheck GitHub action.
+
+If you want to run the spellcheck locally, you need to install vale. On linux:
 
 ```
 sudo apt update
-sudo apt install hunspell
-sudo apt install hunspell-en-gb
+sudo apt install snapd
+sudo snap install vale
+vale sync
+vale .
 ```
 
 ## Example code

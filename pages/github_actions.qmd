@@ -141,7 +141,7 @@ Finally, we run the tests! We call `pytest` on our case study (`examples/python_
 
 :::: {.r-content}
 
-There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an renv, and so on.
+There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an `renv`, and so on.
 
 If your work is structured as a package, you can call:
 
@@ -162,7 +162,7 @@ Which action do you want to add? (0 to exit)
 Selection: 
 ```
 
-However, for this tutorial, we will show an example where dependencies are restored from an renv and the tests are run via `devtools::test()`, running on ubuntu and specific version of R.
+However, for this tutorial, we will show an example where dependencies are restored from an `renv` and the tests are run via `devtools::test()`, running on ubuntu and specific version of R.
 
 However, you can do multiple operating systems! (Just see Python tutorial for how!)
 

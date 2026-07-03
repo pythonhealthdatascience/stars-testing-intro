@@ -166,7 +166,7 @@ In the example above, we treated the smoke test as a separate file (`test_smoke.
 
 As your project grows, you might instead prefer to group tests by what they cover (for example `test_patient_flow.py`, `test_dispatch_logic.py`) rather than by type (smoke, unit, integration).
 
-**Pytest markers** let you tag individual tests as "smoke" (or other test types) while keeping this feature‑based organisation. For example:
+There are **pytest markers** let you tag individual tests as "smoke" (or other test types) while keeping this feature‑based organisation. For example:
 
 ```{.python}
 import pytest

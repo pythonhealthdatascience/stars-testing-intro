@@ -385,7 +385,7 @@ Here are some examples to test the defensive additions to `calculate_wait_times(
 
 *  Test that passing a different data structure than a DataFrame raises the appropriate error and message.
 *  Test that passing a DataFrame missing one or more required columns raises the appropriate error and message.
-*  Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns
+*  Test that an empty DataFrame returns the correct structure with `arrival_datetime`, `service_datetime`, and `waittime` columns
 *  If implemented, test that an empty DataFrame with valid column triggers a warning.
 
 

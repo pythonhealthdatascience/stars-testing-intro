@@ -18,9 +18,9 @@ On this page, we explain how to write a basic automated test in Python using **p
 
 ## What is pytest?
 
-Pytest is a popular framework for testing in Python, widely used in software development and data science.
+`pytest` is a popular framework for testing in Python, widely used in software development and data science.
 
-You should install the `pytest` package into your environment from either conda or PyPI:
+You should install the `pytest` package into your environment from either conda-forge or PyPI:
 
 ```{.bash}
 conda install pytest
@@ -48,11 +48,11 @@ def test_example():
 
 ::: {.r-content}
 
-On this page, we explain how to write a basic automated test in R using **testthat**.
+On this page, we explain how to write a basic automated test in R using **`testthat`**.
 
-## testthat
+## `testthat`
 
-testthat is a popular framework for testing in R, widely used in software development and data science.
+`testthat` is a popular framework for testing in R, widely used in software development and data science.
 
 You should install the `testthat` package into your environment from CRAN.
 
@@ -77,9 +77,9 @@ usethis::use_test("filename")
 
 This creates a new file called `tests/testthat/test-filename.R`, and opens it in your editor so you can start adding tests. We explain how this folder structure is used when you [run tests on the next page](run_tests.qmd).
 
-## What a testthat test looks like
+## What a `testthat` test looks like
 
-Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more). If an expectation fails, testthat will return an error message explaining what went wrong.
+Tests are created using `test_that()`. They are built around expectations like `expect_true()`, `expect_false()`, `expect_equal()`, `expect_error()`, and others (see [package index](https://testthat.r-lib.org/reference/index.html) for more). If an expectation fails, `testthat` will return an error message explaining what went wrong.
 
 For example:
 

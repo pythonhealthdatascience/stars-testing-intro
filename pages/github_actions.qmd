@@ -162,7 +162,7 @@ Which action do you want to add? (0 to exit)
 Selection: 
 ```
 
-However, for this tutorial, we will show an example where dependencies are restored from an `renv` and the tests are run via `devtools::test()`, running on ubuntu and specific version of R.
+However, for this tutorial, we will show an example where dependencies are restored from an `renv` and the tests are run via `devtools::test()`, running on Ubuntu and specific version of R.
 
 However, you can do multiple operating systems! (Just see Python tutorial for how!)
 
@@ -204,7 +204,7 @@ jobs:
       RENV_CONFIG_PAK_ENABLED: true
 ```
 
-Now we define the `tests` job. We specify an operating system (`ubuntu-latest`) and set `RENV_CONFIG_PAK_ENABLED` to true as it allows renv to use pak for faster, more reliable dependency installation where possible.
+Now we define the `tests` job. We specify an operating system (`ubuntu-latest`) and set `RENV_CONFIG_PAK_ENABLED` to true as it allows `renv` to use `pak` for faster, more reliable dependency installation where possible.
 
 ```
     steps:
@@ -225,7 +225,7 @@ The first step checks out the repository so the workflow has access to the code.
           Rscript -e 'renv::restore(project = ".")'
 ```
 
-This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific renv then restored - but you could also run on latest versions.
+This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific `renv` then restored - but you could also run on latest versions.
 
 ```
       - name: Run testthat tests
@@ -247,7 +247,7 @@ The video below demonstrates this workflow running in GitHub Actions. For the de
 
 * Open the [GitHub repository](https://github.com/pythonhealthdatascience/stars-testing-intro).
 * Go to the [Actions](https://github.com/pythonhealthdatascience/stars-testing-intro/actions) tab.
-* Click on the [python_tests](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml) action.
+* Click on the [`python_tests`](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml) action.
 * View the [workflow YAML](https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/python_tests.yaml).
 * Trigger the action via `workflow_dispatch`.
 * [View the running test](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21067946032) - see they are installing the requirements, running tests, and pass.
@@ -264,7 +264,7 @@ The tests all pass in the end-
 
 * Open the [GitHub repository](https://github.com/pythonhealthdatascience/stars-testing-intro).
 * Go to the [Actions](https://github.com/pythonhealthdatascience/stars-testing-intro/actions) tab.
-* Click on the [r_tests](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml) action.
+* Click on the [`r_tests`](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml) action.
 * View the [workflow YAML](https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/r_tests.yaml).
 * Trigger the action via `workflow_dispatch`, running it from the `dev` branch.
 * [View the running test](https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21166564091) - see they are installing the packages, getting ready to run tests.

@@ -40,10 +40,10 @@ Let's use the `import_patient_data()` function from our case study.
 
 Its main behaviours are that it:
 
-1. Reads a CSV into a dataframe.
+1. Reads a CSV into a DataFrame.
 2. Requires the columns to match a specific list exactly (names and order).
 3. Stops if columns are incorrect.
-4. Returns a dataframe with raw patient-level data.
+4. Returns a DataFrame with raw patient-level data.
 
 :::
 
@@ -89,7 +89,7 @@ Your docstring makes **promises** about how the function should behave. For `imp
 
 ::: {.r-content}
 
-* Return a dataframe.
+* Return a DataFrame.
 * Stop if columns are incorrect.
 
 :::
@@ -111,7 +111,7 @@ In our case, we can create a small table with correct columns in the right order
 
 ::: {.r-content}
 
-* The result is a dataframe.
+* The result is a DataFrame.
 * The columns match exactly.
 
 :::
@@ -171,7 +171,7 @@ For `import_patient_data()`, the function should stop with an error if we have:
 * Extra columns
 * Correct columns but wrong order
 
-For each case, we can create a small dataframe with the problem and check that the function fails.
+For each case, we can create a small DataFrame with the problem and check that the function fails.
 
 ```{r}
 #| eval: false

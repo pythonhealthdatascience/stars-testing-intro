@@ -18,7 +18,7 @@ use_condaenv("stars-testing-intro", required = TRUE)
 
 ## `pytest-cov`
 
-The [pytest-cov](https://github.com/pytest-dev/pytest-cov) package can be used to run coverage calculations easily alongside `pytest`. You can install it from PyPI or conda:
+The [pytest-cov](https://github.com/pytest-dev/pytest-cov) package can be used to run coverage calculations easily alongside `pytest`. You can install it from PyPI or conda-forge:
 
 ```{.bash}
 pip install pytest-cov
@@ -70,7 +70,7 @@ If your research is structured as a package, then you can use `devtools` to calc
 devtools::test_coverage()
 ```
 
-If not structured as a package, you can use [covr](https://github.com/r-lib/covr)'s `file_coverage()` function - for example:
+If not structured as a package, you can use [`covr`](https://github.com/r-lib/covr)'s `file_coverage()` function - for example:
 
 ```{.r}
 covr::file_coverage(

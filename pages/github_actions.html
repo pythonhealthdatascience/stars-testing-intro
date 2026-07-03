@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/videojs/video.min.js"></script>
 <link href="../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -200,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -463,7 +463,7 @@ run-name: Run python tests</code></pre>
 </section>
 </div>
 <div class="r-content">
-<p>There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an renv, and so on.</p>
+<p>There are lots of ways to set up a testing action, depending on how your research is structured, and whether you are using an <code>renv</code>, and so on.</p>
 <p>If your work is structured as a package, you can call:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_github_action</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>It will prompt you to choose which action you would like:</p>
@@ -475,7 +475,7 @@ Which action do you want to add? (0 to exit)
 2: test-coverage: Compute test coverage and report to https://about.codecov.io
 
 Selection: </code></pre>
-<p>However, for this tutorial, we will show an example where dependencies are restored from an renv and the tests are run via <code>devtools::test()</code>, running on ubuntu and specific version of R.</p>
+<p>However, for this tutorial, we will show an example where dependencies are restored from an <code>renv</code> and the tests are run via <code>devtools::test()</code>, running on Ubuntu and specific version of R.</p>
 <p>However, you can do multiple operating systems! (Just see Python tutorial for how!)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">name:</span> r_tests</span>
@@ -534,7 +534,7 @@ run-name: Run R tests</code></pre>
 
     env:
       RENV_CONFIG_PAK_ENABLED: true</code></pre>
-<p>Now we define the <code>tests</code> job. We specify an operating system (<code>ubuntu-latest</code>) and set <code>RENV_CONFIG_PAK_ENABLED</code> to true as it allows renv to use pak for faster, more reliable dependency installation where possible.</p>
+<p>Now we define the <code>tests</code> job. We specify an operating system (<code>ubuntu-latest</code>) and set <code>RENV_CONFIG_PAK_ENABLED</code> to true as it allows <code>renv</code> to use <code>pak</code> for faster, more reliable dependency installation where possible.</p>
 <pre><code>    steps:
       - uses: actions/checkout@v4</code></pre>
 <p>The first step checks out the repository so the workflow has access to the code.</p>
@@ -547,7 +547,7 @@ run-name: Run R tests</code></pre>
       - name: Restore renv from root
         run: |
           Rscript -e 'renv::restore(project = ".")'</code></pre>
-<p>This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific renv then restored - but you could also run on latest versions.</p>
+<p>This step installs and configures R on the runner. The r-version is pinned to 4.4.1 here, with a specific <code>renv</code> then restored - but you could also run on latest versions.</p>
 <pre><code>      - name: Run testthat tests
         run: |
           Rscript -e 'renv::activate()'
@@ -564,7 +564,7 @@ run-name: Run R tests</code></pre>
 <ul>
 <li>Open the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro">GitHub repository</a>.</li>
 <li>Go to the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions">Actions</a> tab.</li>
-<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml">python_tests</a> action.</li>
+<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/python_tests.yaml"><code>python_tests</code></a> action.</li>
 <li>View the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/python_tests.yaml">workflow YAML</a>.</li>
 <li>Trigger the action via <code>workflow_dispatch</code>.</li>
 <li><a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21067946032">View the running test</a> - see they are installing the requirements, running tests, and pass.</li>
@@ -577,7 +577,7 @@ run-name: Run R tests</code></pre>
 <ul>
 <li>Open the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro">GitHub repository</a>.</li>
 <li>Go to the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions">Actions</a> tab.</li>
-<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml">r_tests</a> action.</li>
+<li>Click on the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/workflows/r_tests.yaml"><code>r_tests</code></a> action.</li>
 <li>View the <a href="https://github.com/pythonhealthdatascience/stars-testing-intro/blob/main/.github/workflows/r_tests.yaml">workflow YAML</a>.</li>
 <li>Trigger the action via <code>workflow_dispatch</code>, running it from the <code>dev</code> branch.</li>
 <li><a href="https://github.com/pythonhealthdatascience/stars-testing-intro/actions/runs/21166564091">View the running test</a> - see they are installing the packages, getting ready to run tests.</li>

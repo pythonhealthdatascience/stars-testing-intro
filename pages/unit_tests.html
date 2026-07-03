@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -333,10 +333,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s use the <code>import_patient_data()</code> function from our case study.</p>
 <p>Its main behaviours are that it:</p>
 <ol type="1">
-<li>Reads a CSV into a dataframe.</li>
+<li>Reads a CSV into a DataFrame.</li>
 <li>Requires the columns to match a specific list exactly (names and order).</li>
 <li>Stops if columns are incorrect.</li>
-<li>Returns a dataframe with raw patient-level data.</li>
+<li>Returns a DataFrame with raw patient-level data.</li>
 </ol>
 </div>
 <div class="callout callout-style-default callout-note callout-titled" title="View `import_patient_data()`">
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="r-content">
 <ul>
-<li>Return a dataframe.</li>
+<li>Return a DataFrame.</li>
 <li>Stop if columns are incorrect.</li>
 </ul>
 </div>
@@ -465,7 +465,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="r-content">
 <ul>
-<li>The result is a dataframe.</li>
+<li>The result is a DataFrame.</li>
 <li>The columns match exactly.</li>
 </ul>
 </div>
@@ -590,7 +590,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Extra columns</li>
 <li>Correct columns but wrong order</li>
 </ul>
-<p>For each case, we can create a small dataframe with the problem and check that the function fails.</p>
+<p>For each case, we can create a small DataFrame with the problem and check that the function fails.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>patrick<span class="sc">::</span><span class="fu">with_parameters_test_that</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"incorrect columns cause import_patient_data() to fail"</span>,</span>
@@ -745,7 +745,7 @@ collected 6 items
 
 ../examples/python_package/tests/test_unit.py ......                     [100%]
 
-============================== 6 passed in 0.95s ===============================
+============================== 6 passed in 0.94s ===============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>

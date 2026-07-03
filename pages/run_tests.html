@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/videojs/video.min.js"></script>
 <link href="../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -200,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="test-files-following-the-test_-naming-convention" class="level3">
 <h3 class="anchored" data-anchor-id="test-files-following-the-test_-naming-convention">2. Test files following the <code>test_</code> naming convention</h3>
-<p>Pytest automatically discovers and runs tests when your test files start with <code>test_</code>. It is also typical (but not mandatory) to store test files in a folder called <code>tests/</code>. For example:</p>
+<p>In pytest, tests are automatically discovered and run when your test files start with <code>test_</code>. It is also typical (but not mandatory) to store test files in a folder called <code>tests/</code>. For example:</p>
 <pre><code>tests/
 ├── test_regression.py
 ├── test_system.py
@@ -422,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>testthat<span class="sc">::</span><span class="fu">test_dir</span>(<span class="st">"tests/testthat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In the video below, we have an example of a research project structured as an our R project.</p>
 <ul>
-<li>We highlight that the renv is active (<code>Project '~/Documents/stars/stars-testing-intro' loaded. [renv 1.1.5]</code>).</li>
+<li>We highlight that the <code>renv</code> is active (<code>Project '~/Documents/stars/stars-testing-intro' loaded. [renv 1.1.5]</code>).</li>
 <li>We show the test file we will be running (<code>test_intro_simple.R</code>).</li>
 <li>We run <code>devtools::test()</code> and can see that all tests pass.</li>
 </ul>
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../videos/run_tests_python_pyfiles.webm"></video></div>
 </div>
 <div class="r-content">
-<p>You don’t need a full package to use testthat. When your code exists in <code>.R</code> files but isn’t packaged, you can still run tests from the R console. You project might, for example, look like:</p>
+<p>You don’t need a full package to use <code>testthat</code>. When your code exists in <code>.R</code> files but isn’t packaged, you can still run tests from the R console. You project might, for example, look like:</p>
 <pre><code>project/
 ├── patient_analysis.R
 └── test_intro_simple.R</code></pre>
@@ -468,8 +468,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="python-content">
 <p>While running tests from the command line is the recommended approach, there are alternative tools for specific use cases.</p>
 <section id="testbook" class="level3">
-<h3 class="anchored" data-anchor-id="testbook">testbook</h3>
-<p><a href="https://testbook.readthedocs.io/">testbook</a> allows you to test code within Jupyter notebooks:</p>
+<h3 class="anchored" data-anchor-id="testbook"><code>testbook</code></h3>
+<p><a href="https://testbook.readthedocs.io/"><code>testbook</code></a> allows you to test code within Jupyter notebooks:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install testbook</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> testbook <span class="im">import</span> testbook</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -479,8 +479,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> func(<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">==</span> <span class="dv">5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="ipytest" class="level3">
-<h3 class="anchored" data-anchor-id="ipytest">ipytest</h3>
-<p><a href="https://github.com/chmp/ipytest">ipytest</a> lets you run pytest directly inside Jupyter notebook cells:</p>
+<h3 class="anchored" data-anchor-id="ipytest"><code>ipytest</code></h3>
+<p><a href="https://github.com/chmp/ipytest"><code>ipytest</code></a> lets you run pytest directly inside Jupyter notebook cells:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install: pip install ipytest</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ipytest</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ipytest.autoconfig()</span>
@@ -512,7 +512,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">add</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="dv">0</span>)</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test passed with 2 successes 🥇.</code></pre>
+<pre><code>Test passed with 2 successes 🥳.</code></pre>
 </div>
 </div>
 </div>
@@ -970,8 +970,8 @@ document.addEventListener('DOMContentLoaded', function() {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../pages/parametrising_tests.html" class="pagination-link" aria-label="Parameterising tests">
-        <span class="nav-page-text">Parameterising tests</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../pages/parametrising_tests.html" class="pagination-link" aria-label="Parametrising tests">
+        <span class="nav-page-text">Parametrising tests</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -313,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="python-content">
 <section id="pytest-cov" class="level2">
 <h2 class="anchored" data-anchor-id="pytest-cov"><code>pytest-cov</code></h2>
-<p>The <a href="https://github.com/pytest-dev/pytest-cov">pytest-cov</a> package can be used to run coverage calculations easily alongside <code>pytest</code>. You can install it from PyPI or conda:</p>
+<p>The <a href="https://github.com/pytest-dev/pytest-cov">pytest-cov</a> package can be used to run coverage calculations easily alongside <code>pytest</code>. You can install it from PyPI or conda-forge:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pytest-cov</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install pytest-cov</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To calculate coverage, you can then simply run tests with the <code>--cov</code> flag:</p>
@@ -359,7 +359,7 @@ Name                                                                      Stmts 
 /workspace/examples/python_package/src/waitingtimes/patient_analysis.py      30      1    97%
 ---------------------------------------------------------------------------------------------
 TOTAL                                                                        31      1    97%
-============================== 17 passed in 2.04s ==============================
+============================== 17 passed in 1.93s ==============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -375,7 +375,7 @@ TOTAL                                                                        31 
 <h2 class="anchored" data-anchor-id="tools-for-calculating-test-coverage-in-r">Tools for calculating test coverage in R</h2>
 <p>If your research is structured as a package, then you can use <code>devtools</code> to calculate coverage:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">test_coverage</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If not structured as a package, you can use <a href="https://github.com/r-lib/covr">covr</a>’s <code>file_coverage()</code> function - for example:</p>
+<p>If not structured as a package, you can use <a href="https://github.com/r-lib/covr"><code>covr</code></a>’s <code>file_coverage()</code> function - for example:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>covr<span class="sc">::</span><span class="fu">file_coverage</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source_files =</span> <span class="fu">c</span>(<span class="st">"patient_analysis.R"</span>),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">test_files =</span> <span class="fu">c</span>(<span class="st">"test_unit.R"</span>, <span class="st">"test_system.R"</span>, <span class="st">"test_regression.R"</span>)</span>

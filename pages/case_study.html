@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -199,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -424,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can run this function on our example dataset <code>patient_data.csv</code>.</p>
 <p>You can download a copy of this data here:</p>
-<p><a href="#dnldts46180" onclick="fetch('data:text/csv;base64,UEFUSUVOVF9JRCxBUlJJVkFMX0RBVEUsQVJSSVZBTF9USU1FLFNFUlZJQ0VfREFURSxTRVJWSUNFX1RJTUUKMSwyMDI1LTAxLTAxLDAwMDEsMjAyNS0wMS0wMSwwMDA3CjIsMjAyNS0wMS0wMSwwMDAyLDIwMjUtMDEtMDEsMDAwNAozLDIwMjUtMDEtMDEsMDAwMywyMDI1LTAxLTAxLDAwMTAKNCwyMDI1LTAxLTAxLDAwMDcsMjAyNS0wMS0wMSwwMDE0CjUsMjAyNS0wMS0wMSwwMDEwLDIwMjUtMDEtMDEsMDAxMgo2LDIwMjUtMDEtMDEsMDAxMCwyMDI1LTAxLTAxLDAwMTE=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts19376" onclick="fetch('data:text/csv;base64,UEFUSUVOVF9JRCxBUlJJVkFMX0RBVEUsQVJSSVZBTF9USU1FLFNFUlZJQ0VfREFURSxTRVJWSUNFX1RJTUUKMSwyMDI1LTAxLTAxLDAwMDEsMjAyNS0wMS0wMSwwMDA3CjIsMjAyNS0wMS0wMSwwMDAyLDIwMjUtMDEtMDEsMDAwNAozLDIwMjUtMDEtMDEsMDAwMywyMDI1LTAxLTAxLDAwMTAKNCwyMDI1LTAxLTAxLDAwMDcsMjAyNS0wMS0wMSwwMDE0CjUsMjAyNS0wMS0wMSwwMDEwLDIwMjUtMDEtMDEsMDAxMgo2LDIwMjUtMDEtMDEsMDAxMCwyMDI1LTAxLTAxLDAwMTE=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -432,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'patient_data.csv.csv'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-primary downloadthis  " id="dnldts46180"><i class="bi bi-download"></i> Download the example patient-level data </button></a></p>
+        });"><button class="btn btn-primary downloadthis  " id="dnldts19376"><i class="bi bi-download"></i> Download the example patient-level data </button></a></p>
 <div class="python-content">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>raw_data <span class="op">=</span> import_patient_data(</span>
@@ -441,7 +441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>HTML(to_html_datatable(raw_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_7da144cd_479c_4291_b8bc_29f84c668390"><tbody><tr>
+<table id="itables_e5523779_373d_4df5_9b60_50f5bfe6c398"><tbody><tr>
     <td style="vertical-align:middle; text-align:left">
     <a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
     <g style="fill:#d9d7fc">
@@ -507,11 +507,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.0/dt_bundle.js';
 
-    document.querySelectorAll("#itables_7da144cd_479c_4291_b8bc_29f84c668390:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_e5523779_373d_4df5_9b60_50f5bfe6c398:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
-        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "text_in_header_can_be_selected": true, "classes": ["display", "nowrap", "compact"], "order": [], "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7], [2, \"2025-01-01\", 2, \"2025-01-01\", 4], [3, \"2025-01-01\", 3, \"2025-01-01\", 10], [4, \"2025-01-01\", 7, \"2025-01-01\", 14], [5, \"2025-01-01\", 10, \"2025-01-01\", 12], [6, \"2025-01-01\", 10, \"2025-01-01\", 11]]"};
+        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "classes": ["display", "nowrap", "compact"], "order": [], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7], [2, \"2025-01-01\", 2, \"2025-01-01\", 4], [3, \"2025-01-01\", 3, \"2025-01-01\", 10], [4, \"2025-01-01\", 7, \"2025-01-01\", 14], [5, \"2025-01-01\", 10, \"2025-01-01\", 12], [6, \"2025-01-01\", 10, \"2025-01-01\", 11]]"};
         new ITable(table, dt_args);
     });
 </script>
@@ -679,7 +679,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>HTML(to_html_datatable(processed_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <!--| quarto-html-table-processing: none -->
-<table id="itables_5aaa0b7c_e521_449b_887c_ffa644503c56"><tbody><tr>
+<table id="itables_c8657ca7_42b4_4c8e_acef_2dbce41e30b3"><tbody><tr>
     <td style="vertical-align:middle; text-align:left">
     <a href="https://mwouts.github.io/itables/"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="64" viewbox="0 0 500 400" style="font-family: 'Droid Sans', sans-serif;">
     <g style="fill:#d9d7fc">
@@ -745,11 +745,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module">
     import { ITable, jQuery as $ } from 'https://www.unpkg.com/dt_for_itables@2.5.0/dt_bundle.js';
 
-    document.querySelectorAll("#itables_5aaa0b7c_e521_449b_887c_ffa644503c56:not(.dataTable)").forEach(table => {
+    document.querySelectorAll("#itables_c8657ca7_42b4_4c8e_acef_2dbce41e30b3:not(.dataTable)").forEach(table => {
         if (!(table instanceof HTMLTableElement))
             return;
 
-        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "text_in_header_can_be_selected": true, "classes": ["display", "nowrap", "compact"], "order": [], "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n      <th>arrival_datetime</th>\n      <th>service_datetime</th>\n      <th>waittime</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7, \"2025-01-01 00:01:00\", \"2025-01-01 00:07:00\", [\"6.0\", 3]], [2, \"2025-01-01\", 2, \"2025-01-01\", 4, \"2025-01-01 00:02:00\", \"2025-01-01 00:04:00\", [\"2.0\", 2]], [3, \"2025-01-01\", 3, \"2025-01-01\", 10, \"2025-01-01 00:03:00\", \"2025-01-01 00:10:00\", [\"7.0\", 4]], [4, \"2025-01-01\", 7, \"2025-01-01\", 14, \"2025-01-01 00:07:00\", \"2025-01-01 00:14:00\", [\"7.0\", 4]], [5, \"2025-01-01\", 10, \"2025-01-01\", 12, \"2025-01-01 00:10:00\", \"2025-01-01 00:12:00\", [\"2.0\", 2]], [6, \"2025-01-01\", 10, \"2025-01-01\", 11, \"2025-01-01 00:10:00\", \"2025-01-01 00:11:00\", [\"1.0\", 1]]]", "columnDefs": [{"targets": [7], "render": "\n                        function (data, type, row, meta) {\n                            return type === 'sort' ? data[1] : data[0];\n                        }\n                    "}], "keys_to_be_evaluated": [["columnDefs", 0, "render"]]};
+        let dt_args = {"layout": {"topStart": null, "topEnd": null, "bottomStart": null, "bottomEnd": null}, "classes": ["display", "nowrap", "compact"], "order": [], "text_in_header_can_be_selected": true, "style": {"table-layout": "auto", "width": "auto", "margin": "auto", "caption-side": "bottom"}, "table_html": "<table><thead>\n    <tr style=\"text-align: right;\">\n      \n      <th>PATIENT_ID</th>\n      <th>ARRIVAL_DATE</th>\n      <th>ARRIVAL_TIME</th>\n      <th>SERVICE_DATE</th>\n      <th>SERVICE_TIME</th>\n      <th>arrival_datetime</th>\n      <th>service_datetime</th>\n      <th>waittime</th>\n    </tr>\n  </thead></table>", "data_json": "[[1, \"2025-01-01\", 1, \"2025-01-01\", 7, \"2025-01-01 00:01:00\", \"2025-01-01 00:07:00\", [\"6.0\", 3]], [2, \"2025-01-01\", 2, \"2025-01-01\", 4, \"2025-01-01 00:02:00\", \"2025-01-01 00:04:00\", [\"2.0\", 2]], [3, \"2025-01-01\", 3, \"2025-01-01\", 10, \"2025-01-01 00:03:00\", \"2025-01-01 00:10:00\", [\"7.0\", 4]], [4, \"2025-01-01\", 7, \"2025-01-01\", 14, \"2025-01-01 00:07:00\", \"2025-01-01 00:14:00\", [\"7.0\", 4]], [5, \"2025-01-01\", 10, \"2025-01-01\", 12, \"2025-01-01 00:10:00\", \"2025-01-01 00:12:00\", [\"2.0\", 2]], [6, \"2025-01-01\", 10, \"2025-01-01\", 11, \"2025-01-01 00:10:00\", \"2025-01-01 00:11:00\", [\"1.0\", 1]]]", "columnDefs": [{"targets": [7], "render": "\n                        function (data, type, row, meta) {\n                            return type === 'sort' ? data[1] : data[0];\n                        }\n                    "}], "keys_to_be_evaluated": [["columnDefs", 0, "render"]]};
         new ITable(table, dt_args);
     });
 </script>

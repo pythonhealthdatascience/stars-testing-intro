@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -313,8 +313,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>On this page, we explain how to write a basic automated test in Python using <strong>pytest</strong>.</p>
 <section id="what-is-pytest" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-pytest">What is pytest?</h2>
-<p>Pytest is a popular framework for testing in Python, widely used in software development and data science.</p>
-<p>You should install the <code>pytest</code> package into your environment from either conda or PyPI:</p>
+<p><code>pytest</code> is a popular framework for testing in Python, widely used in software development and data science.</p>
+<p>You should install the <code>pytest</code> package into your environment from either conda-forge or PyPI:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install pytest</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pytest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -335,10 +335,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </div>
 <div class="r-content">
-<p>On this page, we explain how to write a basic automated test in R using <strong>testthat</strong>.</p>
+<p>On this page, we explain how to write a basic automated test in R using <strong><code>testthat</code></strong>.</p>
 <section id="testthat" class="level2">
-<h2 class="anchored" data-anchor-id="testthat">testthat</h2>
-<p>testthat is a popular framework for testing in R, widely used in software development and data science.</p>
+<h2 class="anchored" data-anchor-id="testthat"><code>testthat</code></h2>
+<p><code>testthat</code> is a popular framework for testing in R, widely used in software development and data science.</p>
 <p>You should install the <code>testthat</code> package into your environment from CRAN.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"testthat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you are structuring your research as a package, we suggest also installing <code>usethis</code> and running:</p>
@@ -350,8 +350,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This creates a new file called <code>tests/testthat/test-filename.R</code>, and opens it in your editor so you can start adding tests. We explain how this folder structure is used when you <a href="../pages/run_tests.html">run tests on the next page</a>.</p>
 </section>
 <section id="what-a-testthat-test-looks-like" class="level2">
-<h2 class="anchored" data-anchor-id="what-a-testthat-test-looks-like">What a testthat test looks like</h2>
-<p>Tests are created using <code>test_that()</code>. They are built around expectations like <code>expect_true()</code>, <code>expect_false()</code>, <code>expect_equal()</code>, <code>expect_error()</code>, and others (see <a href="https://testthat.r-lib.org/reference/index.html">package index</a> for more). If an expectation fails, testthat will return an error message explaining what went wrong.</p>
+<h2 class="anchored" data-anchor-id="what-a-testthat-test-looks-like">What a <code>testthat</code> test looks like</h2>
+<p>Tests are created using <code>test_that()</code>. They are built around expectations like <code>expect_true()</code>, <code>expect_false()</code>, <code>expect_equal()</code>, <code>expect_error()</code>, and others (see <a href="https://testthat.r-lib.org/reference/index.html">package index</a> for more). If an expectation fails, <code>testthat</code> will return an error message explaining what went wrong.</p>
 <p>For example:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(testthat)</span>
@@ -362,7 +362,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(result, <span class="dv">4</span>L)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test passed with 1 success 🥇.</code></pre>
+<pre><code>Test passed with 1 success 🌈.</code></pre>
 </div>
 </div>
 </section>

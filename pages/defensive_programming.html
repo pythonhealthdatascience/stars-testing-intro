@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../site_libs/quarto-contrib/line-highlight-1.0.0/line-highlight.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -199,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -414,7 +414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="box-blue">
 <p><strong>Suggested changes:</strong></p>
 <ul>
-<li><p>Raise an <strong>error</strong> if the <code>df</code> parameter passed to the function is <strong>not of type dataframe</strong>.</p></li>
+<li><p>Raise an <strong>error</strong> if the <code>df</code> parameter passed to the function is <strong>not of type DataFrame</strong>.</p></li>
 <li><p>Raise an <strong>error</strong> if the <code>df</code> parameter <strong>does not have one or more of the expected columns</strong> within it.</p></li>
 </ul>
 </div>
@@ -425,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="box-blue">
 <p><strong>Suggested changes:</strong></p>
 <ul>
-<li>If <code>df</code> is the edge case that does not contain any data (rows) <strong>warn the user</strong> and <strong>return an empty dataframe</strong> instead of attempting to perform a calculation (return early).</li>
+<li>If <code>df</code> is the edge case that does not contain any data (rows) <strong>warn the user</strong> and <strong>return an empty DataFrame</strong> instead of attempting to perform a calculation (return early).</li>
 </ul>
 </div>
 <p>In this situation, the input is structurally valid but represents an edge case, such as a day with no patients. You could treat this as an error, but if empty data is a legitimate case, it is often better to handle it gracefully. Returning early with an empty DataFrame (and a warning) avoids runtime errors while still keeping the function’s contract: it returns a DataFrame with the expected columns and types.</p>
@@ -444,8 +444,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="implementing-these-defensive-programming-changes" class="level3">
 <h3 class="anchored">Implementing these defensive programming changes</h3>
 <div class="python-content">
-<p>The first two issues are dealt with through structured exception handling. A <code>TypeError</code> is raised if anything other than a dataframe is passed to the function. A <code>ValueError</code> is raised if the columns (values) of the dataframe are not as expected.</p>
-<p>We handle the edge case of an empty dataframe through the combination of an <code>if</code> statement, the python <code>warnings</code> module, and an early return.</p>
+<p>The first two issues are dealt with through structured exception handling. A <code>TypeError</code> is raised if anything other than a DataFrame is passed to the function. A <code>ValueError</code> is raised if the columns (values) of the DataFrame are not as expected.</p>
+<p>We handle the edge case of an empty DataFrame through the combination of an <code>if</code> statement, the python <code>warnings</code> module, and an early return.</p>
 <p>You can hover over the code to see the changes highlighted in <strong>bold</strong>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
@@ -482,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">    UserWarning</span></span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">        If the input DataFrame is empty.</span></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check `df` is a dataframe. Hard fail using exception.</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check `df` is a DataFrame. Hard fail using exception.</span></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(df, pd.DataFrame):</span>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">TypeError</span>(<span class="ss">f"Expected pandas DataFrame, got </span><span class="sc">{</span><span class="bu">type</span>(df)<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
@@ -493,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> missing_cols:</span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Missing required columns: </span><span class="sc">{</span>missing_cols<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if dataframe is empty. Graceful fail return early + raise warning</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if DataFrame is empty. Graceful fail return early + raise warning</span></span>
 <span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> df.empty:</span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.copy()</span>
 <span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        warnings.warn(</span>
@@ -530,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="passing-the-wrong-data-type" class="level3">
 <h3 class="anchored" data-anchor-id="passing-the-wrong-data-type">Passing the wrong data type</h3>
-<p>Hypothetically let’s take a scenario where the user’s preprocessing of the data does not match what the function expects. Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a dataframe. The code terminates immediately and we get a clear error message.</p>
+<p>Hypothetically let’s take a scenario where the user’s preprocessing of the data does not match what the function expects. Here the user has the data held in a Python list as an intermediate processing step and passes it to the function before converting to a DataFrame. The code terminates immediately and we get a clear error message.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>patient_data <span class="op">=</span> [</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"ARRIVAL_DATE"</span>: <span class="st">"2026-01-15"</span>, <span class="st">"ARRIVAL_TIME"</span>: <span class="st">"0900"</span>},</span>
@@ -561,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-edge-case" class="level3">
 <h3 class="anchored" data-anchor-id="the-edge-case">The edge case</h3>
-<p>When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:</p>
+<p>When the DataFrame is empty a warning is raised, an empty DataFrame is returned and the code continues to run:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># User filters data but no records match</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>empty_df <span class="op">=</span> pd.DataFrame({</span>
@@ -580,8 +580,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </div>
 <div class="r-content">
-<p>The first two issues are dealt with using the R <code>stop()</code> function. This is called if anything other than a dataframe is passed to the function or raised if the columns (values) of the dataframe are not as expected.</p>
-<p>We handle the edge case of an empty dataframe through the combination of an <code>if</code> statement, the <code>warning()</code> function, and an early return.</p>
+<p>The first two issues are dealt with using the R <code>stop()</code> function. This is called if anything other than a DataFrame is passed to the function or raised if the columns (values) of the DataFrame are not as expected.</p>
+<p>We handle the edge case of an empty DataFrame through the combination of an <code>if</code> statement, the <code>warning()</code> function, and an early return.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11" data-source-line-numbers="nil" data-code-line-numbers="9,10,11,12,13,14,15,17,18,23,24,25,26,28,29,30,31,32,33,34,35,36,37,38,39,41,42,43,44,45,46,47,48,49,50,51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Add arrival/service datetimes and waiting time in minutes.</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
@@ -709,7 +709,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-edge-case-1" class="level3">
 <h3 class="anchored" data-anchor-id="the-edge-case-1">The edge case</h3>
-<p>When the dataframe is empty a warning is raised, an empty dataframe is returned and the code continues to run:</p>
+<p>When the DataFrame is empty a warning is raised, an empty DataFrame is returned and the code continues to run:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16" data-source-line-numbers="nil" data-code-line-numbers="nil"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>empty_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ARRIVAL_DATE =</span> <span class="fu">character</span>(<span class="dv">0</span>),</span>
@@ -736,7 +736,7 @@ empty result with expected columns</code></pre>
 <ul>
 <li>Test that passing a different data structure than a DataFrame raises the appropriate error and message.</li>
 <li>Test that passing a DataFrame missing one or more required columns raises the appropriate error and message.</li>
-<li>Test that an empty DataFrame returns the correct structure with arrival_datetime, service_datetime, and waittime columns</li>
+<li>Test that an empty DataFrame returns the correct structure with <code>arrival_datetime</code>, <code>service_datetime</code>, and <code>waittime</code> columns</li>
 <li>If implemented, test that an empty DataFrame with valid column triggers a warning.</li>
 </ul>
 </section>

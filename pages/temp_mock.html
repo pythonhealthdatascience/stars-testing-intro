@@ -80,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f3519436710ec13ca5bc47590ead1200.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3ee67afa6e7772107d6263e240e13d84.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../pages/parametrising_tests.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parameterising tests</span></a>
+ <span class="menu-text">Parametrising tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -572,8 +572,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-2" class="level3">
 <h3 class="anchored" data-anchor-id="example-2">Example</h3>
-<p>Pytest provides the <code>monkeypatch</code> fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace <code>pd.read_csv</code> with a mock function that returns a pre-defined DataFrame.</p>
-<p>Because <code>pd.read_csv</code> is patched, the file path passed to <code>import_patient_data</code> is irrelvant - no file is ever opened. The file behaves as if it is successfully read a CSV file, allowing us to focus purely on testing the data processing logic.</p>
+<p><code>pytest</code> provides the <code>monkeypatch</code> fixture for mocking. It allows us to temporarily modify functions or attributes during a test. Here, we replace <code>pd.read_csv</code> with a mock function that returns a pre-defined DataFrame.</p>
+<p>Because <code>pd.read_csv</code> is patched, the file path passed to <code>import_patient_data</code> is irrelevant - no file is ever opened. The file behaves as if it is successfully read a CSV file, allowing us to focus purely on testing the data processing logic.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> waitingtimes.patient_analysis <span class="im">import</span> import_patient_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -664,7 +664,7 @@ collected 3 items
 ../examples/python_package/tests/test_data_temp.py .                     [ 66%]
 ../examples/python_package/tests/test_data_mock.py .                     [100%]
 
-============================== 3 passed in 1.02s ===============================
+============================== 3 passed in 0.95s ===============================
 &lt;ExitCode.OK: 0&gt;</code></pre>
 </div>
 </div>
@@ -697,7 +697,7 @@ collected 3 items
 <ul>
 <li><p><strong>Real data file</strong> - best when you want to run your workflow on a specific dataset. For example, we will use this in <a href="../pages/regression_tests.html">regression tests</a> where you compare current results to a saved output to check that behaviour stays stable over time.</p></li>
 <li><p><strong>Temporary file</strong> - a good default for many tests where you just need a small, representative dataset with the right structure. For example, this works well in <a href="../pages/smoke_tests.html">smoke tests</a> and <a href="../pages/system_tests.html">system tests</a>.</p></li>
-<li><p><strong>Mocking</strong> or <strong>alternative design</strong> - most useful when your code lives in a package and you want fast, isolated <a href="../pages/unit_tests.html">unit tests</a> where you want to <strong>isolate your own logic from external libraries and the filesystem</strong>, and avoid file I/O entirely. However, not every unit test requries this: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).</p></li>
+<li><p><strong>Mocking</strong> or <strong>alternative design</strong> - most useful when your code lives in a package and you want fast, isolated <a href="../pages/unit_tests.html">unit tests</a> where you want to <strong>isolate your own logic from external libraries and the filesystem</strong>, and avoid file I/O entirely. However, not every unit test requires this: sometimes you deliberately call the real library function because you want to confirm you are using it correctly (for example, that you pass the right arguments, or that it can handle your expected input format).</p></li>
 </ul>
 </div>
 <div class="r-content">
@@ -741,7 +741,7 @@ collected 3 items
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">export</span>(summary_stats)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Mocking temporarily changes that mapping for a given function name, so during the test the package calls your fake version instead of the original one, and then everything is restored afterwards.</p>
-<p>The <a href="https://rdrr.io/cran/testthat/man/local_mocked_bindings.html">testthat documentation</a> describes four places the function you want to mock might come from:</p>
+<p>The <a href="https://rdrr.io/cran/testthat/man/local_mocked_bindings.html"><code>testthat</code> documentation</a> describes four places the function you want to mock might come from:</p>
 <ul>
 <li>A function defined inside your package.</li>
 <li>A function you imported from another package via <code>NAMESPACE</code> (using <code>@import</code> or <code>@importFrom</code>).</li>
@@ -774,7 +774,7 @@ collected 3 items
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here, <code>local_mocked_bindings()</code> temporarily replaces the <code>read_csv()</code> binding inside the <code>waitingtimes</code> namespace, so any call to <code>read_csv()</code> from our package code uses the fake version during the test</p>
-<p>The fourth case (<code>pkg::fun</code>) is trickier. If your code calls <code>readr::read_csv()</code> directly, then the function you want to mock lives in the <code>readr</code> namespace, not your own. You <em>can</em> point <code>local_mocked_bindings()</code> at another package by setting <code>.package = "readr"</code>, but the <a href="https://rdrr.io/cran/testthat/man/local_mocked_bindings.html">testthat documentation</a> cautions against this, because it will affect all calls to <code>readr::read_csv()</code>.</p>
+<p>The fourth case (<code>pkg::fun</code>) is trickier. If your code calls <code>readr::read_csv()</code> directly, then the function you want to mock lives in the <code>readr</code> namespace, not your own. You <em>can</em> point <code>local_mocked_bindings()</code> at another package by setting <code>.package = "readr"</code>, but the <a href="https://rdrr.io/cran/testthat/man/local_mocked_bindings.html"><code>testthat</code> documentation</a> cautions against this, because it will affect all calls to <code>readr::read_csv()</code>.</p>
 <p>The <a href="https://rdrr.io/cran/testthat/man/local_mocked_bindings.html">documentation</a> instead recommends a safer pattern:</p>
 <blockquote class="blockquote">
 <p>“It’s safer to either import the function into your package, or make a wrapper that you can mock”</p>
@@ -1281,8 +1281,8 @@ document.addEventListener('DOMContentLoaded', function() {
   </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="../pages/parametrising_tests.html" class="pagination-link" aria-label="Parameterising tests">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Parameterising tests</span>
+      <a href="../pages/parametrising_tests.html" class="pagination-link" aria-label="Parametrising tests">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Parametrising tests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

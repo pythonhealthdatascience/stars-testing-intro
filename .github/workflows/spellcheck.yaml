@@ -8,7 +8,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: vale-cli/vale-action@v2.1.1
-        with:
-          fail_on_error: true
-          reporter: github-check
+      - uses: simbo/vale-action@v1

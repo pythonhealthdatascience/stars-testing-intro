@@ -84,3 +84,9 @@ Testing is an essential part of reproducible and reliable research. This practic
 This course was developed as part of the [STARS project](https://pythonhealthdatascience.github.io/stars/). STARS is supported by the Medical Research Council [grant number MR/Z503915/1].
 
 <a href="https://pythonhealthdatascience.github.io/stars/" target="_blank"><img src="images/stars_reproduce_reuse_banner_blue.png" alt="Sharing Tools and Artefacts for Reproducible & Reusable Simulations in healthcare" style="max-width:600px"></a>
+
+## Videos
+
+You can access video tutorials accompanying each page on this site via the HDR UK Futures platform:
+
+[![](images/futures_screenshot.png)](https://hdruklearn.org/courses/course-v1:HDRUK+STARS001+2026)

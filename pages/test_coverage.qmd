@@ -94,7 +94,7 @@ You can see we get 100% coverage. But what does this actually mean?
 
 :::
 
-## Interpreting coverage
+## Coverage interpretation
 
 Coverage is telling you whether code was **executed** during testing - but not necessarily whether it has been tested well. A function could run as part of another test without its results or behaviour being properly checked by assertions.
 

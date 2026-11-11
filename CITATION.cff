@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: 'HDR UK Futures RSE: Testing in Research Workflows'
+title: 'Testing in Research Workflows'
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -21,12 +21,11 @@ authors:
 repository-code: 'https://github.com/pythonhealthdatascience/stars-testing-intro/'
 url: 'https://pythonhealthdatascience.github.io/stars-testing-intro/'
 abstract: >-
-  Materials supporting our HDR UK Futures training videos on
-  testing.
+  Materials supporting our HDR UK Futures training videos on testing.
 keywords:
   - tests
   - python
   - r
 license: MIT
-version: 0.1.0
-date-released: '2026-01-20'
+version: 0.2.0
+date-released: '2026-11-11'
